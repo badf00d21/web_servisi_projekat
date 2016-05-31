@@ -14,7 +14,8 @@ app.use(express.static(__dirname + '/public'));
 
 // routes ==================================================
 require('./app/routes')(app); // configure our routes
-                   
+               
+app.listen(port);     
 console.log('Server running on port: ' + port);
         
 exports = module.exports = app;                   
