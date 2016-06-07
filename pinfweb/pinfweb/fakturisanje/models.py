@@ -21,6 +21,9 @@ class Cenovnik(models.Model):
         managed = False
         db_table = 'cenovnik'
 
+    def __str__(self):
+    	return 'Id Cenovnika: ' + str(self.id_cenovnika)
+
 
 class Faktura(models.Model):
     id_fakture = models.AutoField(db_column='ID_FAKTURE', primary_key=True)  # Field name made lowercase.
@@ -40,6 +43,9 @@ class Faktura(models.Model):
         managed = False
         db_table = 'faktura'
 
+    def __str__(self):
+    	return 'Id Fakture: ' + str(self.id_fakture)
+
 
 class GrupaProizvoda(models.Model):
     id_grupe = models.AutoField(db_column='ID_GRUPE', primary_key=True)  # Field name made lowercase.
@@ -49,6 +55,10 @@ class GrupaProizvoda(models.Model):
     class Meta:
         managed = False
         db_table = 'grupa_proizvoda'
+
+    def __str__(self):
+    	return 'Id Grupe Proizvoda: ' + str(self.id_grupe)
+
 
 
 class JedinicaMere(models.Model):
@@ -60,6 +70,10 @@ class JedinicaMere(models.Model):
         managed = False
         db_table = 'jedinica_mere'
 
+    def __str__(self):
+    	return 'Id Jeinice Mere: ' + str(self.id_jedinice)
+
+
 
 class Pdv(models.Model):
     naziv_pdv_a = models.CharField(db_column='NAZIV_PDV_A', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -68,6 +82,10 @@ class Pdv(models.Model):
     class Meta:
         managed = False
         db_table = 'pdv'
+
+    def __str__(self):
+    	return 'Id Pdv- a: ' + str(self.id_pdv_a)
+
 
 
 class PoslovnaGodina(models.Model):
@@ -79,6 +97,10 @@ class PoslovnaGodina(models.Model):
     class Meta:
         managed = False
         db_table = 'poslovna_godina'
+
+    def __str__(self):
+    	return 'Id Poslovne Godine: ' + str(self.id_godine)
+
 
 
 class PoslovniPartner(models.Model):
@@ -94,6 +116,10 @@ class PoslovniPartner(models.Model):
         managed = False
         db_table = 'poslovni_partner'
 
+    def __str__(self):
+    	return 'Id Poslovnog Partnera: ' + str(self.id_poslovnog_partnera)
+
+
 
 class Preduzece(models.Model):
     id_preduzeca = models.AutoField(db_column='ID_PREDUZECA', primary_key=True)  # Field name made lowercase.
@@ -102,6 +128,10 @@ class Preduzece(models.Model):
     class Meta:
         managed = False
         db_table = 'preduzece'
+
+    def __str__(self):
+    	return 'Id Preduzeca: ' + str(self.id_preduzeca)
+
 
 
 class Proizvod(models.Model):
@@ -116,6 +146,10 @@ class Proizvod(models.Model):
         managed = False
         db_table = 'proizvod'
 
+    def __str__(self):
+    	return 'Id Proizvoda: ' + str(self.id_proizvoda)
+
+
 
 class StavkeCenovnika(models.Model):
     cena = models.DecimalField(db_column='CENA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
@@ -126,6 +160,10 @@ class StavkeCenovnika(models.Model):
     class Meta:
         managed = False
         db_table = 'stavke_cenovnika'
+
+    def __str__(self):
+    	return 'Id Stavke Cenovnika: ' + str(self.id_stavke_cenovnika)
+
 
 
 class StavkeFakture(models.Model):
@@ -144,6 +182,10 @@ class StavkeFakture(models.Model):
         managed = False
         db_table = 'stavke_fakture'
 
+    def __str__(self):
+    	return 'Id Stavke Fakture: ' + str(self.id_stavke_fakture)
+
+
 
 class StopaPdvA(models.Model):
     id_stope = models.AutoField(db_column='ID_STOPE', primary_key=True)  # Field name made lowercase.
@@ -154,3 +196,7 @@ class StopaPdvA(models.Model):
     class Meta:
         managed = False
         db_table = 'stopa_pdv_a'
+
+    def __str__(self):
+    	return 'Id Stope PDV- a: ' + str(self.id_stope)
+
