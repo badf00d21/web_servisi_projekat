@@ -2,9 +2,9 @@ angular.module('appRoutes', []).config(['$routeProvider', function($routeProvide
 
     $routeProvider
 
-        .when('/url1', {
-            templateUrl: '',
-            controller: ''
+        .when('/cenovnici', {
+            templateUrl: 'cenovnici.html',
+            controller: 'CenovniciCtrl'
         })
 
         .when('/url2', {

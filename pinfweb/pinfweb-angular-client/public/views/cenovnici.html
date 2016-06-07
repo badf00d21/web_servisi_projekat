@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <style>
+        body{
+  padding:20px 20px;
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px;
+  color:#ccc;
+}
+    </style>
+</head>
+<body>
+<h2 align="center"> Tabelarni prikaz cenovnika </h2></br>
+
+<div class="form-group pull-left">
+   <a href="/novi_cenovnik/"> <button class="btn btn-primary">Dodaj cenovnik</button></a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Cenovnika</th>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">Datum vazenja</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+      <th>Kopiraj</th>
+    </tr>
+    <tr class="warning no-result">
+      <td colspan="4"><i class="fa fa-warning"></i> Nema rezultata </td>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="cenovnik in cenovnici">
+                <td> <a href="/stavke_cenovnika/" + {{cenovnik.idCenovnika}}/"> {{cenovnik.idCenovnika}} </a> </td>
+                <td> <a href="/preduzeca/" + {{cenovnik.idPreduzeca}}/"> {{cenovnik.idPreduzeca}} </a> </td>
+                <td> cenovnik.datumVazenja </td>
+                <td> <a href="/izmena_cenovnika/" + {{d.idCenovnika}}/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" alt="" style="width:50px; height:auto;"></a></td>
+                <td> <button> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" alt="" style="width:50px; height:auto;"></button></td>
+            </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
