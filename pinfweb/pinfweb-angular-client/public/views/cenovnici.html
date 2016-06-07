@@ -3,27 +3,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-    <style>
-        body{
-  padding:20px 20px;
-}
-
-.results tr[visible='false'],
-.no-result{
-  display:none;
-}
-
-.results tr[visible='true']{
-  display:table-row;
-}
-
-.counter{
-  padding:8px;
-  color:#ccc;
-}
-    </style>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/standard_form.css" />
 </head>
 <body>
 <h2 align="center"> Tabelarni prikaz cenovnika </h2></br>
@@ -50,15 +31,15 @@
     </tr>
   </thead>
   <tbody
-       <tr ng-repeat="cenovnik in cenovnici">
-                <td> <a href="/stavke_cenovnika/" + {{cenovnik.idCenovnika}}/"> {{cenovnik.idCenovnika}} </a> </td>
-                <td> <a href="/preduzeca/" + {{cenovnik.idPreduzeca}}/"> {{cenovnik.idPreduzeca}} </a> </td>
-                <td> cenovnik.datumVazenja </td>
-                <td> <a href="/izmena_cenovnika/" + {{d.idCenovnika}}/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" alt="" style="width:50px; height:auto;"></a></td>
-                <td> <button> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" alt="" style="width:50px; height:auto;"></button></td>
+       <tr ng-repeat="c in cenovnici">
+                <td> <a href="/stavke_cenovnika/" + {{c.idCenovnika}}/"> {{c.idCenovnika}} </a> </td>
+                <td> <a href="/preduzeca/" + {{c.idPreduzeca}}/"> {{c.idPreduzeca}} </a> </td>
+                <td> {{c.datumVazenja}} </td>
+                <td> <a href="/izmena_cenovnika/" + {{c.idCenovnika}}/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></a></td>
+                <td> <button class="image-button"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+                <td> <a href="/kopiranje_cenovnika/" + {{c.idCenovnika}}/"><img src="http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/128/copy-icon.png" class="icon"></a></td>
             </tr>
   </tbody>
 </table>
-
 </body>
 </html>

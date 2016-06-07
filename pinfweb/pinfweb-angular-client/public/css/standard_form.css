@@ -1,0 +1,29 @@
+body{
+  padding:20px 20px;
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px;
+  color:#ccc;
+}
+
+.image-button {
+  border:0;
+  background: transparent;
+  width:50px; 
+  height:auto;
+}
+
+.icon {
+  width:50px; 
+  height:auto;
+}
