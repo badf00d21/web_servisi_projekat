@@ -4,7 +4,7 @@ import sys, inspect, os
 
 
 
-SOURCE = 'C:\Users\Pex\pinfweb\\fakturisanje\models.py'
+SOURCE = 'C:\VladimirDjurdjevic\Development\Repos\web_servisi_projekat\pinfweb\pinfweb\fakturisanje\models.py'
 APP_NAME = SOURCE.split('\\')[-2]
 PROJECT_NAME = SOURCE.split('\\')[-3]
 MODULE_REF = APP_NAME + '.models'
@@ -79,8 +79,3 @@ f3 = open( PROJECT_NAME + "/urls.py", "w" )
 f3.write(project_urls_file_string)
 f3.close()
 print 'Files generated!'
-
-
-
-
-
