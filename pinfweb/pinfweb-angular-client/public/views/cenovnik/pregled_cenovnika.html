@@ -1,0 +1,30 @@
+<h2 align="center"> Tabelarni prikaz cenovnika </h2>
+<div class="form-group pull-left" >
+   <a href="#/novi_cenovnik"> <button class="btn btn-primary">Dodaj cenovnik </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Cenovnika</th>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">Datum vazenja</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+      <th>Kopiraj</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="c in cenovnici | filter:pretraga">
+                <td> <a href="/stavke_cenovnika/" + {{c.id_cenovnika}}/"> {{c.id_cenovnika}} </a> </td>
+                <td> <a href="/preduzeca/" + {{c.id_preduzeca}}/"> {{c.id_preduzeca}} </a> </td>
+                <td> {{c.datum_vazena}} </td>
+                <td> <button class="image-button" ng-click="izmeniCenovnik(c.id_cenovnika)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiCenovnik(c.id_cenovnika)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="kopirajCenovnik(c.id_cenovnika)"><img src="http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/128/copy-icon.png" class="icon"></button></td>
+            </tr>
+  </tbody>
+</table>
