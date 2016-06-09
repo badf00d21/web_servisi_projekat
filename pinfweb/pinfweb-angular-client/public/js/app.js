@@ -92,4 +92,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/stopa_pdva/izmena_stope_pdva.html"
     });
 
+    $routeProvider.when("/pregled_poslovnih_partnera", {
+        controller: "PregledPoslovnihPartneraCtrl",
+        templateUrl: "views/poslovni_partner/pregled_poslovnih_partnera.html"
+    });
+
+    $routeProvider.when("/novi_poslovni_partner", {
+        controller: "KreiranjePoslovnogPartneraCtrl",
+        templateUrl: "views/poslovni_partner/novi_poslovni_partner.html"
+    });
+
+    $routeProvider.when("/izmena_poslovnog_partnera/:id", {
+        controller: "IzmenaPoslovnogPartneraCtrl",
+        templateUrl: "views/poslovni_partner/izmena_poslovnog_partnera.html"
+    });
+
 });

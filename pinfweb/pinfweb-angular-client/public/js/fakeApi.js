@@ -76,6 +76,27 @@ var stopePdva = [
     }
 ]; 
 
+var poslovniPartneri = [
+    {
+       id_poslovnog_partnera: "1",
+       id_preduzeca: "1",
+       vrsta: "Bla",
+       pib: "10000",
+       adresa: "Bla bla",
+       mesto: "Sabac",
+       tekuci_racun: "3232323"
+    },  
+    {
+       id_poslovnog_partnera: "2",
+       id_preduzeca: "2",
+       vrsta: "Bla2",
+       pib: "100450",
+       adresa: "Bla bla 2",
+       mesto: "Novi Sad",
+       tekuci_racun: "4252623"
+    }
+]; 
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -85,6 +106,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'pdv').respond(pdvovi);
    $httpBackend.whenGET(restApiBaseUrl + 'grupaproizvoda').respond(grupeProizvoda);
    $httpBackend.whenGET(restApiBaseUrl + 'stopapdva').respond(stopePdva);
+   $httpBackend.whenGET(restApiBaseUrl + 'poslovnipartner').respond(poslovniPartneri);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
@@ -92,6 +114,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stopapdva\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnipartner\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -164,6 +187,22 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        stopePdva.push(stopapdva);
        return [200, stopapdva, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'poslovnipartner').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var poslovnipartner = {
+           id_poslovnog_partnera: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_preduzeca: result.id_preduzeca.id_preduzeca,
+           vrsta: result.vrsta,
+           pib: result.pib,
+           adresa: result.adresa,
+           mesto: result.mesto,
+           tekuci_racun: result.tekuci_racun
+       }
+
+       poslovniPartneri.push(poslovnipartner);
+       return [200, poslovnipartner, {}];
+   });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -232,6 +271,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < stopePdva.length; i++) {
             if (stopePdva[i].id_stope == id) {
                 return [200, stopePdva[i], {}];    
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'poslovnipartner\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < poslovniPartneri.length; i++) {
+            if (poslovniPartneri[i].id_poslovnog_partnera == id) {
+                return [200, poslovniPartneri[i], {}];    
             }
         }
 
@@ -358,6 +409,31 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 stopePdva[i] = stopapdva;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'poslovnipartner\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < poslovniPartneri.length; i++) {
+            if (poslovniPartneri[i].id_poslovnog_partnera == id) {
+                var result = angular.fromJson(data);
+
+                var poslovnipartner = {
+                    id_poslovnog_partnera: result.id_poslovnog_partnera,
+                    id_preduzeca: result.id_preduzeca.id_preduzeca,
+                    vrsta: result.vrsta,
+                    pib: result.pib,
+                    adresa: result.adresa,
+                    mesto: result.mesto,
+                    tekuci_racun: result.tekuci_racun
+                }
+
+                poslovniPartneri[i] = poslovnipartner;
                 break;   
             }
         }

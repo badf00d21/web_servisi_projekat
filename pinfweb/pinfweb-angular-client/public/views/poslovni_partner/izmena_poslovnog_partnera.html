@@ -1,0 +1,43 @@
+<h2 align="center"> Izmena poslovnog partnera </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div class="form-group pull-left"> </div>
+    </br></br><br>
+    <form role="form" method="post">
+        <div class="form-group" >
+           <label for="id">ID Poslovnog Partnera:</label>
+           <input type="text" class="form-control" value="{{poslovniPartner.id_poslovnog_partnera}}" disabled required>
+        </div>
+        <div class="form-group" >
+           <label>ID Preduzeca:</label>
+           <select id="preduzece" ng-model="poslovniPartner.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.nazivpreduzeca for preduzece in preduzeca"
+                 class="form-control" required> </select>
+        </div>
+        <div class="form-group">
+          <label for="name">Vrsta:</label>
+          <input type="text" class="form-control" ng-model="poslovniPartner.vrsta">
+       </div>
+        <div class="form-group">
+          <label for="name">Pib:</label>
+          <input type="text" class="form-control" ng-model="poslovniPartner.pib">
+       </div>
+        <div class="form-group">
+          <label for="name">Adresa:</label>
+          <input type="text" class="form-control" ng-model="poslovniPartner.adresa">
+       </div>
+        <div class="form-group">
+          <label for="name">Mesto:</label>
+          <input type="text" class="form-control" ng-model="poslovniPartner.mesto">
+       </div>
+        <div class="form-group">
+          <label for="name">Tekuci Racun:</label>
+          <input type="text" class="form-control" ng-model="poslovniPartner.tekuci_racun">
+       </div>
+       <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+       <button type="submit" class="btn btn-primary" ng-click="sacuvaj()">Sacuvaj</button>
+     </form>
+  </div>
+</div>
