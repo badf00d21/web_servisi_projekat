@@ -1,0 +1,28 @@
+<h2 align="center"> Tabelarni prikaz jedinica mere </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_jedinica_mere"> <button class="btn btn-primary">Dodaj jedinicu mere </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Jedinice Mere</th>
+      <th class="col-md-4 col-xs-4">Naziv Jedinice Mere</th>
+      <th class="col-md-4 col-xs-4">Skracenica</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="jm in jediniceMere | filter:pretraga">
+                <td> <a href="/jedinicamere/" + {{jm.id_jedinice}}/"> {{jm.id_jedinice}} </a> </td>
+                <td> {{jm.naziv_jedinice_mere}} </td>
+                <td> {{jm.skracenica}} </td>
+                <td> <button class="image-button" ng-click="izmeniJedinicuMere(jm.id_jedinice)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiJedinicuMere(jm.id_jedinice)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+       </tr>
+  </tbody>
+</table>

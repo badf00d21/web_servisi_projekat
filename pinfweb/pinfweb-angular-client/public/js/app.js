@@ -32,4 +32,20 @@ app.config(function ($routeProvider) {
         templateUrl: "views/preduzece/izmena_preduzeca.html"
     });
 
+    $routeProvider.when("/pregled_jedinica_mere", {
+        controller: "PregledJedinicaMereCtrl",
+        templateUrl: "views/jedinica_mere/pregled_jedinica_mere.html"
+    });
+
+    $routeProvider.when("/nova_jedinica_mere", {
+        controller: "KreiranjeJediniceMereCtrl",
+        templateUrl: "views/jedinica_mere/nova_jedinica_mere.html"
+    });
+
+    $routeProvider.when("/izmena_jedinice_mere/:id", {
+        controller: "IzmenaJediniceMereCtrl",
+        templateUrl: "views/jedinica_mere/izmena_jedinice_mere.html"
+    });
+
+
 });
