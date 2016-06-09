@@ -9,7 +9,14 @@ app.service('preduzeceService', ['$http', 'restApiBaseUrl', function($http, rest
     }
 
     this.dodajPreduzece = function(preduzece) {
-        return $http.post(restApiBaseUrl + "preduzece", cenovnik);
+        return $http.post(restApiBaseUrl + "preduzece", preduzece);
     }
     
+    this.getPreduzece = function(id) {
+        return $http.get(restApiBaseUrl + "preduzece/" + id);
+    }
+
+    this.sacuvajPreduzece = function(preduzece) {
+        return $http.put(restApiBaseUrl + "preduzece/" + preduzece.id_preduzeca, preduzece);
+    }
 }]);

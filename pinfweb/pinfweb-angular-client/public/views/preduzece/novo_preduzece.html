@@ -1,0 +1,19 @@
+<h2 align="center"> Kreiranje preduzeca </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    </br>
+    <div class="form-group pull-left"> </div>
+    </br></br></br>
+    <form role="form" method="post" >
+       <div class="form-group">
+          <label for="name">Naziv preduzeca:</label>
+          <input type="text" class="form-control" ng-model="novoPreduzece.nazivpreduzeca">
+       </div>
+      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" ng-click="kreirajPreduzece()">Submit</button>
+    </form>
+  </div>
+</div>

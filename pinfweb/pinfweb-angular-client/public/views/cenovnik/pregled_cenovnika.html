@@ -11,7 +11,7 @@
     <tr>
       <th>ID Cenovnika</th>
       <th class="col-md-4 col-xs-4">ID Preduzeca</th>
-      <th class="col-md-4 col-xs-4">Datum vazenja</th>
+      <th class="col-md-4 col-xs-4">Datum Vazenja</th>
       <th>Izmeni</th>
       <th>Izbrisi</th>
       <th>Kopiraj</th>
@@ -19,8 +19,8 @@
   </thead>
   <tbody
        <tr ng-repeat="c in cenovnici | filter:pretraga">
-                <td> <a href="/stavke_cenovnika/" + {{c.id_cenovnika}}/"> {{c.id_cenovnika}} </a> </td>
-                <td> <a href="/preduzeca/" + {{c.id_preduzeca}}/"> {{c.id_preduzeca}} </a> </td>
+                <td> <a href="/cenovnik/" + {{c.id_cenovnika}}/"> {{c.id_cenovnika}} </a> </td>
+                <td> <a href="/preduzece/" + {{c.id_preduzeca}}/"> {{c.id_preduzeca}} </a> </td>
                 <td> {{c.datum_vazena}} </td>
                 <td> <button class="image-button" ng-click="izmeniCenovnik(c.id_cenovnika)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiCenovnik(c.id_cenovnika)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>

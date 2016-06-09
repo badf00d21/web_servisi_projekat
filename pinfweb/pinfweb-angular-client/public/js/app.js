@@ -17,4 +17,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/cenovnik/izmena_cenovnika.html"
     });
 
+    $routeProvider.when("/pregled_preduzeca", {
+        controller: "PregledPreduzecaCtrl",
+        templateUrl: "views/preduzece/pregled_preduzeca.html"
+    });
+
+    $routeProvider.when("/novo_preduzece", {
+        controller: "KreiranjePreduzecaCtrl",
+        templateUrl: "views/preduzece/novo_preduzece.html"
+    });
+
+    $routeProvider.when("/izmena_preduzeca/:id", {
+        controller: "IzmenaPreduzecaCtrl",
+        templateUrl: "views/preduzece/izmena_preduzeca.html"
+    });
+
 });
