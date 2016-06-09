@@ -77,4 +77,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/grupa_proizvoda/izmena_grupe_proizvoda.html"
     });
 
+    $routeProvider.when("/pregled_stopa_pdva", {
+        controller: "PregledStopaPdvaCtrl",
+        templateUrl: "views/stopa_pdva/pregled_stopa_pdva.html"
+    });
+
+    $routeProvider.when("/nova_stopa_pdva", {
+        controller: "KreiranjeStopePdvaCtrl",
+        templateUrl: "views/stopa_pdva/nova_stopa_pdva.html"
+    });
+
+    $routeProvider.when("/izmena_stope_pdva/:id", {
+        controller: "IzmenaStopePdvaCtrl",
+        templateUrl: "views/stopa_pdva/izmena_stope_pdva.html"
+    });
+
 });

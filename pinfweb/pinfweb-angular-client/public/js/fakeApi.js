@@ -61,6 +61,21 @@ var grupeProizvoda = [
     }
 ]; 
 
+var stopePdva = [
+    {
+       id_stope: "1",
+       id_pdv_a: "1",
+       stopa: "15",
+       datum_vazenja: "25-06-2015"
+    },  
+    {
+       id_stope: "2",
+       id_pdv_a: "2",
+       stopa: "22",
+       datum_vazenja: "25-06-2016"
+    }
+]; 
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -69,12 +84,14 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'jedinicamere').respond(jediniceMere);
    $httpBackend.whenGET(restApiBaseUrl + 'pdv').respond(pdvovi);
    $httpBackend.whenGET(restApiBaseUrl + 'grupaproizvoda').respond(grupeProizvoda);
+   $httpBackend.whenGET(restApiBaseUrl + 'stopapdva').respond(stopePdva);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'jedinicamere\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stopapdva\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -134,6 +151,19 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        grupeProizvoda.push(grupaproizvoda);
        return [200, grupaproizvoda, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'stopapdva').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var stopapdva = {
+           id_stope: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_pdv_a: result.id_pdv_a.id_pdv_a,
+           stopa: result.stopa,
+           datum_vazenja: result.datum_vazenja
+       }
+
+       stopePdva.push(stopapdva);
+       return [200, stopapdva, {}];
+   });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -190,6 +220,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < grupeProizvoda.length; i++) {
             if (grupeProizvoda[i].id_grupe == id) {
                 return [200, grupeProizvoda[i], {}];    
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'stopapdva\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < stopePdva.length; i++) {
+            if (stopePdva[i].id_stope == id) {
+                return [200, stopePdva[i], {}];    
             }
         }
 
@@ -294,6 +336,28 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 grupeProizvoda[i] = grupaproizvoda;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'stopapdva\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < stopePdva.length; i++) {
+            if (stopePdva[i].id_stope == id) {
+                var result = angular.fromJson(data);
+
+                var stopapdva = {
+                    id_stope: result.id_stope,
+                    id_pdv_a: result.id_pdv_a.id_pdv_a,
+                    stopa: result.stopa,
+                    datum_vazenja: result.datum_vazenja
+                }
+
+                stopePdva[i] = stopapdva;
                 break;   
             }
         }
