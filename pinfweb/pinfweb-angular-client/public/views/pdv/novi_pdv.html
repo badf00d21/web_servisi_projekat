@@ -1,0 +1,19 @@
+<h2 align="center"> Kreiranje pdv-a </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    </br>
+    <div class="form-group pull-left"> </div>
+    </br></br></br>
+    <form role="form" method="post" >
+       <div class="form-group">
+          <label for="name">Naziv Pdv-a:</label>
+          <input type="text" class="form-control" ng-model="noviPdv.naziv_pdv_a">
+       </div>
+      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" ng-click="kreirajPdv()">Submit</button>
+    </form>
+  </div>
+</div>

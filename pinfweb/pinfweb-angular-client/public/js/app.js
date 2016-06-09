@@ -47,5 +47,20 @@ app.config(function ($routeProvider) {
         templateUrl: "views/jedinica_mere/izmena_jedinice_mere.html"
     });
 
+    $routeProvider.when("/pregled_pdvova", {
+        controller: "PregledPdvovaCtrl",
+        templateUrl: "views/pdv/pregled_pdvova.html"
+    });
+
+    $routeProvider.when("/novi_pdv", {
+        controller: "KreiranjePdvaCtrl",
+        templateUrl: "views/pdv/novi_pdv.html"
+    });
+
+    $routeProvider.when("/izmena_pdva/:id", {
+        controller: "IzmenaPdvaCtrl",
+        templateUrl: "views/pdv/izmena_pdva.html"
+    });
+
 
 });

@@ -37,16 +37,29 @@ var jediniceMere = [
     }
 ];
 
+var pdvovi = [
+    {
+       id_pdv_a: "1",
+       naziv_pdv_a: "Pdv 1"
+    },  
+    {
+       id_pdv_a: "2",
+       naziv_pdv_a: "Pdv 2"
+    }
+];
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
    $httpBackend.whenGET(restApiBaseUrl + 'cenovnik').respond(cenovnici);
    $httpBackend.whenGET(restApiBaseUrl + 'preduzece').respond(preduzeca);
    $httpBackend.whenGET(restApiBaseUrl + 'jedinicamere').respond(jediniceMere);
+   $httpBackend.whenGET(restApiBaseUrl + 'pdv').respond(pdvovi);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'jedinicamere\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -83,6 +96,17 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        jediniceMere.push(jedinicamere);
        return [200, jedinicamere, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'pdv').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var pdv = {
+           id_pdv_a: Math.floor(Math.random() * (1000 - 3) + 3),
+           naziv_pdv_a: result.naziv_pdv_a
+       }
+
+       pdvovi.push(pdv);
+       return [200, pdv, {}];
+   });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -115,6 +139,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < jediniceMere.length; i++) {
             if (jediniceMere[i].id_jedinice == id) {
                 return [200, jediniceMere[i], {}];    
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < pdvovi.length; i++) {
+            if (pdvovi[i].id_pdv_a == id) {
+                return [200, pdvovi[i], {}];    
             }
         }
 
@@ -183,4 +219,25 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
         return [200];
    });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < pdvovi.length; i++) {
+            if (pdvovi[i].id_pdv_a == id) {
+                var result = angular.fromJson(data);
+
+                var pdv = {
+                    id_pdv_a: result.id_pdv_a,
+                    naziv_pdv_a: result.naziv_pdv_a
+                }
+
+                pdvovi[i] = pdv;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   
 });
