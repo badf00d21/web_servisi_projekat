@@ -119,7 +119,7 @@ var proizvodi = [
        id_preduzeca: "1",
        id_jedinice: "1",
        id_grupe: "1",
-       naziv_proizvoda: "Papaja",  
+       naziv_proizvoda: "Papaja"  
     },  
     {
        vrsta_proizvoda : "Pice",
@@ -127,7 +127,38 @@ var proizvodi = [
        id_preduzeca: "1",
        id_jedinice: "1",
        id_grupe: "1",
-       naziv_proizvoda: "Papaja",  
+       naziv_proizvoda: "Papaja"  
+    }
+];
+
+var fakture = [
+    {
+       id_fakture : "1",
+        id_poslovnog_partnera : "1",
+        id_preduzeca : "1",
+        id_godine : "1",
+        broj_fakture : "123",
+        datum_fakture : "21-05-1993",
+        datum_valute : "21-05-1993",
+        ukupan_rabat : "21-05-1993",
+        ukupan_iznos_bez_pdv_a : "300",
+        ukupan_pdv : "21",
+        ukupno_za_placanje : "321",
+        status_fakture : "Poslata"
+    },  
+    {
+       id_fakture : "2",
+        id_poslovnog_partnera : "2",
+        id_preduzeca : "2",
+        id_godine : "2",
+        broj_fakture : "321",
+        datum_fakture : "21-05-1993",
+        datum_valute : "21-05-1993",
+        ukupan_rabat : "21-05-1993",
+        ukupan_iznos_bez_pdv_a : "222",
+        ukupan_pdv : "11",
+        ukupno_za_placanje : "233",
+        status_fakture : "U izradi"
     }
 ];
 
@@ -143,6 +174,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'poslovnipartner').respond(poslovniPartneri);
    $httpBackend.whenGET(restApiBaseUrl + 'poslovnagodina').respond(poslovneGodine);
    $httpBackend.whenGET(restApiBaseUrl + 'proizvod').respond(proizvodi);
+   $httpBackend.whenGET(restApiBaseUrl + 'faktura').respond(fakture);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
@@ -153,6 +185,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnipartner\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnagodina\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'faktura\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -263,11 +296,32 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
            id_preduzeca: result.id_preduzeca.id_preduzeca,
            id_jedinice: result.id_jedinice.id_jedinice,
            id_grupe: result.id_grupe.id_grupe,
-           naziv_proizvoda: result.naziv_proizvoda,  
+           naziv_proizvoda: result.naziv_proizvoda  
 
        }
        proizvodi.push(proizvod);
        return [200, proizvod, {}];
+   });
+   $httpBackend.whenPOST(restApiBaseUrl + 'faktura').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var faktura = {
+            id_fakture :  Math.floor(Math.random() * (1000 - 3) + 3),
+            id_poslovnog_partnera : result.id_poslovnog_partnera.id_poslovnog_partnera,
+            id_preduzeca : result.id_preduzeca.id_preduzeca,
+            id_godine : result.id_godine.id_godine,
+            broj_fakture : result.broj_fakture,
+            datum_fakture : result.datum_fakture,
+            datum_valute : result.datum_valute,
+            ukupan_rabat : result.ukupan_rabat,
+            ukupan_iznos_bez_pdv_a : result.ukupan_iznos_bez_pdv_a,
+            ukupan_pdv : result.ukupan_pdv,
+            ukupno_za_placanje : result.ukupno_za_placanje,
+            status_fakture : result.status_fakture
+
+       }
+       fakture.push(faktura);
+       return [200, faktura, {}];
    });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
@@ -371,6 +425,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < proizvodi.length; i++) {
             if (proizvodi[i].id_proizvoda == id) {
                 return [200, proizvodi[i], {}];    
+
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'faktura\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < fakture.length; i++) {
+            if (fakture[i].id_fakture == id) {
+                return [200, fakture[i], {}];    
 
             }
         }
@@ -565,10 +631,40 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                     id_preduzeca: result.id_preduzeca.id_preduzeca,
                     id_jedinice: result.id_jedinice.id_jedinice,
                     id_grupe: result.id_grupe.id_grupe,
-                    naziv_proizvoda: result.naziv_proizvoda,  
+                    naziv_proizvoda: result.naziv_proizvoda  
                 }
 
                 proizvodi[i] = proizvod;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'faktura\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < fakture.length; i++) {
+            if (fakture[i].id_fakture == id) {
+                var result = angular.fromJson(data);
+
+                var faktura = {
+                        id_fakture :  result.id_fakture,
+                        id_poslovnog_partnera : result.id_poslovnog_partnera.id_poslovnog_partnera,
+                        id_preduzeca : result.id_preduzeca.id_preduzeca,
+                        id_godine : result.id_godine.id_godine,
+                        broj_fakture : result.broj_fakture,
+                        datum_fakture : result.datum_fakture,
+                        datum_valute : result.datum_valute,
+                        ukupan_rabat : result.ukupan_rabat,
+                        ukupan_iznos_bez_pdv_a : result.ukupan_iznos_bez_pdv_a,
+                        ukupan_pdv : result.ukupan_pdv,
+                        ukupno_za_placanje : result.ukupno_za_placanje,
+                        status_fakture : result.status_fakture 
+                }
+
+                fakture[i] = faktura;
                 break;   
             }
         }

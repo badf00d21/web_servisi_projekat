@@ -1,0 +1,46 @@
+<h2 align="center"> Tabelarni prikaz faktura </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_faktura"> <button class="btn btn-primary">Dodaj fakturu </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Fakture</th>
+      <th >ID Poslovnog Partnera</th>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">ID Poslovne Godine</th>
+      <th class="col-md-4 col-xs-4">Broj Fakture</th>
+      <th class="col-md-4 col-xs-4">Datum Fakture</th>
+      <th class="col-md-4 col-xs-4">Datum Valute</th>
+      <th class="col-md-4 col-xs-4">Ukupan Rabat</th>
+      <th class="col-md-4 col-xs-4">Ukupan Iznos Bez Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Ukupan Pdv</th>
+      <th class="col-md-4 col-xs-4">Ukupno Za Placanje</th>
+      <th class="col-md-4 col-xs-4">Status Fakture</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="f in fakture | filter:pretraga">
+                <td> <a href="/fakture/" + {{f.id_fakture}}/"> {{f.id_fakture}} </a> </td>
+                <td> <a href="/poslovni_partner/" + {{f.id_poslovnog_partnera}}/"> {{f.id_poslovnog_partnera}} </a> </td>
+                <td> <a href="/preduzece/" + {{f.id_preduzeca}}/"> {{f.id_preduzeca}} </a> </td>
+                <td> <a href="/poslovna_godina/" + {{f.id_godine}}/"> {{f.id_godine}} </a> </td>
+                <td> {{f.broj_fakture}} </td>
+                <td> {{f.datum_fakture}} </td>
+                <td> {{f.datum_valute}} </td>
+                <td> {{f.ukupan_rabat}} </td>
+                <td> {{f.ukupan_iznos_bez_pdv_a}} </td>
+                <td> {{f.ukupan_pdv}} </td>
+                <td> {{f.ukupno_za_placanje}} </td>
+                <td> {{f.status_fakture}} </td>
+                <td> <button class="image-button" ng-click="izmeniFakturu(f.id_fakture)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiFakturu(f.id_fakture)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+                 </tr>
+  </tbody>
+</table>

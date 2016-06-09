@@ -1,0 +1,65 @@
+<h2 align="center"> Izmena fakture </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div class="form-group pull-left"> </div>
+    </br></br><br>
+    <form role="form" method="post">
+        <div class="form-group" >
+           <label for="id">ID Fakture:</label>
+           <input type="text" class="form-control" value="{{faktura.id_fakture}}" disabled required>
+        </div>
+        <div class="form-group" >
+           <label>ID Poslovnog Partnera:</label>
+           <select id="part" ng-model="faktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera for part in poslovniPartneri"
+                 ng-init="faktura.id_poslovnog_partnera=poslovniPartneri[0].id_poslovnog_partnera" class="form-control" required> </select>
+        </div>
+        <div class="form-group" >
+           <label>ID Preduzeca:</label>
+           <select id="preduzece" ng-model="faktura.id_preduzeca" ng-options="preduzece.id_preduzeca for preduzece in preduzeca"
+                 ng-init="faktura.id_preduzeca=preduzeca[0].id_preduzeca" class="form-control" required> </select>
+        </div>
+        <div class="form-group" >
+           <label>ID Poslovne Godine:</label>
+           <select id="godina" ng-model="faktura.id_godine" ng-options="godina.id_godine for godina in poslovneGodine"
+                 ng-init="faktura.id_godine=poslovneGodine[0].id_godine" class="form-control" required> </select>
+        </div>
+        <div class="form-group">
+           <label for="name">Broj Fakture:</label>
+          <input type="text" class="form-control" ng-model="faktura.broj_fakture">
+       </div>
+       <div class="form-group">
+           <label for="name">Datum Fakture:</label>
+          <input type="datetime" class="form-control" ng-model="faktura.datum_fakture">
+       </div>
+       <div class="form-group">
+           <label for="name">Datum Valute:</label>
+          <input type="datetime" class="form-control" ng-model="faktura.datum_valute">
+       </div>
+       <div class="form-group">
+           <label for="name">Ukupan Rabat:</label>
+          <input type="datetime" class="form-control" ng-model="faktura.ukupan_rabat">
+       </div>
+       <div class="form-group">
+           <label for="name">Ukupan Iznos Bez Pdv-a:</label>
+          <input type="text" class="form-control" ng-model="faktura.ukupan_iznos_bez_pdv_a">
+       </div>
+       <div class="form-group">
+           <label for="name">Ukupan Pdv:</label>
+          <input type="text" class="form-control" ng-model="faktura.ukupan_pdv">
+       </div>
+       <div class="form-group">
+           <label for="name">Ukupno za placanje:</label>
+          <input type="text" class="form-control" ng-model="faktura.ukupno_za_placanje">
+       </div>
+       <div class="form-group">
+           <label for="name">Status Fakture:</label>
+          <input type="text" class="form-control" ng-model="faktura.status_fakture">
+       </div>
+       <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+       <button type="submit" class="btn btn-primary" ng-click="sacuvaj()">Sacuvaj</button>
+     </form>
+  </div>
+</div>

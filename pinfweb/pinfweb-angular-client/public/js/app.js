@@ -137,4 +137,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/proizvod/izmena_proizvoda.html"
     });
 
+    $routeProvider.when("/pregled_faktura", {
+        controller: "PregledFakturaCtrl",
+        templateUrl: "views/faktura/pregled_faktura.html"
+    });
+
+    $routeProvider.when("/nova_faktura", {
+        controller: "KreiranjeFaktureCtrl",
+        templateUrl: "views/faktura/nova_faktura.html"
+    });
+
+    $routeProvider.when("/izmena_fakture/:id", {
+        controller: "IzmenaFaktureCtrl",
+        templateUrl: "views/faktura/izmena_fakture.html"
+    });
+
 });
