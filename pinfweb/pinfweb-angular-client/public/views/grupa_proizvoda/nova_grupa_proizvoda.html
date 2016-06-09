@@ -8,8 +8,8 @@
     <form role="form" method="post" >
        <div class="form-group" >
           <label>ID Pdv-a:</label>
-          <select ng-model="novaGrupaProizvoda.id_pdv_a" ng-options="pdv.naziv_pdv_a for pdv in pdvovi" 
-                  ng-init="novaGrupaProizvoda.id_grupe = pdvovi[0]" class="form-control" required> </select>
+          <select ng-model="novaGrupaProizvoda.id_pdv_a" ng-options="pdv.id_pdv_a for pdv in pdvovi" 
+                  ng-init="novaGrupaProizvoda.id_pdv_a = pdvovi[0].id_pdv_a" class="form-control" required> </select>
        </div>
        <div class="form-group">
           <label for="name">Naziv Grupe Proizvoda:</label>
