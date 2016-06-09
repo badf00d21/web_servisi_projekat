@@ -1,0 +1,28 @@
+<h2 align="center"> Tabelarni prikaz grupa proizvoda </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_grupa_proizvoda"> <button class="btn btn-primary">Dodaj grupu proizvoda </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Grupe Proizvoda</th>
+      <th class="col-md-4 col-xs-4">ID Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Naziv Grupe Proizvoda</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="g in grupeProizvoda | filter:pretraga">
+                <td> <a href="/grupa_proizvoda/" + {{g.id_grupe}}/"> {{g.id_grupe}} </a> </td>
+                <td> <a href="/pdv/" + {{g.id_pdv_a}}/"> {{g.id_pdv_a}} </a> </td>
+                <td> {{g.naziv_grupe}} </td>
+                <td> <button class="image-button" ng-click="izmeniGrupuProizvoda(g.id_grupe)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiGrupuProizvoda(g.id_grupe)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+            </tr>
+  </tbody>
+</table>

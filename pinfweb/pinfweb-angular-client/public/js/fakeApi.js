@@ -48,6 +48,19 @@ var pdvovi = [
     }
 ];
 
+var grupeProizvoda = [
+    {
+       id_grupe: "1",
+       id_pdv_a: "1",
+       naziv_grupe: "Grupa 1"
+    },  
+    {
+       id_grupe: "2",
+       id_pdv_a: "2",
+       naziv_grupe: "Grupa 2"
+    }
+]; 
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -55,11 +68,13 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'preduzece').respond(preduzeca);
    $httpBackend.whenGET(restApiBaseUrl + 'jedinicamere').respond(jediniceMere);
    $httpBackend.whenGET(restApiBaseUrl + 'pdv').respond(pdvovi);
+   $httpBackend.whenGET(restApiBaseUrl + 'grupaproizvoda').respond(grupeProizvoda);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'jedinicamere\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'pdv\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -106,6 +121,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
        pdvovi.push(pdv);
        return [200, pdv, {}];
+   });
+   $httpBackend.whenPOST(restApiBaseUrl + 'grupaproizvoda').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var grupaproizvoda = {
+           id_grupe: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_pdv_a: result.id_pdv_a.id_pdv_a,
+           naziv_grupe: result.naziv_grupe
+       }
+
+       grupeProizvoda.push(grupaproizvoda);
+       return [200, grupaproizvoda, {}];
    });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
@@ -156,6 +183,19 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
         return [404];
    });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < grupeProizvoda.length; i++) {
+            if (grupeProizvoda[i].id_grupe == id) {
+                return [200, grupeProizvoda[i], {}];    
+            }
+        }
+
+        return [404];
+   });
+
 
    $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -233,6 +273,27 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 pdvovi[i] = pdv;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < grupeProizvoda.length; i++) {
+            if (grupeProizvoda[i].id_grupe == id) {
+                var result = angular.fromJson(data);
+
+                var grupaproizvoda = {
+                    id_grupe: result.id_grupe,
+                    id_pdv_a: result.id_pdv_a.id_pdv_a,
+                    naziv_grupe: result.naziv_grupe
+                }
+
+                grupeProizvoda[i] = grupaproizvoda;
                 break;   
             }
         }

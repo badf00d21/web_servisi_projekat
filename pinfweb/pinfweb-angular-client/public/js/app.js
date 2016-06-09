@@ -62,5 +62,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/pdv/izmena_pdva.html"
     });
 
+    $routeProvider.when("/pregled_grupa_proizvoda", {
+        controller: "PregledGrupaProizvodaCtrl",
+        templateUrl: "views/grupa_proizvoda/pregled_grupa_proizvoda.html"
+    });
+
+    $routeProvider.when("/nova_grupa_proizvoda", {
+        controller: "KreiranjeGrupeProizvodaCtrl",
+        templateUrl: "views/grupa_proizvoda/nova_grupa_proizvoda.html"
+    });
+
+    $routeProvider.when("/izmena_grupe_proizvoda/:id", {
+        controller: "IzmenaGrupeProizvodaCtrl",
+        templateUrl: "views/grupa_proizvoda/izmena_grupe_proizvoda.html"
+    });
 
 });

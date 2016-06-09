@@ -1,0 +1,24 @@
+<h2 align="center"> Kreiranje grupe proizvoda </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    </br>
+    <div class="form-group pull-left"> </div>
+    </br></br></br>
+    <form role="form" method="post" >
+       <div class="form-group" >
+          <label>ID Pdv-a:</label>
+          <select ng-model="novaGrupaProizvoda.id_pdv_a" ng-options="pdv.naziv_pdv_a for pdv in pdvovi" 
+                  ng-init="novaGrupaProizvoda.id_grupe = pdvovi[0]" class="form-control" required> </select>
+       </div>
+       <div class="form-group">
+          <label for="name">Naziv Grupe Proizvoda:</label>
+          <input type="text" class="form-control" ng-model="novaGrupaProizvoda.naziv_grupe">
+       </div>
+      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" ng-click="kreirajGrupuProizvoda()">Submit</button>
+    </form>
+  </div>
+</div>
