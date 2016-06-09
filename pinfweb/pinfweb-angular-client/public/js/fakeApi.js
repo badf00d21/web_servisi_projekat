@@ -97,6 +97,40 @@ var poslovniPartneri = [
     }
 ]; 
 
+var poslovneGodine = [
+    {
+       id_godine: "1",
+       id_preduzeca: "1",
+       godina: "2015",
+       zakljucena: "2016"
+    },  
+    {
+       id_godine: "2",
+       id_preduzeca: "1",
+       godina: "2012",
+       zakljucena: "2015"
+    }
+];
+
+var proizvodi = [
+    {
+       vrsta_proizvoda : "Hrana",
+       id_proizvoda: "1",
+       id_preduzeca: "1",
+       id_jedinice: "1",
+       id_grupe: "1",
+       naziv_proizvoda: "Papaja",  
+    },  
+    {
+       vrsta_proizvoda : "Pice",
+       id_proizvoda: "2",
+       id_preduzeca: "1",
+       id_jedinice: "1",
+       id_grupe: "1",
+       naziv_proizvoda: "Papaja",  
+    }
+];
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -107,6 +141,8 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'grupaproizvoda').respond(grupeProizvoda);
    $httpBackend.whenGET(restApiBaseUrl + 'stopapdva').respond(stopePdva);
    $httpBackend.whenGET(restApiBaseUrl + 'poslovnipartner').respond(poslovniPartneri);
+   $httpBackend.whenGET(restApiBaseUrl + 'poslovnagodina').respond(poslovneGodine);
+   $httpBackend.whenGET(restApiBaseUrl + 'proizvod').respond(proizvodi);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
@@ -115,6 +151,8 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'grupaproizvoda\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stopapdva\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnipartner\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnagodina\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -203,6 +241,34 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        poslovniPartneri.push(poslovnipartner);
        return [200, poslovnipartner, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'poslovnagodina').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var poslovnagodina = {
+           id_godine: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_preduzeca: result.id_preduzeca.id_preduzeca,
+           godina: result.godina,
+           zakljucena: result.zakljucena
+
+       }
+       poslovneGodine.push(poslovnagodina);
+       return [200, poslovnagodina, {}];
+   });
+   $httpBackend.whenPOST(restApiBaseUrl + 'proizvod').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var proizvod = {
+           vrsta_proizvoda : result.vrsta_proizvoda,
+           id_proizvoda: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_preduzeca: result.id_preduzeca.id_preduzeca,
+           id_jedinice: result.id_jedinice.id_jedinice,
+           id_grupe: result.id_grupe.id_grupe,
+           naziv_proizvoda: result.naziv_proizvoda,  
+
+       }
+       proizvodi.push(proizvod);
+       return [200, proizvod, {}];
+   });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -283,6 +349,29 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < poslovniPartneri.length; i++) {
             if (poslovniPartneri[i].id_poslovnog_partnera == id) {
                 return [200, poslovniPartneri[i], {}];    
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'poslovnagodina\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < poslovneGodine.length; i++) {
+            if (poslovneGodine[i].id_godine == id) {
+                return [200, poslovneGodine[i], {}];  
+            }
+       }
+          return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < proizvodi.length; i++) {
+            if (proizvodi[i].id_proizvoda == id) {
+                return [200, proizvodi[i], {}];    
+
             }
         }
 
@@ -434,6 +523,52 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 poslovniPartneri[i] = poslovnipartner;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'poslovnagodina\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < poslovneGodine.length; i++) {
+            if (poslovneGodine[i].id_godine == id) {
+                var result = angular.fromJson(data);
+
+                var poslovnagodina = {
+                    id_godine: result.id_godine,
+                    id_preduzeca: result.id_preduzeca.id_preduzeca,
+                    godina: result.godina,
+                    zakljucena: result.zakljucena
+                }
+
+                poslovneGodine[i] = poslovnagodina;
+            break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < proizvodi.length; i++) {
+            if (proizvodi[i].id_proizvoda == id) {
+                var result = angular.fromJson(data);
+
+                var proizvod = {
+                    vrsta_proizvoda : result.vrsta_proizvoda,
+                    id_proizvoda: result.id_proizvoda,
+                    id_preduzeca: result.id_preduzeca.id_preduzeca,
+                    id_jedinice: result.id_jedinice.id_jedinice,
+                    id_grupe: result.id_grupe.id_grupe,
+                    naziv_proizvoda: result.naziv_proizvoda,  
+                }
+
+                proizvodi[i] = proizvod;
                 break;   
             }
         }

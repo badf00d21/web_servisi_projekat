@@ -1,0 +1,41 @@
+<h2 align="center"> Izmena proizvoda </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div class="form-group pull-left"> </div>
+    </br></br><br>
+    <form role="form" method="post">
+        <div class="form-group" >
+           <label for="id">ID proizvoda:</label>
+           <input type="text" class="form-control" value="{{proizvod.id_proizvoda}}" disabled required >
+        </div>
+        <div class="form-group" >
+           <label for="id">Naziv proizvoda:</label>
+           <input type="text" class="form-control" value="{{proizvod.naziv_proizvoda}}" ng-model="proizvod.naziv_proizvoda">
+        </div>
+        <div class="form-group">
+          <label for="name">Vrsta Proizvoda:</label>
+          <input type="text" class="form-control" value="{{proizvod.vrsta_proizvoda}}" ng-model="proizvod.vrsta_proizvoda">
+       </div>
+        <div class="form-group" >
+           <label>ID Preduzeca:</label>
+           <select id="preduzece" ng-model="proizvod.id_preduzeca" ng-options=" preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca" 
+                class="form-control" required> </select>
+        </div>
+        <div class="form-group" >
+           <label>ID Jedinice Mere:</label>
+           <select id="jedinica" ng-model="proizvod.id_jedinice" ng-options="jedinica.id_jedinice as jedinica.id_jedinice for jedinica in jediniceMere" 
+             class="form-control" required> </select>
+        </div>
+        <div class="form-group" >
+           <label>ID Grupe Proizvoda:</label>
+           <select id="grupa" ng-model="proizvod.id_grupe"" ng-options="grupa.id_grupe as grupa.id_grupe for grupa in grupeProizvoda" 
+                class="form-control" required> </select>
+        </div>
+       <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+       <button type="submit" class="btn btn-primary" ng-click="sacuvaj()">Sacuvaj</button>
+     </form>
+  </div>
+</div>

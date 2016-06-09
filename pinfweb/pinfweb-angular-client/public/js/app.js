@@ -107,4 +107,34 @@ app.config(function ($routeProvider) {
         templateUrl: "views/poslovni_partner/izmena_poslovnog_partnera.html"
     });
 
+    $routeProvider.when("/pregled_poslovnih_godina", {
+        controller: "PregledPoslovnihGodinaCtrl",
+        templateUrl: "views/poslovna_godina/pregled_poslovnih_godina.html"
+    });
+
+    $routeProvider.when("/nova_poslovna_godina", {
+        controller: "KreiranjePoslovneGodineCtrl",
+        templateUrl: "views/poslovna_godina/nova_poslovna_godina.html"
+    });
+
+    $routeProvider.when("/izmena_poslovne_godine/:id", {
+        controller: "IzmenaPoslovneGodineCtrl",
+        templateUrl: "views/poslovna_godina/izmena_poslovne_godine.html"
+    });
+
+    $routeProvider.when("/pregled_proizvoda", {
+        controller: "PregledProizvodaCtrl",
+        templateUrl: "views/proizvod/pregled_proizvoda.html"
+    });
+
+    $routeProvider.when("/novi_proizvod", {
+        controller: "KreiranjeProizvodaCtrl",
+        templateUrl: "views/proizvod/novi_proizvod.html"
+    });
+
+    $routeProvider.when("/izmena_proizvoda/:id", {
+        controller: "IzmenaProizvodaCtrl",
+        templateUrl: "views/proizvod/izmena_proizvoda.html"
+    });
+
 });

@@ -1,0 +1,34 @@
+<h2 align="center"> Tabelarni prikaz proizvoda </h2>
+<div class="form-group pull-left" >
+   <a href="#/novi_proizvod"> <button class="btn btn-primary">Dodaj proizvod </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv</th>
+      <th class="col-md-4 col-xs-4">Vrsta Proizvoda</th>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">ID Jedinice Mere</th>
+      <th class="col-md-4 col-xs-4">ID Grupe Proizvoda</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in proizvodi | filter:pretraga">
+                <td> <a href="/proizvod/" + {{p.id_proizvoda}}/"> {{p.id_proizvoda}} </a> </td>
+                <td> {{p.naziv_proizvoda}} </td>
+                <td> {{p.vrsta_proizvoda}} </td>
+                <td> <a href="/preduzece/" + {{p.id_preduzeca}}/"> {{p.id_preduzeca}} </a> </td>
+                <td> <a href="/jedinica_mere/" + {{p.id_jedinice}}/"> {{p.id_jedinice}} </a> </td>
+                <td> <a href="/grupa_proizvoda/" + {{p.id_grupe}}/"> {{p.id_grupe}} </a> </td>
+                <td> <button class="image-button" ng-click="izmeniProizvod(p.id_proizvoda)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiProizvod(p.id_proizvoda)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+       </tr>
+  </tbody>
+</table>

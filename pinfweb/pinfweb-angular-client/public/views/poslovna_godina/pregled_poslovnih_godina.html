@@ -1,0 +1,30 @@
+<h2 align="center"> Tabelarni prikaz poslovnih godina </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_poslovna_godina"> <button class="btn btn-primary">Dodaj poslovnu godinu </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Poslovne Godine</th>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">Godina</th>
+      <th class="col-md-4 col-xs-4">Zakljucna</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="pg in poslovneGodine | filter:pretraga">
+                <td> <a href="/poslovna_godina/" + {{pg.id_godine}/"> {{pg.id_godine}} </a> </td>
+                <td> <a href="/preduzece/" + {{pg.id_preduzeca}}/"> {{pg.id_preduzeca}} </a> </td>
+                <td> {{pg.godina}} </td>
+                <td> {{pg.zakljucena}} </td>
+                <td> <button class="image-button" ng-click="izmeniPoslovnuGodinu(pg.id_godine)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiPoslovnuGodinu(pg.id_godine)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+    </tr>
+  </tbody>
+</table>
