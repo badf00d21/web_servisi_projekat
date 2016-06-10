@@ -1,0 +1,43 @@
+<h2 align="center"> Tabelarni prikaz faktura </h2>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Fakture</th>
+      <th >ID Poslovnog Partnera</th>
+      <th >ID Preduzeca</th>
+      <th >ID Poslovne Godine</th>
+      <th >Broj Fakture</th>
+      <th class="col-md-4 col-xs-4">Datum Fakture</th>
+      <th class="col-md-4 col-xs-4">Datum Valute</th>
+      <th class="col-md-4 col-xs-4">Ukupan Rabat</th>
+      <th class="col-md-4 col-xs-4">Ukupan Iznos Bez Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Ukupan Pdv</th>
+      <th class="col-md-4 col-xs-4">Ukupno Za Placanje</th>
+      <th class="col-md-4 col-xs-4">Status Fakture</th>
+      <th>Ekport u XML</th>
+      <th>Ekport u PDF</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="f in fakture | filter:pretraga">
+                <td> {{f.id_fakture}} </td>
+                <td> {{f.id_poslovnog_partnera}} </td>
+                <td> {{f.id_preduzeca}} </td>
+                <td> {{f.id_godine}} </td>
+                <td> {{f.broj_fakture}} </td>
+                <td> {{f.datum_fakture}} </td>
+                <td> {{f.datum_valute}} </td>
+                <td> {{f.ukupan_rabat}} </td>
+                <td> {{f.ukupan_iznos_bez_pdv_a}} </td>
+                <td> {{f.ukupan_pdv}} </td>
+                <td> {{f.ukupno_za_placanje}} </td>
+                <td> {{f.status_fakture}} </td>
+                <td> <button class="image-button" ng-click="eksportFaktureXml(f.id_fakture)"><img src="http://pdfextractoronline.com/wp-content/uploads/sites/26/2016/03/Collection-of-XML-documents.png" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="eksportFakturePdf(f.id_fakture)"> <img src="http://www.pebblebank.co.uk/wp-content/uploads/2015/07/pdf-logo.png" class="icon"></button></td>
+                 </tr>
+  </tbody>
+</table>

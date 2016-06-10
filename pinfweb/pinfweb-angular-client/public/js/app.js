@@ -160,6 +160,11 @@ app.config(function ($routeProvider) {
         controller: "IzmenaFaktureCtrl",
         templateUrl: "views/faktura/izmena_fakture.html"
     });
+    
+    $routeProvider.when("/eksport_fakture", {
+        controller: "EksportFaktureCtrl",
+        templateUrl: "views/faktura/eksport_fakture.html"
+    });
 
     $routeProvider.when("/pregled_stavki_cenovnika", {
         controller: "PregledStavkiCenovnikaCtrl",
