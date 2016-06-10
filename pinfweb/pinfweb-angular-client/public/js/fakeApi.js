@@ -162,6 +162,21 @@ var fakture = [
     }
 ];
 
+var stavkeCenovnika = [
+    {
+       id_stavke_cenovnika: "1",
+       id_cenovnika: "1",
+       id_proizvoda: "1",
+       cena: "150"
+    },  
+    {
+       id_stavke_cenovnika: "2",
+       id_cenovnika: "2",
+       id_proizvoda: "2",
+       cena: "250"
+    }
+];
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -175,6 +190,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'poslovnagodina').respond(poslovneGodine);
    $httpBackend.whenGET(restApiBaseUrl + 'proizvod').respond(proizvodi);
    $httpBackend.whenGET(restApiBaseUrl + 'faktura').respond(fakture);
+   $httpBackend.whenGET(restApiBaseUrl + 'stavkacenovnika').respond(stavkeCenovnika);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
@@ -186,6 +202,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'poslovnagodina\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'faktura\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -323,6 +340,19 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        fakture.push(faktura);
        return [200, faktura, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'stavkacenovnika').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var stavkacenovnika = {
+           id_stavke_cenovnika: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_cenovnika: result.id_cenovnika.id_cenovnika,
+           id_proizvoda: result.id_proizvoda.id_proizvoda,
+           cena: result.cena
+        }
+           
+       stavkeCenovnika.push(stavkacenovnika);
+       return [200, stavkacenovnika, {}];
+   });
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -443,7 +473,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
         return [404];
    });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < stavkeCenovnika.length; i++) {
+            if (stavkeCenovnika[i].id_stavke_cenovnika == id) {
+                return [200, stavkeCenovnika[i], {}];    
 
+            }
+        }
+
+        return [404];
+   });
 
    $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -665,6 +706,28 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 fakture[i] = faktura;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < stavkeCenovnika.length; i++) {
+            if (stavkeCenovnika[i].id_stavke_cenovnika == id) {
+                var result = angular.fromJson(data);
+
+                var stavkacenovnika = {
+                    id_stavke_cenovnika :  result.id_stavke_cenovnika,
+                    id_cenovnika: result.id_cenovnika.id_cenovnika,
+                    id_proizvoda: result.id_proizvoda.id_proizvoda,
+                    cena: result.cena
+                }
+
+                stavkeCenovnika[i] = stavkacenovnika;
                 break;   
             }
         }

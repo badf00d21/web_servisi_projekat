@@ -1,0 +1,30 @@
+<h2 align="center"> Tabelarni prikaz stavki cenovnika </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_stavka_cenovnika"> <button class="btn btn-primary">Dodaj stavku cenovnika </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Stavke Cenovnika</th>
+      <th class="col-md-4 col-xs-4">ID Cenovnika</th>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Cena</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="sc in stavkeCenovnika | filter:pretraga">
+                <td> <a href="/stavka_cenovnika/" + {{sc.id_stavke_cenovnika}}/"> {{sc.id_stavke_cenovnika}} </a> </td>
+                <td> <a href="/cenovnik/" + {{sc.id_cenovnika}}/"> {{sc.id_cenovnika}} </a> </td>
+                <td> <a href="/proizvod/" + {{sc.id_proizvoda}}/"> {{sc.id_proizvoda}} </a> </td>
+                <td> {{sc.cena}} </td>
+                <td> <button class="image-button" ng-click="izmeniStavkuCenovnika(sc.id_stavke_cenovnika)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiStavkuCenovnika(sc.id_stavke_cenovnika)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+       </tr>
+  </tbody>
+</table>

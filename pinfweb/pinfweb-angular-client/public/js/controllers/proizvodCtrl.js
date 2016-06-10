@@ -108,7 +108,7 @@ app.controller('IzmenaProizvodaCtrl', ['$scope', '$location', '$routeParams', 'p
            $scope.errorMessage = "Sva polja moraju biti popunjena!";
            return;
        }
-       console.log($scope.proizvod);
+ 
        proizvodService.sacuvajProizvod($scope.proizvod).then(function(response) {
             $location.path('/pregled_proizvoda');
        });
