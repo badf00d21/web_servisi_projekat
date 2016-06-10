@@ -45,12 +45,13 @@
       <th class="col-md-4 col-xs-4">Kolicina</th>
     </tr>
   </thead>
-  <tbody
+  <tbody>
        <tr ng-repeat="sf in stavkeFakture | filter:pretraga">
                 <td> {{sf.id_proizvoda}} </td>
                 <td> {{sf.kolicina}} </td>
        </tr>
   </tbody>
+</table>
   <h2 align="center"> Kreiranje stavke fakture </h2>
     </br>
     <div class="form-group pull-left"> </div>
@@ -73,7 +74,6 @@
 
   <a> <button class="btn btn-primary" ng-click="dodajStavku()">Dodaj stavku fakture </button> </a>
   <br/> <br />
-</table>
       <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
           {{errorMessage}}
       </div>
