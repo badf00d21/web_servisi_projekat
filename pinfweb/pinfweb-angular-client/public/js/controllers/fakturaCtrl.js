@@ -146,23 +146,12 @@ app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', f
 
    refreshData();
 
-   $scope.izmeniFakturu = function (id) {
+   $scope.eksportFaktureXml = function (id) {
        $location.path('/izmena_fakture/' + id);
    }
 
-   $scope.izbrisiFakturu = function (id) {
-       if (!confirm('Da li ste sigurni da zelite da izbrisete cenovnik: ' + id + "?")) {
-            return;
-       }
-
-       fakturaService.izbrisiFakturu(id).then(function(response) {
-            for (var i = 0; i < $scope.fakture.length; i++) {
-                if ($scope.fakture[i].id_fakture == id) {
-                    $scope.fakture.splice(i, 1);
-                    break;
-                }
-            }
-       });
+   $scope.eksportFakturePdf = function (id) {
+           
    }
 
    
