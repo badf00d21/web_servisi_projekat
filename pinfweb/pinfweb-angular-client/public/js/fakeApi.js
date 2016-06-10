@@ -174,6 +174,18 @@ var stavkeCenovnika = [
        id_cenovnika: "2",
        id_proizvoda: "2",
        cena: "250"
+    },
+    {
+       id_stavke_cenovnika: "3",
+       id_cenovnika: "2",
+       id_proizvoda: "1",
+       cena: "111"
+    },
+    {
+       id_stavke_cenovnika: "4",
+       id_cenovnika: "2",
+       id_proizvoda: "2",
+       cena: "123"
     }
 ];
 
@@ -427,18 +439,23 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
         }
 
         cenovnici.push(cenovnik1);
-        
+        noveStavke = [];
         for (var i = 0; i < stavkeCenovnika.length; i++){
             if (stavkeCenovnika[i].id_cenovnika == cen_id){
             var stavkica = {
                     id_stavke_cenovnika: Math.floor(Math.random() * (1000 - 3) + 3),
                     id_proizvoda: stavkeCenovnika[i].id_proizvoda,
-                    id_cenovnika: stavkeCenovnika[i].id_cenovnika,
-                    cena: parseInt(stavkeCenovnika[i].cena) + parseInt(stavkeCenovnika[i].cena) * procenatt
+                    id_cenovnika: cenovnik1.id_cenovnika,
+                    cena: parseInt(stavkeCenovnika[i].cena) + parseInt(stavkeCenovnika[i].cena) * procenatt / 100
                         }
-                stavkeCenovnika.push(stavkica);
+                noveStavke.push(stavkica);
             }
             }
+        console.log(noveStavke);
+        
+        for (var i = 0; i < noveStavke.length; i++){
+                stavkeCenovnika.push(noveStavke[i]);
+        }
 
        return [200, stavkeCenovnika, {}];
    });
