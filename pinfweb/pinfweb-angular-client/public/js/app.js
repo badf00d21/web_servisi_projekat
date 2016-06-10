@@ -2,7 +2,7 @@ var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG', 'fakeApi']);
 
 app.config(function ($routeProvider) {
  
-    $routeProvider.when("", {
+    $routeProvider.when("/home", {
         templateUrl: "views/home.html"
     });
 
