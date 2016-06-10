@@ -402,6 +402,46 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        stavkeFakture.push(stavkafakture);
        return [200, stavkafakture, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'kopirajcenovnik').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+       var cen_id = result.id_cen;
+       var procenatt = result.procenat;
+       console.log(procenatt);
+
+       orcenn = null;
+
+       for (var i = 0; i < cenovnici.length; i++){
+           if ( cenovnici[i].id_cenovnika == cen_id ){
+                orcenn = cenovnici[i];
+                break;
+           }
+       }
+
+       if (orcenn == null)
+          console.log('nulll he ');
+
+       var cenovnik1 = {
+           id_cenovnika: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_preduzeca: orcenn.id_preduzeca,
+           datum_vazena: orcenn.datum_vazena
+        }
+
+        cenovnici.push(cenovnik1);
+        
+        for (var i = 0; i < stavkeCenovnika.length; i++){
+            if (stavkeCenovnika[i].id_cenovnika == cen_id){
+            var stavkica = {
+                    id_stavke_cenovnika: Math.floor(Math.random() * (1000 - 3) + 3),
+                    id_proizvoda: stavkeCenovnika[i].id_proizvoda,
+                    id_cenovnika: stavkeCenovnika[i].id_cenovnika,
+                    cena: parseInt(stavkeCenovnika[i].cena) + parseInt(stavkeCenovnika[i].cena) * procenatt
+                        }
+                stavkeCenovnika.push(stavkica);
+            }
+            }
+
+       return [200, stavkeCenovnika, {}];
+   });
    
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {

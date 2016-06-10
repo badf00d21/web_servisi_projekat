@@ -91,3 +91,53 @@ app.controller('IzmenaCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
        });
     }
 }]);
+
+app.controller('KopiranjeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'cenovnikService', 'preduzeceService', 'stavkaCenovnikaService', function($scope, $location, $routeParams, cenovnikService, preduzeceService, stavkaCenovnikaService) {
+   
+    
+    $scope.cenovniks = {
+        id_cenovkika: "",
+        id_preduzeca: "",
+        datum_vazena: ""
+    }
+
+    $scope.id_cen = $routeParams.id
+    $scope.preduzeca = [];
+    $scope.procenat = 0;
+    $scope.stavkeCenovnika = []
+    $scope.errorMessage = "";
+
+    cenovnikService.getCenovnik($routeParams.id).then(function(response) {
+        $scope.cenovniks = response.data;
+    });
+
+
+    preduzeceService.ucitajPreduzeca().then(function(response) {
+            $scope.preduzeca = response.data;
+    });
+
+
+    console.log( $scope.cenovniks);
+    stavkaCenovnikaService.ucitajStavkeCenovnika().then(function(response) {
+            for (var i = 0; i < response.data.length; i++){
+                if ( response.data[i].id_cenovnika == $routeParams.id){
+                    $scope.stavkeCenovnika.push(response.data[i]);
+                }
+            }
+    });
+
+    $scope.potvrdi = function() {
+        if ($scope.procenat == 0 || isNaN($scope.procenat)) {
+           $scope.errorMessage = "Procenat mora biti razlicit broj od nule!";
+           return;
+       }
+
+       var infoObj = {
+           id_cen : $scope.id_cen,
+           procenat : $scope.procenat
+       }
+       cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
+            $location.path('/pregled_stavki_cenovnika');
+       });
+    }
+}]);

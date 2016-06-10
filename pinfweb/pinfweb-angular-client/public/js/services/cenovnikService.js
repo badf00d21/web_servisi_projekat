@@ -19,4 +19,12 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
     this.sacuvajCenovnik = function(cenovnik) {
         return $http.put(restApiBaseUrl + "cenovnik/" + cenovnik.id_cenovnika, cenovnik);
     }
+
+    this.kopirajCenovnik = function(infoCen) {
+        return $http.post(restApiBaseUrl + "kopirajcenovnik" , infoCen);
+    }
+
+    //this.getCenovnikoo = function(id) {
+      //  return $http.get("http://localhost:8000/" + "cenovnik/" + id + '/');
+    //}
 }]);

@@ -21,6 +21,11 @@ app.config(function ($routeProvider) {
         templateUrl: "views/cenovnik/izmena_cenovnika.html"
     });
 
+    $routeProvider.when("/kopiranje_cenovnika/:id", {
+        controller: "KopiranjeCenovnikaCtrl",
+        templateUrl: "views/cenovnik/kopiranje_cenovnika.html"
+    });
+
     $routeProvider.when("/pregled_preduzeca", {
         controller: "PregledPreduzecaCtrl",
         templateUrl: "views/preduzece/pregled_preduzeca.html"
