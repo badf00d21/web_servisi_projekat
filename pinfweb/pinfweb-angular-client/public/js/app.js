@@ -196,9 +196,14 @@ app.config(function ($routeProvider) {
         templateUrl: "views/stavka_fakture/izmena_stavke_fakture.html"
     });
 
-    $routeProvider.when("/fakturisanje/", {
-        controller: "FakturisanjeCtrl",
-        templateUrl: "views/faktura/fakturisanje.html"
+    $routeProvider.when("/fakturisanje/rucno", {
+        controller: "FakturisanjeRucnoCtrl",
+        templateUrl: "views/faktura/fakturisanje_rucno.html"
+    });
+
+    $routeProvider.when("/fakturisanje/narudzbenica", {
+        controller: "FakturisanjeNarudzbenicaCtrl",
+        templateUrl: "views/faktura/fakturisanje_narudzbenica.html"
     });
 
 });
