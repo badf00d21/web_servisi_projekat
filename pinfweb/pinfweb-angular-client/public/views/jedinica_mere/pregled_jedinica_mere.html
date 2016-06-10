@@ -18,7 +18,7 @@
   </thead>
   <tbody
        <tr ng-repeat="jm in jediniceMere | filter:pretraga">
-                <td> <a href="/jedinicamere/" + {{jm.id_jedinice}}/"> {{jm.id_jedinice}} </a> </td>
+                <td>  {{jm.id_jedinice}}  </td>
                 <td> {{jm.naziv_jedinice_mere}} </td>
                 <td> {{jm.skracenica}} </td>
                 <td> <button class="image-button" ng-click="izmeniJedinicuMere(jm.id_jedinice)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>

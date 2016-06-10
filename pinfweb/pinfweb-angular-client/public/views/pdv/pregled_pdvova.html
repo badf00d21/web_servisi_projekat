@@ -17,7 +17,7 @@
   </thead>
   <tbody
        <tr ng-repeat="p in pdvovi | filter:pretraga">
-                <td> <a href="/pdv/" + {{p.id_pdv_a}}/"> {{p.id_pdv_a}} </a> </td>
+                <td>  {{p.id_pdv_a}} </td>
                 <td> {{p.naziv_pdv_a}} </td>
                 <td> <button class="image-button" ng-click="izmeniPdv(p.id_pdv_a)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiPdv(p.id_pdv_a)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>

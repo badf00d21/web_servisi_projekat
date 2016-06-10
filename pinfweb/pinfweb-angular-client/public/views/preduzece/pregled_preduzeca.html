@@ -17,7 +17,7 @@
   </thead>
   <tbody
        <tr ng-repeat="p in preduzeca | filter:pretraga">
-                <td> <a href="/preduzece/" + {{p.id_preduzeca}}/"> {{p.id_preduzeca}} </a> </td>
+                <td>  {{p.id_preduzeca}}  </td>
                 <td> {{p.nazivpreduzeca}} </td>
                 <td> <button class="image-button" ng-click="izmeniPreduzece(p.id_preduzeca)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiPreduzece(p.id_preduzeca)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>

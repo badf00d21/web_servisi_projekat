@@ -21,12 +21,12 @@
   </thead>
   <tbody
        <tr ng-repeat="p in proizvodi | filter:pretraga">
-                <td> <a href="/proizvod/" + {{p.id_proizvoda}}/"> {{p.id_proizvoda}} </a> </td>
+                <td>  {{p.id_proizvoda}} </td>
                 <td> {{p.naziv_proizvoda}} </td>
                 <td> {{p.vrsta_proizvoda}} </td>
-                <td> <a href="/preduzece/" + {{p.id_preduzeca}}/"> {{p.id_preduzeca}} </a> </td>
-                <td> <a href="/jedinica_mere/" + {{p.id_jedinice}}/"> {{p.id_jedinice}} </a> </td>
-                <td> <a href="/grupa_proizvoda/" + {{p.id_grupe}}/"> {{p.id_grupe}} </a> </td>
+                <td>  {{p.id_preduzeca}} </td>
+                <td> {{p.id_jedinice}}  </td>
+                <td>  {{p.id_grupe}}  </td>
                 <td> <button class="image-button" ng-click="izmeniProizvod(p.id_proizvoda)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiProizvod(p.id_proizvoda)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
        </tr>

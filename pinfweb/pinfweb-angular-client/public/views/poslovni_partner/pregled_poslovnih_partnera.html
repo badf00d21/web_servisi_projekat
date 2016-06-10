@@ -22,8 +22,8 @@
   </thead>
   <tbody
        <tr ng-repeat="p in poslovniPartneri | filter:pretraga">
-                <td> <a href="/poslovni_partner/" + {{p.id_poslovnog_partnera}}/"> {{p.id_poslovnog_partnera}} </a> </td>
-                <td> <a href="/preduzece/" + {{p.id_preduzeca}}/"> {{p.id_preduzeca}} </a> </td>
+                <td> {{p.id_poslovnog_partnera}} </td>
+                <td>  {{p.id_preduzeca}}  </td>
                 <td> {{p.vrsta}} </td>
                 <td> {{p.pib}} </td>
                 <td> {{p.adresa}} </td>

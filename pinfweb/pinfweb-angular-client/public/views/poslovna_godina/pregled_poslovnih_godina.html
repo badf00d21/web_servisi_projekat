@@ -19,8 +19,8 @@
   </thead>
   <tbody
        <tr ng-repeat="pg in poslovneGodine | filter:pretraga">
-                <td> <a href="/poslovna_godina/" + {{pg.id_godine}/"> {{pg.id_godine}} </a> </td>
-                <td> <a href="/preduzece/" + {{pg.id_preduzeca}}/"> {{pg.id_preduzeca}} </a> </td>
+                <td>  {{pg.id_godine}}  </td>
+                <td>  {{pg.id_preduzeca}}  </td>
                 <td> {{pg.godina}} </td>
                 <td> {{pg.zakljucena}} </td>
                 <td> <button class="image-button" ng-click="izmeniPoslovnuGodinu(pg.id_godine)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
