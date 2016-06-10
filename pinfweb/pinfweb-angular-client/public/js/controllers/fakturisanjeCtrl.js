@@ -3,6 +3,8 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
     $scope.preduzeca = [];
     $scope.poslovneGodine = [];
     $scope.poslovniPartneri = [];
+    $scope.stavkeFakture = [];
+
     $scope.errorMessage = "";
    
     $scope.novaFaktura = {
@@ -13,12 +15,6 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
         broj_fakture : "",
         datum_fakture : "",
         datum_valute : "",
-        ukupan_rabat : "",
-        ukupan_iznos_bez_pdv_a : "",
-        ukupan_pdv : "",
-        ukupno_za_placanje : "",
-        status_fakture : ""
-
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
@@ -35,7 +31,7 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
    
    $scope.kreirajFakturu = function() {
        if ($scope.novaFaktura.id_preduzeca == "" || $scope.novaFaktura.id_poslovnog_partnera == "" || $scope.novaFaktura.id_godine == "" ||  $scope.novaFaktura.broj_fakture == "" ||  $scope.novaFaktura.datum_fakture == ""
-       ||  $scope.novaFaktura.datum_valute == "" ||  $scope.novaFaktura.ukupan_rabat == "" ||  $scope.novaFaktura.ukupan_iznos_bez_pdv_a == "" ||  $scope.novaFaktura.ukupan_pdv == "" ||  $scope.novaFaktura.ukupno_za_placanje == "") {
+       ||  $scope.novaFaktura.datum_valute == "") {
            $scope.errorMessage = "Sva polja moraju biti popunjena!";
            console.log($scope.novaFaktura);
            return;
