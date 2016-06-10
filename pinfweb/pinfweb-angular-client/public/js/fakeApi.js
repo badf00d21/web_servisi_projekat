@@ -140,7 +140,7 @@ var fakture = [
         broj_fakture : "123",
         datum_fakture : "21-05-1993",
         datum_valute : "21-05-1993",
-        ukupan_rabat : "21-05-1993",
+        ukupan_rabat : "69",
         ukupan_iznos_bez_pdv_a : "300",
         ukupan_pdv : "21",
         ukupno_za_placanje : "321",
@@ -154,7 +154,7 @@ var fakture = [
         broj_fakture : "321",
         datum_fakture : "21-05-1993",
         datum_valute : "21-05-1993",
-        ukupan_rabat : "21-05-1993",
+        ukupan_rabat : "333",
         ukupan_iznos_bez_pdv_a : "222",
         ukupan_pdv : "11",
         ukupno_za_placanje : "233",
@@ -403,6 +403,17 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        }
        fakture.push(faktura);
        return [200, faktura, {}];
+   });
+   $httpBackend.whenPOST(restApiBaseUrl + 'pretraga_faktura').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var tefakture = []
+
+      // for (var i = 0; i < fakture.length; i++){
+        //   if ( fakture[i].datum_fakture >= result.pocetniDatum && fakture[i].datum_fakture <= result.krajnjiDatum);
+       //}
+       
+       return [200, fakture, {}];
    });
    $httpBackend.whenPOST(restApiBaseUrl + 'stavkacenovnika').respond(function(method, url, data) {
        var result = angular.fromJson(data);

@@ -160,3 +160,30 @@ app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', f
 
    
 }]);
+
+app.controller('PretragaFaktureCtrl', ['$scope', '$location', 'fakturaService', function($scope, $location, fakturaService) {
+
+   $scope.fakture = [];
+   $scope.pocetniDatum = "";
+   $scope.krajnjiDatum = "";
+   console.log('biloo sta');
+
+   
+
+
+   $scope.pretrazi = function () {
+       var datumi = {
+           pocetniDatum : $scope.pocetniDatum,
+           krajnjiDatum: $scope.krajnjiDatum
+       }
+
+       fakturaService.pretraziFakture(datumi).then(function(response) {
+           $scope.fakture = response.data;
+       });
+       console.log( $scope.fakture);
+   }
+  
+   
+
+   
+}]);

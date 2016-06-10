@@ -31,5 +31,9 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     this.dodajFakturuRucno = function(faktura) {
         return $http.post(restApiBaseUrl + "fakturisanje/rucno", faktura);
     }
+
+    this.pretraziFakture = function(datumi) {
+        return $http.post(restApiBaseUrl + "pretraga_faktura", datumi);
+    }
     
 }]);
