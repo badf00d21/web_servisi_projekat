@@ -15,6 +15,7 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
         broj_fakture : "",
         datum_fakture : "",
         datum_valute : "",
+        stavke_fakture: []
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
@@ -37,7 +38,8 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
            return;
        }
        
-       fakturaService.dodajFakturu($scope.novaFaktura).then(function(response) {
+       $scope.novaFaktura.stavke_fakture = $scope.stavkeFakture;
+       fakturaService.dodajFakturuRucno($scope.novaFaktura).then(function(response) {
             $location.path('/pregled_faktura');
        });
    }
