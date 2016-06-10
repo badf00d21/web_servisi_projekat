@@ -60,7 +60,11 @@ app.controller('FakturisanjeRucnoCtrl', ['$scope', '$location', 'fakturaService'
             $scope.errorMessageStavka = "Sva polja moraju biti popunjena!";
             return;
        }
-       $scope.stavkeFakture.push($scope.novaStavkaFakture);
+       $scope.stavkeFakture.push(
+           {
+               id_proizvoda: $scope.novaStavkaFakture.id_proizvoda,
+               kolicina: $scope.novaStavkaFakture.kolicina
+            });
    }
    
 }]); 

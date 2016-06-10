@@ -246,6 +246,28 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stavkafakture\\/[0-9]+')).respond(200);
 
+   $httpBackend.whenPOST(restApiBaseUrl + 'fakturisanje/rucno').respond(function(method, url, data) {
+        var result = angular.fromJson(data);
+
+       var faktura = {
+            id_fakture :  Math.floor(Math.random() * (1000 - 3) + 3),
+            id_poslovnog_partnera : result.id_poslovnog_partnera.id_poslovnog_partnera,
+            id_preduzeca : result.id_preduzeca.id_preduzeca,
+            id_godine : result.id_godine.id_godine,
+            broj_fakture : result.broj_fakture,
+            datum_fakture : result.datum_fakture,
+            datum_valute : result.datum_valute,
+            ukupan_rabat : "500",
+            ukupan_iznos_bez_pdv_a : "600",
+            ukupan_pdv : "700",
+            ukupno_za_placanje : "800",
+            status_fakture : "U obradi"
+
+       }
+       fakture.push(faktura);
+       return [200, faktura, {}];
+   });
+
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
 

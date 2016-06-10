@@ -47,7 +47,7 @@
   </thead>
   <tbody>
        <tr ng-repeat="sf in stavkeFakture | filter:pretraga">
-                <td> {{sf.id_proizvoda}} </td>
+                <td> {{sf.id_proizvoda.id_proizvoda}} </td>
                 <td> {{sf.kolicina}} </td>
        </tr>
   </tbody>
@@ -66,7 +66,7 @@
           <label>Kolicina:</label>
           <input type="text" id="proizvod" ng-model="novaStavkaFakture.kolicina" class="form-control" required> </select>
        </div>
-      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+      <div data-ng-hide="errorMessageStavka == ''" class="alert alert-danger">
         {{errorMessageStavka}}
       </div>
     </form>

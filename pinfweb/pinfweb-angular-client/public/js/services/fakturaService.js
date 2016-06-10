@@ -27,5 +27,9 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     this.eksportPdf = function(id) {
         return $http.get(restApiBaseUrl + "fakturapdf/" + id);
     }
+
+    this.dodajFakturuRucno = function(faktura) {
+        return $http.post(restApiBaseUrl + "fakturisanje/rucno", faktura);
+    }
     
 }]);
