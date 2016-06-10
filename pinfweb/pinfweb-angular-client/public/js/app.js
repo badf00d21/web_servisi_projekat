@@ -2,6 +2,10 @@ var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG', 'fakeApi']);
 
 app.config(function ($routeProvider) {
  
+    $routeProvider.when("/home", {
+        templateUrl: "views/home.html"
+    });
+
     $routeProvider.when("/pregled_cenovnika", {
         controller: "PregledCenovnikaCtrl",
         templateUrl: "views/cenovnik/pregled_cenovnika.html"
