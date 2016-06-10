@@ -171,4 +171,19 @@ app.config(function ($routeProvider) {
         templateUrl: "views/stavka_cenovnika/izmena_stavke_cenovnika.html"
     });
 
+    $routeProvider.when("/pregled_stavki_fakture", {
+        controller: "PregledStavkiFaktureCtrl",
+        templateUrl: "views/stavka_fakture/pregled_stavki_fakture.html"
+    });
+
+    $routeProvider.when("/nova_stavka_fakture", {
+        controller: "KreiranjeStavkeFaktureCtrl",
+        templateUrl: "views/stavka_fakture/nova_stavka_fakture.html"
+    });
+
+    $routeProvider.when("/izmena_stavke_fakture/:id", {
+        controller: "IzmenaStavkeFaktureCtrl",
+        templateUrl: "views/stavka_fakture/izmena_stavke_fakture.html"
+    });
+
 });

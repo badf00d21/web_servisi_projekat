@@ -1,0 +1,42 @@
+<h2 align="center"> Tabelarni prikaz stavki fakture </h2>
+<div class="form-group pull-left" >
+   <a href="#/nova_stavka_fakture"> <button class="btn btn-primary">Dodaj stavku fakture </button> </a>
+</div>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Stavke Fakture</th>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">ID Fakture</th>
+      <th class="col-md-4 col-xs-4">Kolicina</th>
+      <th class="col-md-4 col-xs-4">Rabat</th>
+      <th class="col-md-4 col-xs-4">Jedinicna Cena</th>
+      <th class="col-md-4 col-xs-4">Stopa Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Osnovica</th>
+      <th class="col-md-4 col-xs-4">Iznos Pdva-a</th>
+      <th class="col-md-4 col-xs-4">Ukupan Iznos</th>
+      <th>Izmeni</th>
+      <th>Izbrisi</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="sf in stavkeFakture | filter:pretraga">
+                <td> {{sf.id_stavke_fakture}} </td>
+                <td> {{sf.id_proizvoda}} </td>
+                <td> {{sf.id_fakture}} </td>
+                <td> {{sf.kolicina}} </td>
+                <td> {{sf.rabat}} </td>
+                <td> {{sf.jedinicna_cena}} </td>
+                <td> {{sf.stopa_pdv_a}} </td>
+                <td> {{sf.osnovica}} </td>
+                <td> {{sf.iznos_pdv_a}} </td>
+                <td> {{sf.ukupan_iznos}} </td>
+                <td> <button class="image-button" ng-click="izmeniStavkuFakture(sf.id_stavke_fakture)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
+                <td> <button class="image-button" ng-click="izbrisiStavkuFakture(sf.id_stavke_fakture)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
+       </tr>
+  </tbody>
+</table>

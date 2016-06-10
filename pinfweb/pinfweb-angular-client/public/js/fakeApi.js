@@ -177,6 +177,34 @@ var stavkeCenovnika = [
     }
 ];
 
+var stavkeFakture = [
+    {
+       id_stavke_fakture: "1",
+       id_proizvoda: "1",
+       id_fakture: "1",
+       kolicina: "212",
+       rabat: "21",
+       jedinicna_cena: "21",
+       stopa_pdv_a: "21",
+       osnovica: "21",
+       iznos_pdv_a: "21",
+       ukupan_iznos: "21"
+    },  
+    {
+       id_stavke_fakture: "2",
+       id_proizvoda: "2",
+       id_fakture: "2",
+       kolicina: "212",
+       rabat: "21",
+       jedinicna_cena: "21",
+       stopa_pdv_a: "21",
+       osnovica: "21",
+       iznos_pdv_a: "21",
+       ukupan_iznos: "21"
+    }
+];
+
+
 fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -191,6 +219,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenGET(restApiBaseUrl + 'proizvod').respond(proizvodi);
    $httpBackend.whenGET(restApiBaseUrl + 'faktura').respond(fakture);
    $httpBackend.whenGET(restApiBaseUrl + 'stavkacenovnika').respond(stavkeCenovnika);
+   $httpBackend.whenGET(restApiBaseUrl + 'stavkafakture').respond(stavkeFakture);
 
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'preduzece\\/[0-9]+')).respond(200);
@@ -203,6 +232,7 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'proizvod\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'faktura\\/[0-9]+')).respond(200);
    $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(200);
+   $httpBackend.whenDELETE(new RegExp(restApiBaseUrl + 'stavkafakture\\/[0-9]+')).respond(200);
 
    $httpBackend.whenPOST(restApiBaseUrl + 'cenovnik').respond(function(method, url, data) {
        var result = angular.fromJson(data);
@@ -345,14 +375,34 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
        var stavkacenovnika = {
            id_stavke_cenovnika: Math.floor(Math.random() * (1000 - 3) + 3),
-           id_cenovnika: result.id_cenovnika.id_cenovnika,
            id_proizvoda: result.id_proizvoda.id_proizvoda,
+           id_cenovnika: result.id_cenovnika.id_cenovnika,
            cena: result.cena
         }
            
        stavkeCenovnika.push(stavkacenovnika);
        return [200, stavkacenovnika, {}];
    });
+   $httpBackend.whenPOST(restApiBaseUrl + 'stavkafakture').respond(function(method, url, data) {
+       var result = angular.fromJson(data);
+
+       var stavkafakture = {
+           id_stavke_fakture: Math.floor(Math.random() * (1000 - 3) + 3),
+           id_fakture: result.id_fakture.id_fakture,
+           id_proizvoda: result.id_proizvoda.id_proizvoda,
+           kolicina: result.kolicina,
+           rabat: result.rabat,
+           jedinicna_cena: result.jedinicna_cena,
+           stopa_pdv_a: result.stopa_pdv_a,
+           osnovica: result.osnovica,
+           iznos_pdv_a: result.pdv_a,
+           ukupan_iznos: result.ukupan_iznos
+        }
+           
+       stavkeFakture.push(stavkafakture);
+       return [200, stavkafakture, {}];
+   });
+   
 
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'cenovnik\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
@@ -479,6 +529,18 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
        for (var i = 0; i < stavkeCenovnika.length; i++) {
             if (stavkeCenovnika[i].id_stavke_cenovnika == id) {
                 return [200, stavkeCenovnika[i], {}];    
+
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'stavkafakture\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < stavkeFakture.length; i++) {
+            if (stavkeFakture[i].id_stavke_fakture == id) {
+                return [200, stavkeFakture[i], {}];    
 
             }
         }
@@ -728,6 +790,34 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
                 }
 
                 stavkeCenovnika[i] = stavkacenovnika;
+                break;   
+            }
+        }
+
+        return [200];
+   });
+   $httpBackend.whenPUT(new RegExp(restApiBaseUrl + 'stavkafakture\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+
+       for (var i = 0; i < stavkeFakture.length; i++) {
+            if (stavkeFakture[i].id_stavke_fakture == id) {
+                var result = angular.fromJson(data);
+
+                var stavkafakture = {
+                     id_stavke_fakture: result.id_stavke_fakture,
+                     id_fakture: result.id_fakture.id_fakture,
+                     id_proizvoda: result.id_proizvoda.id_proizvoda,
+                     kolicina: result.kolicina,
+                     rabat: result.rabat,
+                     jedinicna_cena: result.jedinicna_cena,
+                     stopa_pdv_a: result.stopa_pdv_a,
+                     osnovica: result.osnovica,
+                     iznos_pdv_a: result.iznos_pdv_a,
+                     ukupan_iznos: result.ukupan_iznos
+                 }
+
+                stavkeFakture[i] = stavkafakture;
                 break;   
             }
         }

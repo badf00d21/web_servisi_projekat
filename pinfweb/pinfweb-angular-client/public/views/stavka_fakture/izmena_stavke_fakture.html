@@ -1,0 +1,57 @@
+<h2 align="center"> Izmena stavke fakture </h2>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    </br>
+    <div class="form-group pull-left"> </div>
+    </br></br></br>
+    <form role="form" method="post" >
+        <div class="form-group" >
+          <label>ID Stavke Fakture:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.id_stavke_fakture" class="form-control" disabled required> </select>
+       </div>
+       <div class="form-group" >
+          <label>ID Fakture:</label>
+          <select id="proizvod" ng-model="stavkaFakture.id_fakture" ng-options="faktura.id_fakture for faktura in fakture" 
+                  class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>ID Proizvoda:</label>
+          <select id="proizvod" ng-model="stavkaFakture.id_proizvoda" ng-options="proizvod.id_proizvoda for proizvod in proizvodi" 
+                 class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Kolicina:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.kolicina" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Rabat:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.rabat" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Jedinicna Cena:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.jedinicna_cena" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Stopa Pdv-a:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.stopa_pdv_a" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Osnovica:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.osnovica" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Iznos Pdv-a:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.iznos_pdv_a" class="form-control" required> </select>
+       </div>
+       <div class="form-group" >
+          <label>Ukupan iznos:</label>
+          <input type="text" id="proizvod" ng-model="stavkaFakture.ukupan_iznos" class="form-control" required> </select>
+       </div>
+      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" ng-click="sacuvaj()">Sacuvaj</button>
+    </form>
+  </div>
+</div>
