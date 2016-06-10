@@ -133,3 +133,37 @@ app.controller('IzmenaFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
        });
     }
 }]);
+
+app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', function($scope, $location, fakturaService) {
+
+   $scope.fakture = [];
+   console.log('biloo sta');
+   var refreshData = function() {
+       fakturaService.ucitajFakture().then(function(response) {
+            $scope.fakture = response.data;
+       });
+   }
+
+   refreshData();
+
+   $scope.izmeniFakturu = function (id) {
+       $location.path('/izmena_fakture/' + id);
+   }
+
+   $scope.izbrisiFakturu = function (id) {
+       if (!confirm('Da li ste sigurni da zelite da izbrisete cenovnik: ' + id + "?")) {
+            return;
+       }
+
+       fakturaService.izbrisiFakturu(id).then(function(response) {
+            for (var i = 0; i < $scope.fakture.length; i++) {
+                if ($scope.fakture[i].id_fakture == id) {
+                    $scope.fakture.splice(i, 1);
+                    break;
+                }
+            }
+       });
+   }
+
+   
+}]);
