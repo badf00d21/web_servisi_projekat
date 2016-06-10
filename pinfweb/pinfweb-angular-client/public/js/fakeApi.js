@@ -580,6 +580,30 @@ fakeApi.run(function ($httpBackend, restApiBaseUrl, applicationBaseUrl) {
 
         return [404];
    });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'fakturaxml\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < fakture.length; i++) {
+            if (fakture[i].id_fakture == id) {
+                return [200, fakture[i], {}];    
+
+            }
+        }
+
+        return [404];
+   });
+   $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'fakturapdf\\/[0-9]+')).respond(function(method, url, data) {
+       var urlTokens = url.split("/");
+       var id = urlTokens[urlTokens.length - 1];
+       for (var i = 0; i < fakture.length; i++) {
+            if (fakture[i].id_fakture == id) {
+                return [200, fakture[i], {}];    
+
+            }
+        }
+
+        return [404];
+   });
    $httpBackend.whenGET(new RegExp(restApiBaseUrl + 'stavkacenovnika\\/[0-9]+')).respond(function(method, url, data) {
        var urlTokens = url.split("/");
        var id = urlTokens[urlTokens.length - 1];

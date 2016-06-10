@@ -19,4 +19,13 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     this.sacuvajFakturu = function(faktura) {
         return $http.put(restApiBaseUrl + "faktura/" + faktura.id_fakture, faktura);
     }
+
+    this.eksportXml = function(id) {
+        return $http.get(restApiBaseUrl + "fakturaxml/" + id);
+    }
+
+    this.eksportPdf = function(id) {
+        return $http.get(restApiBaseUrl + "fakturapdf/" + id);
+    }
+    
 }]);

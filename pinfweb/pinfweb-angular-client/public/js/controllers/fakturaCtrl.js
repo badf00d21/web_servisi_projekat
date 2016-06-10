@@ -147,11 +147,15 @@ app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', f
    refreshData();
 
    $scope.eksportFaktureXml = function (id) {
-       $location.path('/izmena_fakture/' + id);
+       fakturaService.eksportXml(id).then(function(response) {
+           console.log(response.status);
+       });
    }
 
    $scope.eksportFakturePdf = function (id) {
-           
+        fakturaService.eksportPdf(id).then(function(response) {
+           console.log(response.status);
+       });    
    }
 
    
