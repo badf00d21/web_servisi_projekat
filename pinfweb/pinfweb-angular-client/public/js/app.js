@@ -1,4 +1,4 @@
-var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG', 'fakeApi']);
+var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG']);
 
 app.config(function ($routeProvider) {
  
@@ -211,4 +211,11 @@ app.config(function ($routeProvider) {
         templateUrl: "views/faktura/fakturisanje_narudzbenica.html"
     });
 
+});
+
+app.config(function ($httpProvider) {
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
 });

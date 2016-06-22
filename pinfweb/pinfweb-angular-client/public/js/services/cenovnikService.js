@@ -9,7 +9,7 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
     }
 
     this.dodajCenovnik = function(cenovnik) {
-        return $http.post(restApiBaseUrl + "cenovnik", cenovnik);
+        return $http.post(restApiBaseUrl + "cenovnik/", cenovnik);
     }
     
     this.getCenovnik = function(id) {
@@ -17,11 +17,11 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
     }
 
     this.sacuvajCenovnik = function(cenovnik) {
-        return $http.put(restApiBaseUrl + "cenovnik/" + cenovnik.id_cenovnika, cenovnik);
+        return $http.put(restApiBaseUrl + "cenovnik/" + cenovnik.id_cenovnika + '/', cenovnik);
     }
 
     this.kopirajCenovnik = function(infoCen) {
-        return $http.post(restApiBaseUrl + "kopirajcenovnik" , infoCen);
+        return $http.post(restApiBaseUrl + "kopirajcenovnik/" , infoCen);
     }
 
     //this.getCenovnikoo = function(id) {
