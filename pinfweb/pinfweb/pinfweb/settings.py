@@ -58,7 +58,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'pinfweb.urls'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'pinfweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'poslinf3',
+        'NAME': 'pinf',
         'USER': 'pera',
         'PASSWORD': 'password123@',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
