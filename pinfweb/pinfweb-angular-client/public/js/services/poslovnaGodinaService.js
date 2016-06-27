@@ -9,8 +9,7 @@ app.service('poslovnaGodinaService', ['$http', 'restApiBaseUrl', function($http,
     }
 
     this.dodajPoslovnuGodinu = function(poslovnagodina) {
-       // return $http.post(restApiBaseUrl + "poslovnagodina", poslovnagodina);
-
+        console.log(poslovnagodina);
        return  $http({
        method: 'POST',
        url: restApiBaseUrl + "poslovnagodina"+ '/',

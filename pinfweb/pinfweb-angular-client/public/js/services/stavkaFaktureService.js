@@ -1,11 +1,11 @@
 app.service('stavkaFaktureService', ['$http', 'restApiBaseUrl', function($http, restApiBaseUrl) {
     
     this.ucitajStavkeFakture = function() {
-        return $http.get(restApiBaseUrl + 'stavkafakture/');
+        return $http.get(restApiBaseUrl + 'stavkefakture/');
     }
 
     this.izbrisiStavkuFakture = function(id) {
-         return $http.delete(restApiBaseUrl + "stavkafakture/" + id + '/');
+         return $http.delete(restApiBaseUrl + "stavkefakture/" + id + '/');
     }
 
     this.dodajStavkuFakture = function(stavkafakture) {
@@ -13,7 +13,7 @@ app.service('stavkaFaktureService', ['$http', 'restApiBaseUrl', function($http, 
 
     return  $http({
        method: 'POST',
-       url: restApiBaseUrl + "stavkafakture"+ '/',
+       url: restApiBaseUrl + "stavkefakture"+ '/',
        data: stavkafakture,
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ app.service('stavkaFaktureService', ['$http', 'restApiBaseUrl', function($http, 
     }
     
     this.getStavkaFakture = function(id) {
-        return $http.get(restApiBaseUrl + "stavkafakture/" + id + '/');
+        return $http.get(restApiBaseUrl + "stavkefakture/" + id + '/');
     }
 
     this.sacuvajStavkuFakture = function(stavkafakture) {
@@ -29,7 +29,7 @@ app.service('stavkaFaktureService', ['$http', 'restApiBaseUrl', function($http, 
 
        return  $http({
        method: 'PUT',
-       url: restApiBaseUrl + "stavkafakture/" + stavkafakture.id_stavke_fakture + '/',
+       url: restApiBaseUrl + "stavkefakture/" + stavkafakture.id_stavke_fakture + '/',
        data: stavkafakture,
         headers: {
             'Content-Type': 'application/json'

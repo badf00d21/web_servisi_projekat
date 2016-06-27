@@ -1,11 +1,11 @@
 app.service('stavkaCenovnikaService', ['$http', 'restApiBaseUrl', function($http, restApiBaseUrl) {
     
     this.ucitajStavkeCenovnika = function() {
-        return $http.get(restApiBaseUrl + 'stavkacenovnika/');
+        return $http.get(restApiBaseUrl + 'stavkecenovnika/');
     }
 
     this.izbrisiStavkuCenovnika = function(id) {
-         return $http.delete(restApiBaseUrl + "stavkacenovnika/" + id + '/');
+         return $http.delete(restApiBaseUrl + "stavkecenovnika/" + id + '/');
     }
 
     this.dodajStavkuCenovnika = function(stavkacenovnika) {
@@ -13,7 +13,7 @@ app.service('stavkaCenovnikaService', ['$http', 'restApiBaseUrl', function($http
 
     return  $http({
        method: 'POST',
-       url: restApiBaseUrl + "stavkacenovnika"+ '/',
+       url: restApiBaseUrl + "stavkecenovnika"+ '/',
        data: stavkacenovnika,
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ app.service('stavkaCenovnikaService', ['$http', 'restApiBaseUrl', function($http
     }
     
     this.getStavkaCenovnika = function(id) {
-        return $http.get(restApiBaseUrl + "stavkacenovnika/" + id + '/');
+        return $http.get(restApiBaseUrl + "stavkecenovnika/" + id + '/');
     }
 
     this.sacuvajStavkuCenovnika = function(stavkacenovnika) {
@@ -29,7 +29,7 @@ app.service('stavkaCenovnikaService', ['$http', 'restApiBaseUrl', function($http
 
     return  $http({
        method: 'PUT',
-       url: restApiBaseUrl + "stavkacenovnika/"  + stavkacenovnika.id_stavke_cenovnika + '/',
+       url: restApiBaseUrl + "stavkecenovnika/"  + stavkacenovnika.id_stavke_cenovnika + '/',
        data: stavkacenovnika,
         headers: {
             'Content-Type': 'application/json'

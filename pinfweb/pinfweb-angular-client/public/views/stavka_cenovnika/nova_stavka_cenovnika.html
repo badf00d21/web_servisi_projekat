@@ -8,12 +8,12 @@
     <form role="form" method="post" >
        <div class="form-group" >
           <label>ID Cenovnika:</label>
-          <select id="proizvod" ng-model="novaStavkaCenovnika.id_cenovnika" ng-options="cenovnik.id_cenovnika for cenovnik in cenovnici" 
+          <select id="proizvod" ng-model="novaStavkaCenovnika.id_cenovnika" ng-options="cenovnik.id_cenovnika as cenovnik.id_cenovnika for cenovnik in cenovnici" 
                   class="form-control" required> </select>
        </div>
        <div class="form-group" >
           <label>ID Proizvoda:</label>
-          <select id="proizvod" ng-model="novaStavkaCenovnika.id_proizvoda" ng-options="proizvod.id_proizvoda for proizvod in proizvodi" 
+          <select id="proizvod" ng-model="novaStavkaCenovnika.id_proizvoda" ng-options="proizvod.id_proizvoda as proizvod.id_proizvoda for proizvod in proizvodi" 
                  class="form-control" required> </select>
        </div>
        <div class="form-group" >

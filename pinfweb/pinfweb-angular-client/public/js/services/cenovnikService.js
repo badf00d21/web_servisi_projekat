@@ -28,7 +28,7 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
        // return $http.put(restApiBaseUrl + "cenovnik/" + cenovnik.id_cenovnika + '/', cenovnik);
 
     return  $http({
-       method: 'POST',
+       method: 'PUT',
        url: restApiBaseUrl + "cenovnik/"+ cenovnik.id_cenovnika + '/',
        data: cenovnik,
         headers: {

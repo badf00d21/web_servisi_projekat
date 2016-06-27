@@ -12,12 +12,12 @@
        </div>
        <div class="form-group" >
           <label>ID Fakture:</label>
-          <select id="proizvod" ng-model="stavkaFakture.id_fakture" ng-options="faktura.id_fakture for faktura in fakture" 
+          <select id="proizvod" ng-model="stavkaFakture.id_fakture" ng-options="faktura.id_fakture as faktura.id_fakture for faktura in fakture" 
                   class="form-control" required> </select>
        </div>
        <div class="form-group" >
           <label>ID Proizvoda:</label>
-          <select id="proizvod" ng-model="stavkaFakture.id_proizvoda" ng-options="proizvod.id_proizvoda for proizvod in proizvodi" 
+          <select id="proizvod" ng-model="stavkaFakture.id_proizvoda" ng-options="proizvod.id_proizvoda as proizvod.id_proizvoda for proizvod in proizvodi" 
                  class="form-control" required> </select>
        </div>
        <div class="form-group" >

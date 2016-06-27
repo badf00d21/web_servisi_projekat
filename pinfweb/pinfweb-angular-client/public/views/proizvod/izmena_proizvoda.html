@@ -19,17 +19,17 @@
        </div>
         <div class="form-group" >
            <label>ID Preduzeca:</label>
-           <select id="preduzece" ng-model="proizvod.id_preduzeca" ng-options=" preduzece.id_preduzeca for preduzece in preduzeca" 
+           <select id="preduzece" ng-model="proizvod.id_preduzeca" ng-options=" preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca" 
                 class="form-control" required> </select>
         </div>
         <div class="form-group" >
            <label>ID Jedinice Mere:</label>
-           <select id="jedinica" ng-model="proizvod.id_jedinice" ng-options="jedinica.id_jedinice for jedinica in jediniceMere" 
+           <select id="jedinica" ng-model="proizvod.id_jedinice" ng-options="jedinica.id_jedinice as jedinica.id_jedinice for jedinica in jediniceMere" 
              class="form-control" required> </select>
         </div>
         <div class="form-group" >
            <label>ID Grupe Proizvoda:</label>
-           <select id="grupa" ng-model="proizvod.id_grupe"" ng-options="grupa.id_grupe for grupa in grupeProizvoda" 
+           <select id="grupa" ng-model="proizvod.id_grupe"" ng-options="grupa.id_grupe as grupa.id_grupe for grupa in grupeProizvoda" 
                 class="form-control" required> </select>
         </div>
        <div data-ng-hide="errorMessage == ''" class="alert alert-danger">

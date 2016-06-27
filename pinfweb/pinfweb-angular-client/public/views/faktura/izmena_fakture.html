@@ -11,18 +11,15 @@
         </div>
         <div class="form-group" >
            <label>ID Poslovnog Partnera:</label>
-           <select id="part" ng-model="faktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera for part in poslovniPartneri"
-                 ng-init="faktura.id_poslovnog_partnera=poslovniPartneri[0].id_poslovnog_partnera" class="form-control" required> </select>
+           <select id="part" ng-model="faktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera as part.id_poslovnog_partnera for part in poslovniPartneri" class="form-control" required> </select>
         </div>
         <div class="form-group" >
            <label>ID Preduzeca:</label>
-           <select id="preduzece" ng-model="faktura.id_preduzeca" ng-options="preduzece.id_preduzeca for preduzece in preduzeca"
-                 ng-init="faktura.id_preduzeca=preduzeca[0].id_preduzeca" class="form-control" required> </select>
+           <select id="preduzece" ng-model="faktura.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca"class="form-control" required> </select>
         </div>
         <div class="form-group" >
            <label>ID Poslovne Godine:</label>
-           <select id="godina" ng-model="faktura.id_godine" ng-options="godina.id_godine for godina in poslovneGodine"
-                 ng-init="faktura.id_godine=poslovneGodine[0].id_godine" class="form-control" required> </select>
+           <select id="godina" ng-model="faktura.id_godine" ng-options="godina.id_godine as godina.id_godine for godina in poslovneGodine" class="form-control" required> </select>
         </div>
         <div class="form-group">
            <label for="name">Broj Fakture:</label>

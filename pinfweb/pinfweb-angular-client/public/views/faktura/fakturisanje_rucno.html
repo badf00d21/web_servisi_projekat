@@ -8,17 +8,17 @@
     <form role="form" method="post" >
         <div class="form-group" >
           <label>ID Poslovnog Partnera:</label>
-          <select id="partn" ng-model="novaFaktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera for part in poslovniPartneri" 
+          <select id="partn" ng-model="novaFaktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera as part.id_poslovnog_partnera for part in poslovniPartneri" 
                  class="form-control" required> </select>
        </div>
        <div class="form-group" >
           <label>ID Preduzeca:</label>
-          <select id="preduzece" ng-model="novaFaktura.id_preduzeca" ng-options="preduzece.id_preduzeca for preduzece in preduzeca" 
+          <select id="preduzece" ng-model="novaFaktura.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca" 
                  class="form-control" required> </select>
        </div>
        <div class="form-group" >
           <label>ID Poslovne Godine:</label>
-          <select id="godina" ng-model="novaFaktura.id_godine" ng-options="godina.id_godine for godina in poslovneGodine" 
+          <select id="godina" ng-model="novaFaktura.id_godine" ng-options="godina.id_godine as godina.id_godine for godina in poslovneGodine" 
                  class="form-control" required> </select>
        </div>
        <div class="form-group">

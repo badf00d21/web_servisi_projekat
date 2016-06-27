@@ -81,4 +81,18 @@ def api_root(request, format = None):
 'stopapdva': reverse('stopapdva-list', request = request, format = format),
 })
 
+def kopiraj_cenovnik(request):
+    cen = request.POST.get("cen_id", "")
+    percent = request.POST.get("procenat", "")
+    c, found = Cenovnik.objects.get( id_cenovnika = cen )
+
+    c2 = Cenovnik( id_preduzeca = c.id_preduzeca, datum_vazena = c.datum_vazena)
+    c2.save()
+
+    #prodji kroz stavke i napravi iste sa drugom cenom
+
+
+    return 'ok'
+
+
 
