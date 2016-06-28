@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
 
 class CenovnikViewSet(viewsets.ModelViewSet):
     queryset = Cenovnik.objects.all()
@@ -94,3 +95,16 @@ def api_root(request, format = None):
 })
 
 
+@csrf_exempt
+def kopiraj_cenovnik(request):
+    cen = request.POST.get("cen_id", "")
+    percent = request.POST.get("procenat", "")
+    c, found = Cenovnik.objects.get( id_cenovnika = cen )
+
+    c2 = Cenovnik( id_preduzeca = c.id_preduzeca, datum_vazena = c.datum_vazena)
+    c2.save()
+
+    #prodji kroz stavke i napravi iste sa drugom cenom
+
+
+    return 'ok'
