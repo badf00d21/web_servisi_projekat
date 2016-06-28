@@ -28,11 +28,6 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
             }
        });
    }
-
-   $scope.kopirajCenovnik = function (id) {
-       $location.path('/kopiranje_cenovnika/' + id);
-   }
-   
 }]);
 
 app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', 'preduzeceService', function($scope, $location, cenovnikService, preduzeceService) {
@@ -171,6 +166,7 @@ app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
              
             cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
                     console.log(response);
+                    //redirect cenovnik/id
              });
             });
         });
