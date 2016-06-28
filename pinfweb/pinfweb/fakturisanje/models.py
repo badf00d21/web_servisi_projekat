@@ -20,6 +20,16 @@ class Cenovnik(models.Model):
         db_table = 'cenovnik'
 
 
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
 class Faktura(models.Model):
     id_fakture = models.AutoField(db_column='ID_FAKTURE', primary_key=True)  # Field name made lowercase.
     id_narudzbenice = models.ForeignKey('Narudzbenica', models.DO_NOTHING, db_column='ID_NARUDZBENICE', blank=True, null=True)  # Field name made lowercase.
@@ -62,8 +72,8 @@ class JedinicaMere(models.Model):
 
 class Narudzbenica(models.Model):
     id_narudzbenice = models.AutoField(db_column='ID_NARUDZBENICE', primary_key=True)  # Field name made lowercase.
-    id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', models.DO_NOTHING, db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
     id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', models.DO_NOTHING, db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
     rok_isporuke = models.DateField(db_column='ROK_ISPORUKE', blank=True, null=True)  # Field name made lowercase.
     rok_placanja = models.DateField(db_column='ROK_PLACANJA', blank=True, null=True)  # Field name made lowercase.
 
