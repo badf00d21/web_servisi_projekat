@@ -32,7 +32,7 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
    
 }]);
 
-app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenicaService', 'preduzeceService', 'poslovniPartnerService', 'proizvodService', function($scope, $location, narudzbenicaService, preduzeceService, poslovniPartnerService, proizvodService) {
+app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenicaService', 'preduzeceService', 'poslovniPartnerService', 'proizvodService','jedinicaMereService', 'grupaProizvodaService','ModalService', function($scope, $location, narudzbenicaService, preduzeceService, poslovniPartnerService, proizvodService, jedinicaMereService, grupaProizvodaService, ModalService) {
     
     $scope.preduzeca = [];
     $scope.poslovniPartneri = [];
@@ -92,6 +92,38 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
         ucitajProizvode();
     }, true);
     
+    $scope.izaberiPoslovnogPartnera = function(idPreduzeca) {
+        ModalService.showModal({
+            templateUrl: '../views/narudzbenica/izbor_poslovnog_partnera.html',
+            controller: "PoslovniPartnerModalController",
+            inputs: {
+                id_preduzeca: idPreduzeca
+            }
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.novaNarudzbenica.id_poslovnog_partnera = result;
+            });
+        });
+    }
+    
+    $scope.izaberiPreduzece = function() {
+        ModalService.showModal({
+            templateUrl: '../views/narudzbenica/izbor_preduzeca.html',
+            controller: "PreduzeceModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.novaNarudzbenica.id_preduzeca = result;
+            });
+        });
+    }
    
    $scope.kreirajNarudzbenicu = function() {
        if ($scope.novaNarudzbenica.id_preduzeca == "" || $scope.novaNarudzbenica.id_poslovnog_partnera == "" || $scope.novaNarudzbenica.rok_isporuke == "" ||  $scope.novaNarudzbenica.rok_placanja == "") {

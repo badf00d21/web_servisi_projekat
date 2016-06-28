@@ -1,0 +1,34 @@
+
+    <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Preduzeca</h3>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+                 <table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Preduzeca</th>
+      <th class="col-md-4 col-xs-4">Naziv Preduzeca</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in preduzeca | filter:pretraga">
+                <td> {{p.id_preduzeca}}  </td>
+                <td> {{p.nazivpreduzeca}} </td>
+                <td> <button class="btn btn-primary" ng-click="close(p.id_preduzeca)"></button></td>
+            </tr>
+  </tbody>
+</table>
+              </div>
+              
+            </div>
+          </div>
+        </div>

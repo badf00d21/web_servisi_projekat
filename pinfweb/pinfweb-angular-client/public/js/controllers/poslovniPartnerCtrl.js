@@ -98,3 +98,24 @@ app.controller('IzmenaPoslovnogPartneraCtrl', ['$scope', '$location', '$routePar
        });
     }
 }]);
+
+app.controller('PoslovniPartnerModalController', ['$scope', 'close', 'poslovniPartnerService', 'id_preduzeca', function($scope, close, poslovniPartnerService, id_preduzeca) {
+   
+  $scope.poslovniPartneri = [];
+
+   var refreshData = function() {
+       poslovniPartnerService.ucitajPoslovnePartnere().then(function(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                if (response.data[i].id_preduzeca == id_preduzeca) {
+                    $scope.poslovniPartneri.push(response.data[i]);
+                }
+            }
+       });
+   }
+
+   refreshData();
+   
+   $scope.close = function(result) {
+       close(result, 500);
+   } 
+}]);
