@@ -1,9 +1,11 @@
 from fakturisanje.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 class CenovnikViewSet(viewsets.ModelViewSet):
     queryset = Cenovnik.objects.all()
@@ -97,14 +99,22 @@ def api_root(request, format = None):
 
 @csrf_exempt
 def kopiraj_cenovnik(request):
-    cen = request.POST.get("cen_id", "")
-    percent = request.POST.get("procenat", "")
-    c, found = Cenovnik.objects.get( id_cenovnika = cen )
-
+    parameters = json.loads(request.body)
+    cen = parameters['id_cen']
+    percent = parameters['procenat']
+    c  = Cenovnik.objects.get( id_cenovnika = cen )
+    #print cen
     c2 = Cenovnik( id_preduzeca = c.id_preduzeca, datum_vazena = c.datum_vazena)
     c2.save()
 
+    stavke = StavkeCenovnika.objects.filter( id_cenovnika = c.id_cenovnika )
+    for i in range (len(stavke)):
+        StavkeCenovnika( id_proizvoda = stavke[i].id_proizvoda, id_cenovnika = c2, cena = float(stavke[i].cena) + float(stavke[i].cena) * float(percent) / float(100)).save()
+
+    #stavkice = StavkeCenovnika.objects.filter(id_cenovnika = c2.id_cenovnika)
+    #ser = StavkeCenovnikaSerializer(stavkice, many = True)
+    #ret = {'ret' : ser.data}
     #prodji kroz stavke i napravi iste sa drugom cenom
 
 
-    return 'ok'
+    return Response(status=status.HTTP_201_CREATED)

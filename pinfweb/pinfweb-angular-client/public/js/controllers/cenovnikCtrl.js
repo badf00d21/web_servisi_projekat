@@ -165,7 +165,7 @@ app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
              }
              
             cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
-                    console.log(response);
+                    console.log(response.data);
                     //redirect cenovnik/id
              });
             });
