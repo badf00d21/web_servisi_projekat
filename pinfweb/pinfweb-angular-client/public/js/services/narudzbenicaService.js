@@ -9,7 +9,7 @@ app.service('narudzbenicaService', ['$http', 'restApiBaseUrl', function($http, r
     }
 
     this.dodajNarudzbenicu = function(narudzbenica) {
-
+      console.log(narudzbenica);
     return  $http({
        method: 'POST',
        url: restApiBaseUrl + "nova_narudzbenica"+ '/',
