@@ -21,7 +21,7 @@ app.service('jedinicaMereService', ['$http', 'restApiBaseUrl', function($http, r
     }
     
     this.getJedinicaMere = function(id) {
-        return $http.get(restApiBaseUrl + "jedinicamere/" + id + '/');
+        return $http.get(restApiBaseUrl + "jedinicamere/" + id);
     }
 
     this.sacuvajJedinicuMere = function(jedinicamere) {

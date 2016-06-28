@@ -100,42 +100,64 @@ app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
     }
     
     $scope.stavkeCenovnika = [];
+    $scope.grupeProizvoda = [];
+    $scope.proizvodi= [];
     
     $scope.errorMessage = "";
 
-    cenovnikService.getCenovnik($routeParams.id).then(function(response) {
-        $scope.cenovnik = response.data;
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(grupe) {
+        $scope.grupeProizvoda = grupe.data;
+
+        proizvodService.ucitajProizvode().then(function(proizvodi) {
+              $scope.proizvodi = proizvodi.data;
+
+               cenovnikService.getCenovnik($routeParams.id).then(function(cenovnik) {
+       	            $scope.cenovnik = cenovnik.data;
         
-        preduzeceService.getPreduzece($scope.cenovnik.id_preduzeca).then(function (response) {
-            $scope.preduzece = response.data;
+                    preduzeceService.getPreduzece($scope.cenovnik.id_preduzeca).then(function (preduzece) {
+                         $scope.preduzece = preduzece.data;
             
-            stavkeCenovnikaServis.ucitajStavkeCenovnika().then(function(response) {
+                         stavkeCenovnikaServis.ucitajStavkeCenovnika().then(function(response) {
                 
-                for (var i = 0; i < response.data.length; i++) {
-                    if (response.data[i].id_cenovnika == $routeParams.id) {
-                        var stavkaCenovnika = {
-                            id_stavke_proizvoda: "",
-                            id_proizvoda: "",
-                            naziv_proizvoda: "",
-                            grupa_proizvoda: "",
-                            vrsta_proizvoda: "",
-                            cena: ""
-                        }
+                            for (var i = 0; i < response.data.length; i++) {
+                                 if (response.data[i].id_cenovnika == $routeParams.id) {
+                                     var stavkaCenovnika = {
+                                         id_stavke_proizvoda: "",
+                                         id_proizvoda: "",
+                                         naziv_proizvoda: "",
+                                         grupa_proizvoda: "",
+                                         vrsta_proizvoda: "",
+                                         cena: ""
+                                      }
                         
-                        stavkaCenovnika.id_stavke_cenovnika = response.data[i].id_stavke_cenovnika;
-                        stavkaCenovnika.id_proizvoda = response.data[i].id_proizvoda;
-                        stavkaCenovnika.cena = response.data[i].cena;
+                                    stavkaCenovnika.id_stavke_cenovnika = response.data[i].id_stavke_cenovnika;
+                                    stavkaCenovnika.id_proizvoda = response.data[i].id_proizvoda;
+                                    stavkaCenovnika.cena = response.data[i].cena;
+
+                                    for (var j = 0; j < $scope.proizvodi.length; j++) {
+                                        if ($scope.proizvodi[j].id_proizvoda == stavkaCenovnika.id_proizvoda) {
+                                            stavkaCenovnika.naziv_proizvoda = $scope.proizvodi[j].naziv_proizvoda;
+                                            stavkaCenovnika.vrsta_proizvoda = $scope.proizvodi[j].vrsta_proizvoda;
+                                        }
+                                    }
+
+                                    var proizvod;
+                                    for (var k = 0; k < $scope.proizvodi.length; k++) {
+                                                if ($scope.proizvodi[k].id_proizvoda == stavkaCenovnika.id_proizvoda) {
+                                                    proizvod = $scope.proizvodi[k];
+                                                    break;
+                                                }
+                                            }
+
+                                    for (var l = 0; l < $scope.grupeProizvoda.length; l++) {
+                                        if ($scope.grupeProizvoda[l].id_grupe == proizvod.id_grupe) {
+                                            
+                                            stavkaCenovnika.grupa_proizvoda = $scope.grupeProizvoda[l].naziv_grupe;
+                                            break;
+                                        }
+                                    }
                         
-                        proizvodService.getProizvod(stavkaCenovnika.id_proizvoda).then(function(proizvod) {
-                           stavkaCenovnika.naziv_proizvoda = proizvod.data.naziv_proizvoda;
-                           stavkaCenovnika.vrsta_proizvoda = proizvod.data.vrsta_proizvoda;
-                            
-                           grupaProizvodaService.getGrupaProizvoda(proizvod.data.id_grupe).then(function(grupa) {
-                              stavkaCenovnika.grupa_proizvoda = grupa.data.naziv_grupe;
-                              
-                              $scope.stavkeCenovnika.push(stavkaCenovnika);
-                           });
-                        });
+                                    $scope.stavkeCenovnika.push(stavkaCenovnika);
                     }
                 }
                 
@@ -143,6 +165,13 @@ app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
         });
         
     });
+        });
+    });
+
+    
+
+
+    
     
     $scope.kopirajCenovnik = function() {
         ModalService.showModal({

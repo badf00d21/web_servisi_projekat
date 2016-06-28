@@ -24,14 +24,14 @@
     </tr>
   </thead>
   <tbody
-       <tr ng-repeat="p in poslovniPartneri | filter:pretraga">
+       <tr ng-repeat="p in poslovniPartneri | filter:pretraga track by p.id_poslovnog_partnera">
                 <td> {{p.id_poslovnog_partnera}} </td>
                 <td> {{p.vrsta}} </td>
                 <td> {{p.pib}} </td>
                 <td> {{p.adresa}} </td>
                 <td> {{p.mesto}} </td>
                 <td> {{p.tekuci_racun}} </td>
-                <td> <button class="btn btn-primary" ng-click="close(p.id_poslovnog_partnera)"></button></td>
+                <td> <button class="btn btn-primary" ng-click="close(p.id_poslovnog_partnera)" data-dismiss="modal"> Izaberi </button></td>
             </tr>
   </tbody>
 </table>

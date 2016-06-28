@@ -119,3 +119,20 @@ app.controller('PoslovniPartnerModalController', ['$scope', 'close', 'poslovniPa
        close(result, 500);
    } 
 }]);
+
+app.controller('PoslovniPartnerModalController', ['$scope', 'close', 'poslovniPartnerService', function($scope, close, poslovniPartnerService) {
+   
+  $scope.poslovniPartneri = [];
+
+   var refreshData = function() {
+       poslovniPartnerService.ucitajPoslovnePartnere().then(function(response) {
+            $scope.poslovniPartneri = response.data;
+       });
+   }
+
+   refreshData();
+   
+   $scope.close = function(result) {
+       close(result, 500);
+   } 
+}]);

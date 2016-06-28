@@ -38,6 +38,8 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
     $scope.poslovniPartneri = [];
     $scope.errorMessage = "";
     $scope.proizvodi = [];
+    $scope.grupeProizvoda = [];
+    $scope.jediniceMere = [];
    
     $scope.novaNarudzbenica = {
         id_poslovnog_partnera : "",
@@ -53,12 +55,21 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
     poslovniPartnerService.ucitajPoslovnePartnere().then(function(response) {
             $scope.poslovniPartneri = response.data;
     });
+
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(response) {
+            $scope.grupeProizvoda = response.data;
+    });
+
+    jedinicaMereService.ucitajJediniceMere().then(function(response) {
+            $scope.jediniceMere = response.data;
+    });
     
     var ucitajProizvode = function() {
         proizvodService.ucitajProizvode().then(function(response) {
             $scope.proizvodi = [];
-             for (var i = 0; i < response.data; i++) {
+             for (var i = 0; i < response.data.length; i++) {
                  if (response.data[i].id_preduzeca == $scope.novaNarudzbenica.id_preduzeca) {
+                      
                       var proizvod = {
                           id_proizvoda: "",
                           naziv_proizvoda: "",
@@ -69,20 +80,28 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
                           jedinica_mere: "",
                           kolicina: "0"
                       }
-                     
+
                       proizvod.id_proizvoda = response.data[i].id_proizvoda;
                       proizvod.naziv_proizvoda = response.data[i].naziv_proizvoda;
                       proizvod.id_grupe_proizvoda = response.data[i].id_grupe;
                       proizvod.id_jedinice = response.data[i].id_jedinice;
                       proizvod.vrsta_proizvoda = response.data[i].vrsta_proizvoda;
+
+                      for (var j = 0; j < $scope.grupeProizvoda.length; j++) {
+                          if ($scope.grupeProizvoda[j].id_grupe == proizvod.id_grupe_proizvoda) {
+                              proizvod.grupa_proizvoda = $scope.grupeProizvoda[j].naziv_grupe;
+                              break;
+                          }
+                      }
+
+                      for (var j = 0; j < $scope.jediniceMere.length; j++) {
+                          if ($scope.jediniceMere[j].id_jedinice == proizvod.id_jedinice) {
+                              proizvod.jedinica_mere = $scope.jediniceMere[j].skracenica;
+                              break;
+                          }
+                      }
                       
-                      grupaProizvodaService.getGrupaProizvoda(proizvod.id_grupe_proizvoda).then(function(grupa) {
-                         proizvod.grupa_proizvoda = grupa.data.naziv_grupe; 
-                      });
-                      
-                      jedinicaMereService.getJedinicaMere(proizvod.id_jedinice_mere).then(function(jedinica) {
-                         proizvod.jedinica_mere = grupa.data.skracenica; 
-                      });
+                      $scope.proizvodi.push(proizvod);
                  }
              }       
          });
