@@ -27,7 +27,29 @@
       <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
         {{errorMessage}}
       </div>
-      <button type="submit" class="btn btn-primary" ng-click="kreirajFakturu()">Submit</button>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Jedinica mere</th>
+      <th class="col-md-4 col-xs-4">Kolicina</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in proizvodi | filter:pretraga">
+                <td>  {{p.id_proizvoda}} </td>
+                <td> {{p.naziv_proizvoda}} </td>
+                <td> {{p.grupa_proizvoda}} </td>
+                <td> {{p.vrsta_proizvoda}} </td>
+                <td>  {{p.jedinica_mere}} </td>
+                <td>  <input type="text" ng-model="p.kolicina"> </td>
+       </tr>
+  </tbody>
+</table>
+      <button type="submit" class="btn btn-primary" ng-click="kreirajNarudzbenicu()">Submit</button>
     </form>
   </div>
 </div>

@@ -53,6 +53,45 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
     poslovniPartnerService.ucitajPoslovnePartnere().then(function(response) {
             $scope.poslovniPartneri = response.data;
     });
+    
+    var ucitajProizvode = function() {
+        proizvodService.ucitajProizvode().then(function(response) {
+            $scope.proizvodi = [];
+             for (var i = 0; i < response.data; i++) {
+                 if (response.data[i].id_preduzeca == $scope.novaNarudzbenica.id_preduzeca) {
+                      var proizvod = {
+                          id_proizvoda: "",
+                          naziv_proizvoda: "",
+                          id_grupe_proizvoda: "",
+                          grupa_proizvoda: "",
+                          vrsta_proizvoda: "",
+                          id_jedinice_mere: "",
+                          jedinica_mere: "",
+                          kolicina: "0"
+                      }
+                     
+                      proizvod.id_proizvoda = response.data[i].id_proizvoda;
+                      proizvod.naziv_proizvoda = response.data[i].naziv_proizvoda;
+                      proizvod.id_grupe_proizvoda = response.data[i].id_grupe;
+                      proizvod.id_jedinice = response.data[i].id_jedinice;
+                      proizvod.vrsta_proizvoda = response.data[i].vrsta_proizvoda;
+                      
+                      grupaProizvodaService.getGrupaProizvoda(proizvod.id_grupe_proizvoda).then(function(grupa) {
+                         proizvod.grupa_proizvoda = grupa.data.naziv_grupe; 
+                      });
+                      
+                      jedinicaMereService.getJedinicaMere(proizvod.id_jedinice_mere).then(function(jedinica) {
+                         proizvod.jedinica_mere = grupa.data.skracenica; 
+                      });
+                 }
+             }       
+         });
+    }
+    
+    $scope.$watch('novaNarudzbenica.id_preduzeca', function(newVal, oldVal) {
+        ucitajProizvode();
+    }, true);
+    
    
    $scope.kreirajNarudzbenicu = function() {
        if ($scope.novaNarudzbenica.id_preduzeca == "" || $scope.novaNarudzbenica.id_poslovnog_partnera == "" || $scope.novaNarudzbenica.rok_isporuke == "" ||  $scope.novaNarudzbenica.rok_placanja == "") {
@@ -60,6 +99,7 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
            return;
        }
        
+       $scope.novaNarudzbenica.proizvodi = $scope.proizvodi;
        narudzbenicaService.dodajNarudzbenicu($scope.novaNarudzbenica).then(function(response) {
             $location.path('/pregled_narudzbenica');
        });
