@@ -1,4 +1,4 @@
-var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG']);
+var app = angular.module('PINFWEB', ['ngRoute', 'PINFWEB_CONFIG', 'angularModalService']);
 
 app.config(function ($routeProvider) {
  
@@ -20,10 +20,10 @@ app.config(function ($routeProvider) {
         controller: "IzmenaCenovnikaCtrl",
         templateUrl: "views/cenovnik/izmena_cenovnika.html"
     });
-
-    $routeProvider.when("/kopiranje_cenovnika/:id", {
-        controller: "KopiranjeCenovnikaCtrl",
-        templateUrl: "views/cenovnik/kopiranje_cenovnika.html"
+    
+     $routeProvider.when("/cenovnik/:id", {
+        controller: "StavkeCenovnikaCtrl",
+        templateUrl: "views/cenovnik/pregled_stavki_cenovnika.html"
     });
 
     $routeProvider.when("/pregled_preduzeca", {

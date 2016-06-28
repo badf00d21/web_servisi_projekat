@@ -1,0 +1,31 @@
+<h3 align="center"> Cenovnik (Id: {{cenovnik.id_cenovnika}}, Preduzece: {{preduzece.nazivpreduzeca}}, Datum vazenja: {{cenovnik.datum_vazena}}) </h3>
+<br/> <br/>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<div class="form-group pull-left" >
+   <button class="btn btn-primary" data-ng-click="kopirajCenovnik()">Kopiraj cenovnik </button>
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Stavke Cenovnika</th>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta proizvoda</th>
+      <th class="col-md-4 col-xs-4">Cena</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="sc in stavkeCenovnika | filter:pretraga">
+                <td> {{sc.id_stavke_cenovnika}} </td>
+                <td> {{sc.id_proizvoda}}  </td>
+                <td> {{sc.naziv_proizvoda}}  </td>
+                <td> {{sc.grupa_proizvoda}}  </td>
+                <td> {{sc.vrsta_proizvoda}}  </td>
+                <td> {{sc.cena}} </td>
+      </tr>
+  </tbody>
+</table>

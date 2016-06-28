@@ -19,8 +19,8 @@
   </thead>
   <tbody
        <tr ng-repeat="c in cenovnici | filter:pretraga">
-                <td>  {{c.id_cenovnika}}  </td>
-                <td>  {{c.id_preduzeca}}  </td>
+                <td> <a href="#/cenovnik/{{c.id_cenovnika}}"> {{c.id_cenovnika}} </a>  </td>
+                <td> {{c.id_preduzeca}}  </td>
                 <td> {{c.datum_vazena}} </td>
                 <td> <button class="image-button" ng-click="izmeniCenovnik(c.id_cenovnika)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiCenovnik(c.id_cenovnika)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>

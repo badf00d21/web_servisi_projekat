@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'pinfweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pinf',
+        'NAME': 'poslinf3',
         'USER': 'pera',
         'PASSWORD': 'password123@',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on

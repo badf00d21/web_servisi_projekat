@@ -92,52 +92,89 @@ app.controller('IzmenaCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
     }
 }]);
 
-app.controller('KopiranjeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'cenovnikService', 'preduzeceService', 'stavkaCenovnikaService', function($scope, $location, $routeParams, cenovnikService, preduzeceService, stavkaCenovnikaService) {
-   
-    
-    $scope.cenovniks = {
+app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'cenovnikService', 'preduzeceService', 'stavkaCenovnikaService', 'proizvodService', 'grupaProizvodaService', 'ModalService', function($scope, $location, $routeParams, cenovnikService, preduzeceService, stavkeCenovnikaServis, proizvodService, grupaProizvodaService, ModalService) {
+    $scope.cenovnik = {
         id_cenovkika: "",
         id_preduzeca: "",
         datum_vazena: ""
     }
 
-    $scope.id_cen = $routeParams.id
-    $scope.preduzeca = [];
-    $scope.procenat = 0;
-    $scope.stavkeCenovnika = []
+    $scope.preduzece = {
+        id_preduzeca: "",
+        nazivpreduzeca: ""
+    }
+    
+    $scope.stavkeCenovnika = [];
+    
     $scope.errorMessage = "";
 
     cenovnikService.getCenovnik($routeParams.id).then(function(response) {
-        $scope.cenovniks = response.data;
-    });
-
-
-    preduzeceService.ucitajPreduzeca().then(function(response) {
-            $scope.preduzeca = response.data;
-    });
-
-
-    console.log( $scope.cenovniks);
-    stavkaCenovnikaService.ucitajStavkeCenovnika().then(function(response) {
-            for (var i = 0; i < response.data.length; i++){
-                if ( response.data[i].id_cenovnika == $routeParams.id){
-                    $scope.stavkeCenovnika.push(response.data[i]);
+        $scope.cenovnik = response.data;
+        
+        preduzeceService.getPreduzece($scope.cenovnik.id_preduzeca).then(function (response) {
+            $scope.preduzece = response.data;
+            
+            stavkeCenovnikaServis.ucitajStavkeCenovnika().then(function(response) {
+                
+                for (var i = 0; i < response.data.length; i++) {
+                    if (response.data[i].id_cenovnika == $routeParams.id) {
+                        var stavkaCenovnika = {
+                            id_stavke_proizvoda: "",
+                            id_proizvoda: "",
+                            naziv_proizvoda: "",
+                            grupa_proizvoda: "",
+                            vrsta_proizvoda: "",
+                            cena: ""
+                        }
+                        
+                        stavkaCenovnika.id_stavke_cenovnika = response.data[i].id_stavke_cenovnika;
+                        stavkaCenovnika.id_proizvoda = response.data[i].id_proizvoda;
+                        stavkaCenovnika.cena = response.data[i].cena;
+                        
+                        proizvodService.getProizvod(stavkaCenovnika.id_proizvoda).then(function(proizvod) {
+                           stavkaCenovnika.naziv_proizvoda = proizvod.data.naziv_proizvoda;
+                           stavkaCenovnika.vrsta_proizvoda = proizvod.data.vrsta_proizvoda;
+                            
+                           grupaProizvodaService.getGrupaProizvoda(proizvod.data.id_grupe).then(function(grupa) {
+                              stavkaCenovnika.grupa_proizvoda = grupa.data.naziv_grupe;
+                              
+                              $scope.stavkeCenovnika.push(stavkaCenovnika);
+                           });
+                        });
+                    }
                 }
-            }
+                
+            });
+        });
+        
     });
+    
+    $scope.kopirajCenovnik = function() {
+        ModalService.showModal({
+            templateUrl: '../views/cenovnik/kopiranje_cenovnika.html',
+            controller: "ModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                
+                if (result == 0 || isNaN(result)) {
+                     alert("Procenat mora biti razlicit broj od nule!");
+                     return;
+                }
 
-    $scope.potvrdi = function() {
-        if ($scope.procenat == 0 || isNaN($scope.procenat)) {
-           $scope.errorMessage = "Procenat mora biti razlicit broj od nule!";
-           return;
-       }
-
-       var infoObj = {
-           id_cen : $scope.id_cen,
-           procenat : $scope.procenat
-       }
-       cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
-            $location.path('/pregled_stavki_cenovnika');
-       });
+             var infoObj = {
+                id_cen : $scope.cenovnik.id_cenovnika,
+                procenat : result
+             }
+             
+            cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
+                    console.log(response);
+             });
+            });
+        });
     }
+  
 }]);
+
