@@ -200,6 +200,21 @@ app.config(function ($routeProvider) {
         controller: "IzmenaStavkeFaktureCtrl",
         templateUrl: "views/stavka_fakture/izmena_stavke_fakture.html"
     });
+    
+    $routeProvider.when("/pregled_stavki_narudzbenice", {
+        controller: "PregledStavkiNarudzbeniceCtrl",
+        templateUrl: "views/stavka_narudzbenice/pregled_stavki_narudzbenice.html"
+    });
+
+    $routeProvider.when("/nova_stavka_narudzbenice", {
+        controller: "KreiranjeStavkeNarudzbeniceCtrl",
+        templateUrl: "views/stavka_narudzbenice/nova_stavka_narudzbenice.html"
+    });
+
+    $routeProvider.when("/izmena_stavke_narudzbenice/:id", {
+        controller: "IzmenaStavkeNarudzbeniceCtrl",
+        templateUrl: "views/stavka_narudzbenice/izmena_stavke_narudzbenice.html"
+    });
 
     $routeProvider.when("/fakturisanje/rucno", {
         controller: "FakturisanjeRucnoCtrl",
