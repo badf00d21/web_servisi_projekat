@@ -1,0 +1,42 @@
+
+    <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Poslovni partneri</h3>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+                 <table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Poslovnog Partnera</th>
+      <th>Vrsta</th>
+      <th>Pib</th>
+      <th >Adresa</th>
+      <th>Mesto</th>
+      <th>Tekuci Racun</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in poslovniPartneri | filter:pretraga">
+                <td> {{p.id_poslovnog_partnera}} </td>
+                <td> {{p.vrsta}} </td>
+                <td> {{p.pib}} </td>
+                <td> {{p.adresa}} </td>
+                <td> {{p.mesto}} </td>
+                <td> {{p.tekuci_racun}} </td>
+                <td> <button class="btn btn-primary" ng-click="close(p.id_poslovnog_partnera)"></button></td>
+            </tr>
+  </tbody>
+</table>
+              </div>
+              
+            </div>
+          </div>
+        </div>

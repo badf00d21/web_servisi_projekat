@@ -12,7 +12,7 @@ app.service('narudzbenicaService', ['$http', 'restApiBaseUrl', function($http, r
 
     return  $http({
        method: 'POST',
-       url: restApiBaseUrl + "narudzbenica"+ '/',
+       url: restApiBaseUrl + "nova_narudzbenica"+ '/',
        data: narudzbenica,
         headers: {
             'Content-Type': 'application/json'

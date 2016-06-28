@@ -74,3 +74,20 @@ app.controller('IzmenaPreduzecaCtrl', ['$scope', '$location', '$routeParams', 'p
        });
     }
 }]);
+
+app.controller('PreduzeceModalController', ['$scope', 'close', 'preduzeceService', function($scope, close, preduzeceService) {
+   
+  $scope.preduzeca = [];
+
+   var refreshData = function() {
+       preduzeceService.ucitajPreduzeca().then(function(response) {
+            $scope.preduzeca = response.data;
+       });
+   }
+
+   refreshData();
+   
+   $scope.close = function(result) {
+       close(result, 500);
+   } 
+}]);
