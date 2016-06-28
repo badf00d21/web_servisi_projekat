@@ -161,6 +161,21 @@ app.config(function ($routeProvider) {
         templateUrl: "views/faktura/izmena_fakture.html"
     });
     
+     $routeProvider.when("/pregled_narudzbenica", {
+        controller: "PregledNarudzbenicaCtrl",
+        templateUrl: "views/narudzbenica/pregled_narudzbenica.html"
+    });
+
+    $routeProvider.when("/nova_narudzbenica", {
+        controller: "KreiranjeNarudzbeniceCtrl",
+        templateUrl: "views/narudzbenica/nova_narudzbenica.html"
+    });
+
+    $routeProvider.when("/izmena_narudzbenice/:id", {
+        controller: "IzmenaNarudzbeniceCtrl",
+        templateUrl: "views/narudzbenica/izmena_narudzbenice.html"
+    });
+    
     $routeProvider.when("/eksport_fakture", {
         controller: "EksportFaktureCtrl",
         templateUrl: "views/faktura/eksport_fakture.html"
