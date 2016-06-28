@@ -37,6 +37,7 @@ class JedinicaMereSerializer(serializers.ModelSerializer):
 
 class NarudzbenicaSerializer(serializers.ModelSerializer):
     id_poslovnog_partnera = serializers.PrimaryKeyRelatedField(  queryset = PoslovniPartner.objects.all() )
+    id_preduzeca = serializers.PrimaryKeyRelatedField(  queryset = Preduzece.objects.all() )
     class Meta:
         model = Narudzbenica
         fields = '__all__'

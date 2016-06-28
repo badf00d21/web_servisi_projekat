@@ -63,6 +63,7 @@ class JedinicaMere(models.Model):
 class Narudzbenica(models.Model):
     id_narudzbenice = models.AutoField(db_column='ID_NARUDZBENICE', primary_key=True)  # Field name made lowercase.
     id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', models.DO_NOTHING, db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
     rok_isporuke = models.DateField(db_column='ROK_ISPORUKE', blank=True, null=True)  # Field name made lowercase.
     rok_placanja = models.DateField(db_column='ROK_PLACANJA', blank=True, null=True)  # Field name made lowercase.
 
