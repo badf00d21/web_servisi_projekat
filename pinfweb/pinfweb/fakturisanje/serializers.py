@@ -10,6 +10,7 @@ class CenovnikSerializer(serializers.ModelSerializer):
 
 
 class FakturaSerializer(serializers.ModelSerializer):
+    id_narudzbenice = serializers.PrimaryKeyRelatedField(  queryset = Narudzbenica.objects.all() , required = False)
     id_poslovnog_partnera = serializers.PrimaryKeyRelatedField(  queryset = PoslovniPartner.objects.all() )
     id_preduzeca = serializers.PrimaryKeyRelatedField(  queryset = Preduzece.objects.all() )
     id_godine = serializers.PrimaryKeyRelatedField(  queryset = PoslovnaGodina.objects.all() )
@@ -30,6 +31,14 @@ class GrupaProizvodaSerializer(serializers.ModelSerializer):
 class JedinicaMereSerializer(serializers.ModelSerializer):
     class Meta:
         model = JedinicaMere
+        fields = '__all__'
+        depth = 1
+
+
+class NarudzbenicaSerializer(serializers.ModelSerializer):
+    id_poslovnog_partnera = serializers.PrimaryKeyRelatedField(  queryset = PoslovniPartner.objects.all() )
+    class Meta:
+        model = Narudzbenica
         fields = '__all__'
         depth = 1
 
@@ -70,6 +79,14 @@ class ProizvodSerializer(serializers.ModelSerializer):
     id_grupe = serializers.PrimaryKeyRelatedField(  queryset = GrupaProizvoda.objects.all() )
     class Meta:
         model = Proizvod
+        fields = '__all__'
+        depth = 1
+
+
+class StavkaNarudzbeniceSerializer(serializers.ModelSerializer):
+    id_narudzbenice = serializers.PrimaryKeyRelatedField(  queryset = Narudzbenica.objects.all() )
+    class Meta:
+        model = StavkaNarudzbenice
         fields = '__all__'
         depth = 1
 

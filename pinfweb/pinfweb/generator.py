@@ -4,7 +4,7 @@ import sys, inspect, os
 
 
 
-SOURCE = 'C:\Users\Aleksandar\Documents\GitHub\web_servisi_projekat\pinfweb\pinfweb\fakturisanje'
+SOURCE = 'C:\Users\Aleksandar\Documents\GitHub\web_servisi_projekat\pinfweb\pinfweb\\fakturisanje\models.py'
 APP_NAME = SOURCE.split('\\')[-2]
 PROJECT_NAME = SOURCE.split('\\')[-3]
 MODULE_REF = APP_NAME + '.models'

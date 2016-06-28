@@ -2,11 +2,9 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-#
-# Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
-# into your database.
 from __future__ import unicode_literals
 
 from django.db import models
@@ -14,51 +12,42 @@ from django.db import models
 
 class Cenovnik(models.Model):
     id_cenovnika = models.AutoField(db_column='ID_CENOVNIKA', primary_key=True)  # Field name made lowercase.
-    id_preduzeca = models.ForeignKey('Preduzece', db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
     datum_vazena = models.DateTimeField(db_column='DATUM_VAZENA', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'cenovnik'
 
-    def __str__(self):
-    	return 'Id Cenovnika: ' + str(self.id_cenovnika)
-
 
 class Faktura(models.Model):
     id_fakture = models.AutoField(db_column='ID_FAKTURE', primary_key=True)  # Field name made lowercase.
-    id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
-    id_preduzeca = models.ForeignKey('Preduzece', db_column='ID_PREDUZECA')  # Field name made lowercase.
-    id_godine = models.ForeignKey('PoslovnaGodina', db_column='ID_GODINE')  # Field name made lowercase.
+    id_narudzbenice = models.ForeignKey('Narudzbenica', models.DO_NOTHING, db_column='ID_NARUDZBENICE', blank=True, null=True)  # Field name made lowercase.
+    id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', models.DO_NOTHING, db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_godine = models.ForeignKey('PoslovnaGodina', models.DO_NOTHING, db_column='ID_GODINE')  # Field name made lowercase.
     broj_fakture = models.IntegerField(db_column='BROJ_FAKTURE', blank=True, null=True)  # Field name made lowercase.
-    datum_fakture = models.DateTimeField(db_column='DATUM_FAKTURE', blank=True, null=True)  # Field name made lowercase.
-    datum_valute = models.DateTimeField(db_column='DATUM_VALUTE', blank=True, null=True)  # Field name made lowercase.
+    datum_fakture = models.DateField(db_column='DATUM_FAKTURE', blank=True, null=True)  # Field name made lowercase.
+    datum_valute = models.DateField(db_column='DATUM_VALUTE', blank=True, null=True)  # Field name made lowercase.
     ukupan_rabat = models.DecimalField(db_column='UKUPAN_RABAT', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     ukupan_iznos_bez_pdv_a = models.DecimalField(db_column='UKUPAN_IZNOS_BEZ_PDV_A', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     ukupan_pdv = models.DecimalField(db_column='UKUPAN_PDV', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     ukupno_za_placanje = models.DecimalField(db_column='UKUPNO_ZA_PLACANJE', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
-    status_fakture = models.CharField(db_column='STATUS_FAKTURE', max_length=30)  # Field name made lowercase.
+    status = models.CharField(db_column='STATUS', max_length=30)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'faktura'
 
-    def __str__(self):
-    	return 'Id Fakture: ' + str(self.id_fakture)
-
 
 class GrupaProizvoda(models.Model):
     id_grupe = models.AutoField(db_column='ID_GRUPE', primary_key=True)  # Field name made lowercase.
-    id_pdv_a = models.ForeignKey('Pdv', db_column='ID_PDV_A')  # Field name made lowercase.
+    id_pdv_a = models.ForeignKey('Pdv', models.DO_NOTHING, db_column='ID_PDV_A')  # Field name made lowercase.
     naziv_grupe = models.CharField(db_column='NAZIV_GRUPE', max_length=100, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'grupa_proizvoda'
-
-    def __str__(self):
-    	return 'Id Grupe Proizvoda: ' + str(self.id_grupe)
-
 
 
 class JedinicaMere(models.Model):
@@ -70,9 +59,16 @@ class JedinicaMere(models.Model):
         managed = False
         db_table = 'jedinica_mere'
 
-    def __str__(self):
-    	return 'Id Jeinice Mere: ' + str(self.id_jedinice)
 
+class Narudzbenica(models.Model):
+    id_narudzbenice = models.AutoField(db_column='ID_NARUDZBENICE', primary_key=True)  # Field name made lowercase.
+    id_poslovnog_partnera = models.ForeignKey('PoslovniPartner', models.DO_NOTHING, db_column='ID_POSLOVNOG_PARTNERA')  # Field name made lowercase.
+    rok_isporuke = models.DateField(db_column='ROK_ISPORUKE', blank=True, null=True)  # Field name made lowercase.
+    rok_placanja = models.DateField(db_column='ROK_PLACANJA', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'narudzbenica'
 
 
 class Pdv(models.Model):
@@ -83,14 +79,10 @@ class Pdv(models.Model):
         managed = False
         db_table = 'pdv'
 
-    def __str__(self):
-    	return 'Id Pdv- a: ' + str(self.id_pdv_a)
-
-
 
 class PoslovnaGodina(models.Model):
     id_godine = models.AutoField(db_column='ID_GODINE', primary_key=True)  # Field name made lowercase.
-    id_preduzeca = models.ForeignKey('Preduzece', db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
     godina = models.IntegerField(db_column='GODINA', blank=True, null=True)  # Field name made lowercase.
     zakljucena = models.IntegerField(db_column='ZAKLJUCENA', blank=True, null=True)  # Field name made lowercase.
 
@@ -98,15 +90,11 @@ class PoslovnaGodina(models.Model):
         managed = False
         db_table = 'poslovna_godina'
 
-    def __str__(self):
-    	return 'Id Poslovne Godine: ' + str(self.id_godine)
-
-
 
 class PoslovniPartner(models.Model):
     vrsta = models.CharField(db_column='VRSTA', max_length=50, blank=True, null=True)  # Field name made lowercase.
     id_poslovnog_partnera = models.AutoField(db_column='ID_POSLOVNOG_PARTNERA', primary_key=True)  # Field name made lowercase.
-    id_preduzeca = models.ForeignKey('Preduzece', db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey('Preduzece', models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
     pib = models.IntegerField(db_column='PIB')  # Field name made lowercase.
     adresa = models.CharField(db_column='ADRESA', max_length=150, blank=True, null=True)  # Field name made lowercase.
     mesto = models.CharField(db_column='MESTO', max_length=150, blank=True, null=True)  # Field name made lowercase.
@@ -115,10 +103,6 @@ class PoslovniPartner(models.Model):
     class Meta:
         managed = False
         db_table = 'poslovni_partner'
-
-    def __str__(self):
-    	return 'Id Poslovnog Partnera: ' + str(self.id_poslovnog_partnera)
-
 
 
 class Preduzece(models.Model):
@@ -129,47 +113,51 @@ class Preduzece(models.Model):
         managed = False
         db_table = 'preduzece'
 
-    def __str__(self):
-    	return 'Id Preduzeca: ' + str(self.id_preduzeca)
-
-
 
 class Proizvod(models.Model):
     vrsta_proizvoda = models.CharField(db_column='VRSTA_PROIZVODA', max_length=50, blank=True, null=True)  # Field name made lowercase.
     id_proizvoda = models.AutoField(db_column='ID_PROIZVODA', primary_key=True)  # Field name made lowercase.
-    id_preduzeca = models.ForeignKey(Preduzece, db_column='ID_PREDUZECA')  # Field name made lowercase.
-    id_jedinice = models.ForeignKey(JedinicaMere, db_column='ID_JEDINICE')  # Field name made lowercase.
-    id_grupe = models.ForeignKey(GrupaProizvoda, db_column='ID_GRUPE')  # Field name made lowercase.
+    id_preduzeca = models.ForeignKey(Preduzece, models.DO_NOTHING, db_column='ID_PREDUZECA')  # Field name made lowercase.
+    id_jedinice = models.ForeignKey(JedinicaMere, models.DO_NOTHING, db_column='ID_JEDINICE')  # Field name made lowercase.
+    id_grupe = models.ForeignKey(GrupaProizvoda, models.DO_NOTHING, db_column='ID_GRUPE')  # Field name made lowercase.
     naziv_proizvoda = models.CharField(db_column='NAZIV_PROIZVODA', max_length=50, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'proizvod'
 
-    def __str__(self):
-    	return 'Id Proizvoda: ' + str(self.id_proizvoda)
 
+class StavkaNarudzbenice(models.Model):
+    id_stavke_narudzbenice = models.AutoField(db_column='ID_STAVKE_NARUDZBENICE', primary_key=True)  # Field name made lowercase.
+    id_narudzbenice = models.ForeignKey(Narudzbenica, models.DO_NOTHING, db_column='ID_NARUDZBENICE')  # Field name made lowercase.
+    kolicina = models.DecimalField(db_column='KOLICINA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    rabat = models.DecimalField(db_column='RABAT', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    jedinicna_cena = models.DecimalField(db_column='JEDINICNA_CENA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    stopa_pdv_a = models.DecimalField(db_column='STOPA_PDV___A', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase. Field renamed because it contained more than one '_' in a row.
+    osnovica = models.DecimalField(db_column='OSNOVICA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    iznos_pdv_a = models.DecimalField(db_column='IZNOS_PDV___A', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase. Field renamed because it contained more than one '_' in a row.
+    ukupan_iznos = models.DecimalField(db_column='UKUPAN_IZNOS', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'stavka_narudzbenice'
 
 
 class StavkeCenovnika(models.Model):
     cena = models.DecimalField(db_column='CENA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     id_stavke_cenovnika = models.AutoField(db_column='ID_STAVKE_CENOVNIKA', primary_key=True)  # Field name made lowercase.
-    id_cenovnika = models.ForeignKey(Cenovnik, db_column='ID_CENOVNIKA')  # Field name made lowercase.
-    id_proizvoda = models.ForeignKey(Proizvod, db_column='ID_PROIZVODA')  # Field name made lowercase.
+    id_cenovnika = models.ForeignKey(Cenovnik, models.DO_NOTHING, db_column='ID_CENOVNIKA')  # Field name made lowercase.
+    id_proizvoda = models.ForeignKey(Proizvod, models.DO_NOTHING, db_column='ID_PROIZVODA')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'stavke_cenovnika'
 
-    def __str__(self):
-    	return 'Id Stavke Cenovnika: ' + str(self.id_stavke_cenovnika)
-
-
 
 class StavkeFakture(models.Model):
     id_stavke_fakture = models.AutoField(db_column='ID_STAVKE_FAKTURE', primary_key=True)  # Field name made lowercase.
-    id_proizvoda = models.ForeignKey(Proizvod, db_column='ID_PROIZVODA')  # Field name made lowercase.
-    id_fakture = models.ForeignKey(Faktura, db_column='ID_FAKTURE')  # Field name made lowercase.
+    id_proizvoda = models.ForeignKey(Proizvod, models.DO_NOTHING, db_column='ID_PROIZVODA')  # Field name made lowercase.
+    id_fakture = models.ForeignKey(Faktura, models.DO_NOTHING, db_column='ID_FAKTURE')  # Field name made lowercase.
     kolicina = models.DecimalField(db_column='KOLICINA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     rabat = models.DecimalField(db_column='RABAT', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     jedinicna_cena = models.DecimalField(db_column='JEDINICNA_CENA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
@@ -182,21 +170,13 @@ class StavkeFakture(models.Model):
         managed = False
         db_table = 'stavke_fakture'
 
-    def __str__(self):
-    	return 'Id Stavke Fakture: ' + str(self.id_stavke_fakture)
-
-
 
 class StopaPdvA(models.Model):
     id_stope = models.AutoField(db_column='ID_STOPE', primary_key=True)  # Field name made lowercase.
-    id_pdv_a = models.ForeignKey(Pdv, db_column='ID_PDV_A')  # Field name made lowercase.
+    id_pdv_a = models.ForeignKey(Pdv, models.DO_NOTHING, db_column='ID_PDV_A')  # Field name made lowercase.
     stopa = models.DecimalField(db_column='STOPA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     datum_vazenja = models.DateTimeField(db_column='DATUM_VAZENJA', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'stopa_pdv_a'
-
-    def __str__(self):
-    	return 'Id Stope PDV- a: ' + str(self.id_stope)
-

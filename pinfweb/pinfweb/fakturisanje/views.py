@@ -24,6 +24,11 @@ class JedinicaMereViewSet(viewsets.ModelViewSet):
     serializer_class = JedinicaMereSerializer
 
 
+class NarudzbenicaViewSet(viewsets.ModelViewSet):
+    queryset = Narudzbenica.objects.all()
+    serializer_class = NarudzbenicaSerializer
+
+
 class PdvViewSet(viewsets.ModelViewSet):
     queryset = Pdv.objects.all()
     serializer_class = PdvSerializer
@@ -49,6 +54,11 @@ class ProizvodViewSet(viewsets.ModelViewSet):
     serializer_class = ProizvodSerializer
 
 
+class StavkaNarudzbeniceViewSet(viewsets.ModelViewSet):
+    queryset = StavkaNarudzbenice.objects.all()
+    serializer_class = StavkaNarudzbeniceSerializer
+
+
 class StavkeCenovnikaViewSet(viewsets.ModelViewSet):
     queryset = StavkeCenovnika.objects.all()
     serializer_class = StavkeCenovnikaSerializer
@@ -71,28 +81,16 @@ def api_root(request, format = None):
 'faktura': reverse('faktura-list', request = request, format = format),
 'grupaproizvoda': reverse('grupaproizvoda-list', request = request, format = format),
 'jedinicamere': reverse('jedinicamere-list', request = request, format = format),
+'narudzbenica': reverse('narudzbenica-list', request = request, format = format),
 'pdv': reverse('pdv-list', request = request, format = format),
 'poslovnagodina': reverse('poslovnagodina-list', request = request, format = format),
 'poslovnipartner': reverse('poslovnipartner-list', request = request, format = format),
 'preduzece': reverse('preduzece-list', request = request, format = format),
 'proizvod': reverse('proizvod-list', request = request, format = format),
+'stavkanarudzbenice': reverse('stavkanarudzbenice-list', request = request, format = format),
 'stavkecenovnika': reverse('stavkecenovnika-list', request = request, format = format),
 'stavkefakture': reverse('stavkefakture-list', request = request, format = format),
 'stopapdva': reverse('stopapdva-list', request = request, format = format),
 })
-
-def kopiraj_cenovnik(request):
-    cen = request.POST.get("cen_id", "")
-    percent = request.POST.get("procenat", "")
-    c, found = Cenovnik.objects.get( id_cenovnika = cen )
-
-    c2 = Cenovnik( id_preduzeca = c.id_preduzeca, datum_vazena = c.datum_vazena)
-    c2.save()
-
-    #prodji kroz stavke i napravi iste sa drugom cenom
-
-
-    return 'ok'
-
 
 
