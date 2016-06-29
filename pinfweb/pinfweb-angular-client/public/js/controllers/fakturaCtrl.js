@@ -166,13 +166,54 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
     }
    
    $scope.kreirajFakturu = function() {
-       if ($scope.novaFaktura.id_preduzeca == "" || $scope.novaFaktura.id_poslovnog_partnera == "" || $scope.novaFaktura.id_godine == "" ||  $scope.novaFaktura.broj_fakture == "" ||  $scope.novaFaktura.datum_fakture == ""
-       ||  $scope.novaFaktura.datum_valute == "" ||  $scope.novaFaktura.ukupan_rabat == "" ||  $scope.novaFaktura.ukupan_iznos_bez_pdv_a == "" ||  $scope.novaFaktura.ukupan_pdv == "" ||  $scope.novaFaktura.ukupno_za_placanje == "") {
-           $scope.errorMessage = "Sva polja moraju biti popunjena!";
-           console.log($scope.novaFaktura);
+      
+      if ($scope.novaFaktura.id_preduzeca == "") {
+           $scope.errorMessage = "Morate izabrati preduzece za koje se kreira faktura!";
+           return;
+       }
+
+       if ($scope.novaFaktura.id_poslovnog_partnera == "") {
+           $scope.errorMessage = "Morate izabrati poslovnog partnera za kog se izdaje faktura!";
+           return;
+       }
+
+       if ($scope.novaFaktura.id_godine == "") {
+           $scope.errorMessage = "Morate izabrati poslovnu godinu za koju se kreira faktura!";
+           return;
+       }
+
+       if (!(+$scope.novaFaktura.broj_fakture === parseInt($scope.novaFaktura.broj_fakture, 10))) {
+           $scope.errorMessage = "Broj fakture mora biti ceo broj";
+           return;
+       }
+
+       var izabraniProizvodi = [];
+       var kolicineValid = true;
+       
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].kolicina < 0) {
+               kolicineValid = false;
+               break;
+           }
+       }
+       
+       if (!kolicineValid) {
+           $scope.errorMessage = "Kolicina moze biti nula ukoliko proizvod ne ulazi u narudzbenicu ili veca od nule ukoliko ulazi!";
            return;
        }
        
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].kolicina > 0) {
+               izabraniProizvodi.push($scope.proizvodi[i]);
+           }
+       }
+       
+       if (izabraniProizvodi.length == 0) {
+           $scope.errorMessage = "Narudzbenica mora sadrzati bar jedan proizvod!";
+           return;
+       }
+
+       $scope.novaFaktura.proizvodi = izabraniProizvodi;
        fakturaService.dodajFakturu($scope.novaFaktura).then(function(response) {
             $location.path('/pregled_faktura');
        });

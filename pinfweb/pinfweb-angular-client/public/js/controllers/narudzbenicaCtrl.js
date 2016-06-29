@@ -241,7 +241,7 @@ app.controller('IzmenaNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
          if ($scope.novaNarudzbenica.id_preduzeca == "" || $scope.novaNarudzbenica.id_poslovnog_partnera == "" || $scope.novaNarudzbenica.rok_isporuke == "" ||  $scope.novaNarudzbenica.rok_placanja == "") {
            $scope.errorMessage = "Sva polja moraju biti popunjena!";
            return;
-       }
+         }
 
        narudzbenicaService.sacuvajNarudzbenicu($scope.narudzbenica).then(function(response) {
             $location.path('/pregled_narudzbenica');
