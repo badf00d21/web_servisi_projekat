@@ -85,7 +85,6 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
                           vrsta_proizvoda: "",
                           id_jedinice_mere: "",
                           jedinica_mere: "",
-                          rabat: "0",
                           kolicina: "0"
                       }
 
@@ -206,17 +205,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
            return;
        }
 
-       for (var i = 0; i < $scope.proizvodi.length; i++) {
-           if ($scope.proizvodi[i].rabat < 0) {
-               rabatValid = false;
-               break;
-           }
-       }
        
-       if (!rabatValid) {
-           $scope.errorMessage = "Rabat mora biti veci ili jednak nuli!";
-           return;
-       }
        
        for (var i = 0; i < $scope.proizvodi.length; i++) {
            if ($scope.proizvodi[i].kolicina > 0) {
