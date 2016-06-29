@@ -149,6 +149,7 @@ def fakturisanje_rucno(request):
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda'])
 
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
+                #rabat =
                 s_jcena_prodajna = s_jcena + float(stavka['rabat'])
                 s_osn = s_jcena_prodajna * float(stavka['kolicina'])
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
@@ -255,7 +256,7 @@ def novi_cenovnik(request):
             c.save()
 
             for p in parameters['proizvodi']:
-                np = StavkeCenovnika( cena = p['cena'], id_cenovnika = c, id_proizvoda = Proizvod.objects.get(id_proizvoda = p['id_proizvoda']))
+                np = StavkeCenovnika( rabat = p['rabat'], cena = p['cena'], id_cenovnika = c, id_proizvoda = Proizvod.objects.get(id_proizvoda = p['id_proizvoda']))
                 np.save()
             return JsonResponse({"id_cenovnika":c.id_cenovnika})
     except:
