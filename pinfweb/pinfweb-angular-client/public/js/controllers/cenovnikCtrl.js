@@ -28,6 +28,34 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
             }
        });
    }
+   
+   $scope.kopirajCenovnik = function(id) {
+        ModalService.showModal({
+            templateUrl: '../views/cenovnik/kopiranje_cenovnika.html',
+            controller: "ModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                
+                if (result == 0 || isNaN(result)) {
+                     alert("Procenat mora biti razlicit broj od nule!");
+                     return;
+                }
+
+             var infoObj = {
+                id_cen : id,
+                procenat : result
+             }
+             
+            cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
+                    console.log(response.data);
+                    //redirect cenovnik/id
+             });
+            });
+        });
+    }
 }]);
 
 app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', 'preduzeceService', function($scope, $location, cenovnikService, preduzeceService) {
