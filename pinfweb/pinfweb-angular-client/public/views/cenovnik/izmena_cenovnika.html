@@ -10,13 +10,12 @@
            <input type="text" class="form-control" value="{{cenovnik.id_cenovnika}}" disabled required>
         </div>
         <div class="form-group" >
-           <label>ID Preduzeca:</label>
-           <select id="preduzece" ng-model="cenovnik.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca"
-                  class="form-control" required> </select>
+           <label for="id">ID Preduzeca:</label>
+           <input type="text" class="form-control" value="{{cenovnik.id_preduzeca}}" disabled required>
         </div>
         <div class="form-group">
            <label for="name">Datum Vazenja:</label>
-          <input type="datetime" class="form-control" ng-model="cenovnik.datum_vazena">
+          <input type="date" class="form-control" ng-model="cenovnik.datum_vazena">
        </div>
        <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
         {{errorMessage}}
