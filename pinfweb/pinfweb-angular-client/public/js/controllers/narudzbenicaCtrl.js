@@ -167,14 +167,46 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
     }
    
    $scope.kreirajNarudzbenicu = function() {
-       if ($scope.novaNarudzbenica.id_preduzeca == "" || $scope.novaNarudzbenica.id_poslovnog_partnera == "" || $scope.novaNarudzbenica.rok_isporuke == "" ||  $scope.novaNarudzbenica.rok_placanja == "") {
-           $scope.errorMessage = "Sva polja moraju biti popunjena!";
+       
+       if ($scope.novaNarudzbenica.id_preduzeca == "") {
+           $scope.errorMessage = "Morate izabrati preduzece za koje se kreira narudzbenica!";
            return;
        }
        
-       $scope.novaNarudzbenica.proizvodi = $scope.proizvodi;
+       if ($scope.novaNarudzbenica.id_poslovnog_partnera == "") {
+           $scope.errorMessage = "Morate izabrati poslovnog partnera koji kreira narudzbenicu!";
+           return;
+       }
+       
+       var izabraniProizvodi = [];
+       var kolicineValid = true;
+       
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].kolicina < 0) {
+               kolicineValid = false;
+               break;
+           }
+       }
+       
+       if (!kolicineValid) {
+           $scope.errorMessage = "Kolicina moze biti nula ukoliko proizvod ne ulazi u narudzbenicu ili veca od nule ukoliko ulazi!";
+           return;
+       }
+       
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].kolicina > 0) {
+               izabraniProizvodi.push($scope.proizvodi[i]);
+           }
+       }
+       
+       if (izabraniProizvodi.length == 0) {
+           $scope.errorMessage = "Narudzbenica mora sadrzati bar jedan proizvod!";
+           return;
+       }
+       
+       $scope.novaNarudzbenica.proizvodi = izabraniProizvodi;
        narudzbenicaService.dodajNarudzbenicu($scope.novaNarudzbenica).then(function(response) {
-            $location.path('/pregled_narudzbenica');
+            $location.path('/narudzbenica/' + response.data.id_narudzbenice);
        });
    }
    
@@ -216,4 +248,129 @@ app.controller('IzmenaNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
        });
     }
 }]);
+
+app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams', 'narudzbenicaService', 'preduzeceService', 'stavkaNarudzbeniceService', 'proizvodService', 'grupaProizvodaService', 'ModalService', function($scope, $location, $routeParams, narudzbenicaService, preduzeceService, stavkeNarudzbeniceServis, proizvodService, grupaProizvodaService, ModalService) {
+    $scope.narudzbenica = {
+        id_narudzbenice: "",
+        id_preduzeca: "",
+        id_poslovnog_partnera: "",
+        rok_isporuke: "",
+        rok_placanja: ""
+    }
+
+    $scope.preduzece = {
+        id_preduzeca: "",
+        nazivpreduzeca: ""
+    }
+    
+    $scope.stavkeNarudzbenice = [];
+    $scope.grupeProizvoda = [];
+    $scope.proizvodi= [];
+    
+    $scope.errorMessage = "";
+
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(grupe) {
+        $scope.grupeProizvoda = grupe.data;
+
+        proizvodService.ucitajProizvode().then(function(proizvodi) {
+              $scope.proizvodi = proizvodi.data;
+
+               narudzbenicaService.getNarudzbenica($routeParams.id).then(function(narudzbenica) {
+       	            $scope.narudzbenica = narudzbenica.data;
+        
+                    preduzeceService.getPreduzece($scope.narudzbenica.id_preduzeca).then(function (preduzece) {
+                         $scope.preduzece = preduzece.data;
+            
+                         stavkeNarudzbeniceServis.ucitajStavkeNarudzbenice().then(function(response) {
+                
+                            for (var i = 0; i < response.data.length; i++) {
+                                 if (response.data[i].id_stavke_narudzbenice == $routeParams.id) {
+                                     var stavkaNarudzbenice = {
+                                         id_stavke_narudzbenice: "",
+                                         id_proizvoda: "",
+                                         naziv_proizvoda: "",
+                                         grupa_proizvoda: "",
+                                         vrsta_proizvoda: "",
+                                         jedinicna_cena: "",
+                                         kolicina: "",
+                                         rabat: "",
+                                         stopa_pdva: "",
+                                         osnovica: "",
+                                         iznos_pdva: "",
+                                         ukupan_iznos: ""
+                                      }
+                        
+                                    stavkaNarudzbenice.id_stavke_narudzbenice = response.data[i].id_stavke_narudzbenice;
+                                    stavkaNarudzbenice.id_proizvoda = response.data[i].id_proizvoda;
+                                    stavkaNarudzbenice.jedinicna_cena = response.data[i].jedinicna_cena;
+                                    
+                                    stavkaNarudzbenice.kolicina = response.data[i].kolicina;
+                                    stavkaNarudzbenice.rabat = response.data[i].rabat;
+                                    stavkaNarudzbenice.stopa_pdva = response.data[i].stopa_pdva;
+                                    stavkaNarudzbenice.osnovica = response.data[i].osnovica;
+                                    stavkaNarudzbenice.iznos_pdva = response.data[i].iznos_pdva;
+                                    stavkaNarudzbenice.ukupan_iznos = response.data[i].ukupan_iznos;
+
+                                    for (var j = 0; j < $scope.proizvodi.length; j++) {
+                                        if ($scope.proizvodi[j].id_proizvoda == stavkaNarudzbenice.id_proizvoda) {
+                                            stavkaNarudzbenice.naziv_proizvoda = $scope.proizvodi[j].naziv_proizvoda;
+                                            stavkaNarudzbenice.vrsta_proizvoda = $scope.proizvodi[j].vrsta_proizvoda;
+                                        }
+                                    }
+
+                                    var proizvod;
+                                    for (var k = 0; k < $scope.proizvodi.length; k++) {
+                                                if ($scope.proizvodi[k].id_proizvoda == stavkaNarudzbenice.id_proizvoda) {
+                                                    proizvod = $scope.proizvodi[k];
+                                                    break;
+                                                }
+                                            }
+
+                                    for (var l = 0; l < $scope.grupeProizvoda.length; l++) {
+                                        if ($scope.grupeProizvoda[l].id_grupe == proizvod.id_grupe) {
+                                            
+                                            stavkaNarudzbenice.grupa_proizvoda = $scope.grupeProizvoda[l].naziv_grupe;
+                                            break;
+                                        }
+                                    }
+                        
+                                    $scope.stavkeNarudzbenice.push(stavkaNarudzbenice);
+                    }
+                }
+                
+            });
+        });
+        
+    });
+        });
+    });
+
+    
+     $scope.kreirajFakturu = function() {
+       var faktura = {
+           id_narudzbenice: "",
+           id_poslovne_godine: ""
+       }
+       
+        ModalService.showModal({
+            templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
+            controller: "PoslovnaGodinaModalController",
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                faktura.id_narudzbenice = $scope.narudzbenica.id_narudzbenice;
+                faktura.id_poslovne_godine = result;
+                
+                fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
+                     $location.path('/pregled_faktura');
+                });
+            });
+        });
+   }
+  
+}]);
+
 

@@ -1,0 +1,43 @@
+<h3 align="center"> Narudzbenica (Id: {{narudzbenica.id_narudzbenice}}, Preduzece: {{narudzbenica.preduzece}}, Poslovni partner: {{narudzbenica.poslovni_partner}}, Rok isporuke: {{narudzbenica.rok_isporuke}}, Rok placanja: {{narudzbenica.rok_placanja}}) </h3>
+<br/> <br/>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<div class="form-group pull-left" >
+   <button class="btn btn-primary" data-ng-click="kreirajFakturu()">Kreiraj fakturu </button>
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Stavke Narudzbenice</th>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta proizvoda</th>
+      <th class="col-md-4 col-xs-4">Jedinicna cena</th>
+      <th class="col-md-4 col-xs-4">Kolicina</th>
+      <th class="col-md-4 col-xs-4">Rabat</th>
+      <th class="col-md-4 col-xs-4">Stopa Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Osnovica</th>
+      <th class="col-md-4 col-xs-4">Iznos Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Ukupan iznos</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="sn in stavkeNarudzbenice | filter:pretraga track by sc.id_stavke_narudzbenice">
+                <td> {{sn.id_stavke_narudzbenice}} </td>
+                <td> {{sn.id_proizvoda}}  </td>
+                <td> {{sn.naziv_proizvoda}}  </td>
+                <td> {{sn.grupa_proizvoda}}  </td>
+                <td> {{sn.vrsta_proizvoda}}  </td>
+                <td> {{sn.jedinicna_cena}} </td>
+                <td> {{sn.kolicina}} </td>
+                <td> {{sn.rabat}} </td>
+                <td> {{sn.stopa_pdva}} </td>
+                <td> {{sn.osnovica}} </td>
+                <td> {{sn.iznos_pdva}} </td>
+                <td> {{sn.ukupan_iznos}} </td>
+      </tr>
+  </tbody>
+</table>

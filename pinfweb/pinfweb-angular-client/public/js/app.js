@@ -176,6 +176,11 @@ app.config(function ($routeProvider) {
         templateUrl: "views/narudzbenica/izmena_narudzbenice.html"
     });
     
+    $routeProvider.when("/narudzbenica/:id", {
+        controller: "StavkeNarudzbeniceCtrl",
+        templateUrl: "views/narudzbenica/pregled_stavki_narudzbenice.html"
+    });
+    
     $routeProvider.when("/eksport_fakture", {
         controller: "EksportFaktureCtrl",
         templateUrl: "views/faktura/eksport_fakture.html"
