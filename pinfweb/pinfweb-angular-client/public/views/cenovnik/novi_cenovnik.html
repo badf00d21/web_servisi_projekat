@@ -8,17 +8,45 @@
     <form role="form" method="post" >
        <div class="form-group" >
           <label>ID Preduzeca:</label>
-          <select id="preduzece" ng-model="noviCenovnik.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca" 
-                 class="form-control" required> </select>
+          <div class="input-group ">
+             <input class="form-control" type="text" ng-model="noviCenovnik.id_preduzeca" disabled required> 
+             <span class="input-group-btn" >
+                 <button class="btn btn-primary" data-ng-click="izaberiPreduzece()">Izaberi</button>
+             </span>
+          </div>
        </div>
        <div class="form-group">
-          <label for="name">Datum Vazenja:</label>
+          <label for="name">Datum vazenja:</label>
           <input type="date" class="form-control" ng-model="noviCenovnik.datum_vazena">
        </div>
-      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+      
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Jedinica mere</th>
+      <th class="col-md-4 col-xs-4">Cena</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in proizvodi | filter:pretraga track by p.id_proizvoda">
+                <td>  {{p.id_proizvoda}} </td>
+                <td> {{p.naziv_proizvoda}} </td>
+                <td> {{p.grupa_proizvoda}} </td>
+                <td> {{p.vrsta_proizvoda}} </td>
+                <td>  {{p.jedinica_mere}} </td>
+                <td>  <input type="text" class="form-control" ng-model="p.cena"> </td>
+       </tr>
+  </tbody>
+</table>
+<div data-ng-hide="errorMessage == ''" class="alert alert-danger">
         {{errorMessage}}
       </div>
       <button type="submit" class="btn btn-primary" ng-click="kreirajCenovnik()">Submit</button>
     </form>
   </div>
 </div>
+

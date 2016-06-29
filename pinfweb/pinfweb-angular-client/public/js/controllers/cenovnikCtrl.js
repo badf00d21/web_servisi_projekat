@@ -58,9 +58,12 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
     }
 }]);
 
-app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', 'preduzeceService', function($scope, $location, cenovnikService, preduzeceService) {
+app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', 'preduzeceService','grupaProizvodaService','jedinicaMereService', 'proizvodService','ModalService','dateValidationService', function($scope, $location, cenovnikService, preduzeceService, grupaProizvodaService, jedinicaMereService, proizvodService, ModalService, dateValidationService) {
     
     $scope.preduzeca = [];
+    $scope.proizvodi = [];
+    $scope.grupeProizvoda = [];
+    $scope.jediniceMere = [];
     $scope.errorMessage = "";
    
     $scope.noviCenovnik = {
@@ -71,13 +74,111 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
     preduzeceService.ucitajPreduzeca().then(function(response) {
             $scope.preduzeca = response.data;
     });
+    
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(response) {
+            $scope.grupeProizvoda = response.data;
+    });
+
+    jedinicaMereService.ucitajJediniceMere().then(function(response) {
+            $scope.jediniceMere = response.data;
+    });
+    
+    var ucitajProizvode = function() {
+        proizvodService.ucitajProizvode().then(function(response) {
+            $scope.proizvodi = [];
+             for (var i = 0; i < response.data.length; i++) {
+                 if (response.data[i].id_preduzeca == $scope.noviCenovnik.id_preduzeca) {
+                      
+                      var proizvod = {
+                          id_proizvoda: "",
+                          naziv_proizvoda: "",
+                          id_grupe_proizvoda: "",
+                          grupa_proizvoda: "",
+                          vrsta_proizvoda: "",
+                          id_jedinice_mere: "",
+                          jedinica_mere: "",
+                          cena: "0"
+                      }
+
+                      proizvod.id_proizvoda = response.data[i].id_proizvoda;
+                      proizvod.naziv_proizvoda = response.data[i].naziv_proizvoda;
+                      proizvod.id_grupe_proizvoda = response.data[i].id_grupe;
+                      proizvod.id_jedinice = response.data[i].id_jedinice;
+                      proizvod.vrsta_proizvoda = response.data[i].vrsta_proizvoda;
+
+                      for (var j = 0; j < $scope.grupeProizvoda.length; j++) {
+                          if ($scope.grupeProizvoda[j].id_grupe == proizvod.id_grupe_proizvoda) {
+                              proizvod.grupa_proizvoda = $scope.grupeProizvoda[j].naziv_grupe;
+                              break;
+                          }
+                      }
+
+                      for (var j = 0; j < $scope.jediniceMere.length; j++) {
+                          if ($scope.jediniceMere[j].id_jedinice == proizvod.id_jedinice) {
+                              proizvod.jedinica_mere = $scope.jediniceMere[j].skracenica;
+                              break;
+                          }
+                      }
+                      
+                      $scope.proizvodi.push(proizvod);
+                 }
+             }       
+         });
+    }
+    
+    $scope.$watch('noviCenovnik.id_preduzeca', function(newVal, oldVal) {
+        ucitajProizvode();
+    }, true);
+    
+    $scope.izaberiPreduzece = function() {
+        ModalService.showModal({
+            templateUrl: '../views/preduzece/izbor_preduzeca.html',
+            controller: "PreduzeceModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.noviCenovnik.id_preduzeca = result;
+            });
+        });
+    }
    
    $scope.kreirajCenovnik = function() {
-       if ($scope.noviCenovnik.id_preduzeca == "" || $scope.noviCenovnik.datum_vazena == "") {
-           $scope.errorMessage = "Sva polja moraju biti popunjena!";
+       
+       if ($scope.noviCenovnik.id_preduzeca == "") {
+           $scope.errorMessage = "Morate izabrati preduzece za koje se kreira cenovnik!";
            return;
        }
        
+       var izabraniProizvodi = [];
+       var ceneValid = true;
+       
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].cena < 0) {
+               ceneValid = false;
+               break;
+           }
+       }
+       
+       if (!ceneValid) {
+           $scope.errorMessage = "Cena proizvoda moze biti nula ukoliko proizvod ne ulazi u cenovnik ili veca od nule ukoliko ulazi!";
+           return;
+       }
+       
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].cena > 0) {
+               izabraniProizvodi.push($scope.proizvodi[i]);
+           }
+       }
+       
+       if (izabraniProizvodi.length == 0) {
+           $scope.errorMessage = "Cenovnik mora sadrzati bar jedan proizvod!";
+           return;
+       }
+       
+       $scope.noviCenovnik.proizvodi = izabraniProizvodi;
        cenovnikService.dodajCenovnik($scope.noviCenovnik).then(function(response) {
             $location.path('/pregled_cenovnika');
        });

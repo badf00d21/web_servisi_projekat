@@ -13,7 +13,7 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
 
     return  $http({
        method: 'POST',
-       url: restApiBaseUrl + "cenovnik" + '/',
+       url: restApiBaseUrl + "novi_cenovnik" + '/',
        data: cenovnik,
         headers: {
             'Content-Type': 'application/json'
