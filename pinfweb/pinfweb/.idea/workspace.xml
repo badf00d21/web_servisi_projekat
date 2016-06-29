@@ -4,7 +4,6 @@
     <list default="true" id="4c3ba125-7cf4-4c30-8977-5d347db33293" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pinfweb/urls.py" afterPath="$PROJECT_DIR$/pinfweb/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fakturisanje/views.py" afterPath="$PROJECT_DIR$/fakturisanje/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pinfweb.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,11 +34,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fakturisanje/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.24" vertical-offset="4501" max-vertical-offset="5562">
-              <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.33281004" vertical-offset="4810" max-vertical-offset="5544">
+              <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -47,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pinfweb/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.80062795" vertical-offset="0" max-vertical-offset="646">
-              <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+            <state vertical-scroll-proportion="-20.4" vertical-offset="0" max-vertical-offset="646">
+              <caret line="30" column="46" selection-start-line="30" selection-start-column="46" selection-end-line="30" selection-end-column="46" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -74,7 +73,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fakturisanje/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.48" vertical-offset="2606" max-vertical-offset="3434">
+            <state vertical-scroll-proportion="-15.44" vertical-offset="2657" max-vertical-offset="3434">
               <caret line="179" column="150" selection-start-line="179" selection-start-column="150" selection-end-line="179" selection-end-column="150" />
               <folding>
                 <element signature="e#468#507#0" expanded="true" />
@@ -94,8 +93,8 @@
         <option value="$PROJECT_DIR$/pinfweb/settings.py" />
         <option value="$PROJECT_DIR$/fakturisanje/models.py" />
         <option value="$PROJECT_DIR$/fakturisanje/serializers.py" />
-        <option value="$PROJECT_DIR$/fakturisanje/views.py" />
         <option value="$PROJECT_DIR$/pinfweb/urls.py" />
+        <option value="$PROJECT_DIR$/fakturisanje/views.py" />
       </list>
     </option>
   </component>
@@ -531,13 +530,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/fakturisanje/views.py</url>
-          <line>273</line>
-          <option name="timeStamp" value="64" />
+          <line>272</line>
+          <option name="timeStamp" value="65" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/fakturisanje/views.py</url>
-          <line>272</line>
-          <option name="timeStamp" value="65" />
+          <line>275</line>
+          <option name="timeStamp" value="66" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -547,7 +546,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="66" />
+      <option name="time" value="67" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -784,16 +783,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fakturisanje/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.48" vertical-offset="2606" max-vertical-offset="3434">
-          <caret line="179" column="150" selection-start-line="179" selection-start-column="150" selection-end-line="179" selection-end-column="150" />
-          <folding>
-            <element signature="e#468#507#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fakturisanje/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.96" vertical-offset="1309" max-vertical-offset="2465">
@@ -804,22 +793,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fakturisanje/views.py">
+    <entry file="file://$PROJECT_DIR$/pinfweb/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.24" vertical-offset="4501" max-vertical-offset="5562">
-          <caret line="274" column="0" selection-start-line="274" selection-start-column="0" selection-end-line="274" selection-end-column="0" />
+        <state vertical-scroll-proportion="-20.4" vertical-offset="0" max-vertical-offset="646">
+          <caret line="30" column="46" selection-start-line="30" selection-start-column="46" selection-end-line="30" selection-end-column="46" />
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pinfweb/urls.py">
+    <entry file="file://$PROJECT_DIR$/fakturisanje/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.80062795" vertical-offset="0" max-vertical-offset="646">
-          <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+        <state vertical-scroll-proportion="-15.44" vertical-offset="2657" max-vertical-offset="3434">
+          <caret line="179" column="150" selection-start-line="179" selection-start-column="150" selection-end-line="179" selection-end-column="150" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#468#507#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda2/Lib/site-packages/django/views/decorators/csrf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76888216" vertical-offset="409" max-vertical-offset="1071">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fakturisanje/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33281004" vertical-offset="4810" max-vertical-offset="5544">
+          <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>

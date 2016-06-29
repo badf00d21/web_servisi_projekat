@@ -270,19 +270,18 @@ def faktura_na_osnovu_narudzbenice(request):
         return JsonResponse({"status":"Neuspesno"})
 
 @csrf_exempt
-def posalji_fakturu(request):
-    parameters = json.loads(request.body)
+def posalji_fakturu(request,id_fakture):
+    #parameters = json.loads(request.body)
 
     try:
-        f = Faktura.objects.get(parameters['id_fakture'])
+        f = Faktura.objects.get(id_fakture = id_fakture)
         f.status = 'Poslata'
         f.save()
         return JsonResponse({"status": "Uspesno poslata faktura!", "faktura_id":f.id_fakture})
 
     except Faktura.DoesNotExist:
         return JsonResponse({"status": " Greska! Ne postoji u bazi"})
-    except Faktura.MultipleValues:
-        return JsonResponse({"status": "Greska! Imate vise od jednog unosa u bazi za jedinstven objekat! "})
+
 
 
 @csrf_exempt
