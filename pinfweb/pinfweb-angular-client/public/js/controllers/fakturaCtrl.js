@@ -46,6 +46,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
         id_preduzeca : "",
         id_godine : "",
         broj_fakture : "",
+        rabat: "",
         datum_fakture : "",
         datum_valute : "",
     };
@@ -184,6 +185,11 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
 
        if (!(+$scope.novaFaktura.broj_fakture === parseInt($scope.novaFaktura.broj_fakture, 10))) {
            $scope.errorMessage = "Broj fakture mora biti ceo broj";
+           return;
+       }
+
+       if (isNaN(parseFloat($scope.novaFaktura.rabat))) {
+           $scope.errorMessage = "Rabat mora biti pozitivan decimalan broj";
            return;
        }
 
