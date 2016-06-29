@@ -14,6 +14,9 @@
       <th >ID Preduzeca</th>
       <th >Rok isporuke</th>
       <th >Rok placanja</th>
+      <th> Kreiraj fakturu </th>
+      <th> Izmeni </th>
+      <th> Izbrisi </th>
     </tr>
   </thead>
   <tbody
@@ -23,8 +26,9 @@
                 <td>  {{n.id_preduzeca}} </td>
                 <td>  {{n.rok_isporuke}} </td>
                 <td> {{n.rok_placanja}} </td>
+                <td> <button class="image-button" ng-click="kreirajFakturu(n.id_narudzbenice)"><img src="http://icons.iconarchive.com/icons/visualpharm/finance/256/invoice-icon.png" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izmeniNarudzbenicu(n.id_narudzbenice)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiNarudzbenicu(n.id_narudzbenice)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
-                 </tr>
+      </tr>
   </tbody>
 </table>

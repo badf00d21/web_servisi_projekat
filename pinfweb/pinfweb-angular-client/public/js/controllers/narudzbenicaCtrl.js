@@ -1,4 +1,4 @@
-app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaService', function($scope, $location, narudzbenicaService) {
+app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaService', 'fakturaService', 'ModalService', function($scope, $location, narudzbenicaService, fakturaService, ModalService) {
 
    $scope.narudzbenice = [];
 
@@ -27,6 +27,31 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
                 }
             }
        });
+   }
+   
+   $scope.kreirajFakturu = function(id) {
+       var faktura = {
+           id_narudzbenice: "",
+           id_poslovne_godine: ""
+       }
+       
+        ModalService.showModal({
+            templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
+            controller: "PoslovnaGodinaModalController",
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                faktura.id_narudzbenice = id;
+                faktura.id_poslovne_godine = result;
+                
+                fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
+                     $location.path('/pregled_faktura');
+                });
+            });
+        });
    }
 
    
