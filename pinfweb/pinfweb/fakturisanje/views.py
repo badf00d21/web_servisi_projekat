@@ -202,7 +202,7 @@ def faktura_xml_export(request, id_fakture):
 
     serialized_obj = serializers.serialize('xml', [ f, ])
 
-    return Response(serialized_obj)
+    return JsonResponse({"xmldata":serialized_obj})
 
 @csrf_exempt
 def kreiraj_narudzbenicu(request):
