@@ -48,7 +48,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
         broj_fakture : "",
         rabat: "",
         datum_fakture : "",
-        datum_valute : "",
+        datum_valute : ""
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
@@ -340,7 +340,8 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
         id_preduzeca: "",
         id_poslovnog_partnera: "",
         rok_isporuke: "",
-        rok_placanja: ""
+        rok_placanja: "",
+        status: ""
     }
 
     $scope.preduzece = {
@@ -365,11 +366,12 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
         
                     preduzeceService.getPreduzece($scope.faktura.id_preduzeca).then(function (preduzece) {
                          $scope.preduzece = preduzece.data;
+                         $scope.faktura.preduzece = preduzece.data.nazivpreduzeca;
             
                          stavkeFaktureServis.ucitajStavkeFakture().then(function(response) {
                 
                             for (var i = 0; i < response.data.length; i++) {
-                                 if (response.data[i].id_stavke_fakture == $routeParams.id) {
+                                 if (response.data[i].id_fakture == $routeParams.id) {
                                      var stavkaFakture = {
                                          id_stavke_fakture: "",
                                          id_proizvoda: "",
@@ -391,9 +393,9 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
                                     
                                     stavkaFakture.kolicina = response.data[i].kolicina;
                                     stavkaFakture.rabat = response.data[i].rabat;
-                                    stavkaFakture.stopa_pdva = response.data[i].stopa_pdva;
+                                    stavkaFakture.stopa_pdva = response.data[i].stopa_pdv_a;
                                     stavkaFakture.osnovica = response.data[i].osnovica;
-                                    stavkaFakture.iznos_pdva = response.data[i].iznos_pdva;
+                                    stavkaFakture.iznos_pdva = response.data[i].iznos_pdv_a;
                                     stavkaFakture.ukupan_iznos = response.data[i].ukupan_iznos;
 
                                     for (var j = 0; j < $scope.proizvodi.length; j++) {
@@ -429,33 +431,11 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
     });
         });
     });
+
+    $scope.posaljiFakturu = function() {
+            fakturaService.posaljiFakturu($scope.faktura.id_fakture).then(function(success) {
+                $location.path("/pregled_faktura");
+            });
+    }
 }]);
 
-app.controller('PoslovnaGodinaRabatModalController', ['$scope', 'close', 'poslovnaGodinaService', 'id_preduzeca', function($scope, close, poslovnaGodinaService, id_preduzeca) {
-   
-  $scope.poslovneGodine = [];
-
-   var refreshData = function() {
-       poslovnaGodinaService.ucitajPoslovneGodine().then(function(response) {
-            for (var i = 0; i < response.data.length; i++) {
-                if (response.data[i].id_preduzeca == id_preduzeca) {
-                    $scope.poslovneGodine.push(response.data[i]);
-                }
-            }
-       });
-   }
-
-   $scope.result = {
-       id_poslovne_godine: "",
-       rabat: ""
-   }
-
-   refreshData();
-   
-   $scope.close = function(result) {
-
-       $scope.result.id_poslovne_godine = result;
-
-       close($scope.result, 500);
-   } 
-}]);

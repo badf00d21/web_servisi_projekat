@@ -55,5 +55,9 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     this.pretraziFakture = function(datumi) {
         return $http.post(restApiBaseUrl + "pretraga_faktura", datumi);
     }
+
+    this.posaljiFakturu = function(id) {
+        return $http.post(restApiBaseUrl + "faktura/posalji/", id);
+    }
     
 }]);
