@@ -139,7 +139,7 @@ def fakturisanje_rucno(request):
     try:
         with transaction.atomic():
             f = Faktura( broj_fakture = parameters['broj_fakture'], id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
-                         datum_valute = parameters['datum_valute'], datum_fakture = datum, id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
+                         datum_valute = parameters['datum_valute'][:10], datum_fakture = datum, id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
                          id_preduzeca = Preduzece.objects.get( id_preduzeca = parameters['id_preduzeca']), status = 'U izradi')
             f.save()
             vazeci_cen = get_vazeci_cenovnik(parameters['id_preduzeca'])
@@ -147,10 +147,9 @@ def fakturisanje_rucno(request):
 
 
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda'])
-
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
-                #rabat =
-                s_jcena_prodajna = s_jcena + float(stavka['rabat'])
+                rabat = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat)
+                s_jcena_prodajna = s_jcena + rabat
                 s_osn = s_jcena_prodajna * float(stavka['kolicina'])
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
                 s_ukupanizn = s_osn + s_izpdv
@@ -159,7 +158,7 @@ def fakturisanje_rucno(request):
                 ukupan_pdv = ukupan_pdv + float(s_izpdv)
                 s = StavkeFakture( stopa_pdv_a = pdv_stopa_stavke, iznos_pdv_a = s_izpdv,
                                    osnovica = s_osn ,ukupan_iznos = s_ukupanizn,
-                                    id_proizvoda = Proizvod.objects.get(id_proizvoda = stavka['id_proizvoda']), rabat =stavka['rabat'],  id_fakture = f, jedinicna_cena = s_jcena, kolicina = stavka['kolicina'] )
+                                    id_proizvoda = Proizvod.objects.get(id_proizvoda = stavka['id_proizvoda']), rabat = rabat,  id_fakture = f, jedinicna_cena = s_jcena, kolicina = stavka['kolicina'] )
                 s.save()
             ukupno_za_uplatu = ukupno_bez_pdva + ukupan_pdv
             f.ukupan_iznos_bez_pdv_a = ukupno_bez_pdva
