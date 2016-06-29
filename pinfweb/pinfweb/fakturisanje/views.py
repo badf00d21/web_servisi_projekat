@@ -136,6 +136,7 @@ def fakturisanje_rucno(request):
     ukupno_bez_pdva = 0
     ukupan_pdv = 0
     ukupno_za_uplatu = 0
+    ukupan_rabat = 0
     try:
         with transaction.atomic():
             f = Faktura( broj_fakture = parameters['broj_fakture'], id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
@@ -156,6 +157,7 @@ def fakturisanje_rucno(request):
 
                 ukupno_bez_pdva = ukupno_bez_pdva + float(s_osn)
                 ukupan_pdv = ukupan_pdv + float(s_izpdv)
+                ukupan_rabat = ukupan_rabat + rabat
                 s = StavkeFakture( stopa_pdv_a = pdv_stopa_stavke, iznos_pdv_a = s_izpdv,
                                    osnovica = s_osn ,ukupan_iznos = s_ukupanizn,
                                     id_proizvoda = Proizvod.objects.get(id_proizvoda = stavka['id_proizvoda']), rabat = rabat,  id_fakture = f, jedinicna_cena = s_jcena, kolicina = stavka['kolicina'] )
@@ -163,6 +165,7 @@ def fakturisanje_rucno(request):
             ukupno_za_uplatu = ukupno_bez_pdva + ukupan_pdv
             f.ukupan_iznos_bez_pdv_a = ukupno_bez_pdva
             f.ukupan_pdv = ukupan_pdv
+            f.ukupan_rabat = ukupan_rabat
             f.ukupno_za_placanje = ukupno_za_uplatu
             f.save()
 
@@ -199,7 +202,7 @@ def kreiraj_narudzbenicu(request):
     try:
         with transaction.atomic():
             n = Narudzbenica(id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
-                             id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = parameters['rok_isporuke'], rok_placanja = parameters['rok_placanja'])
+                             id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = parameters['rok_isporuke'][:10], rok_placanja = parameters['rok_placanja'][:10])
             n.save()
 
             vazeci_cen = get_vazeci_cenovnik(parameters['id_preduzeca'])
@@ -212,7 +215,9 @@ def kreiraj_narudzbenicu(request):
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
                 s_ukupanizn = s_osn + s_izpdv
 
-                s = StavkaNarudzbenice(ukupan_iznos = s_ukupanizn, iznos_pdv_a = s_izpdv, osnovica = s_osn, stopa_pdv_a = pdv_stopa_stavke, jedinicna_cena = s_jcena, id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']), kolicina = proizvod['kolicina'])
+                s = StavkaNarudzbenice(ukupan_iznos = s_ukupanizn, iznos_pdv_a = s_izpdv, osnovica = s_osn, stopa_pdv_a = pdv_stopa_stavke,
+                                       jedinicna_cena = s_jcena, id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']),
+                                       kolicina = proizvod['kolicina'])
                 s.save()
         #    nova_faktura = {'id_nove_fakture': f.id_fakture}
             return JsonResponse({"id_narudzbenice":n.id_narudzbenice})
