@@ -7,6 +7,7 @@ from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from django.db import  transaction
+from django.http import JsonResponse
 from reportlab.pdfgen import canvas
 import json
 
@@ -114,7 +115,8 @@ def kopiraj_cenovnik(request):
             stavke = StavkeCenovnika.objects.filter( id_cenovnika = c.id_cenovnika )
             for i in range (len(stavke)):
                 StavkeCenovnika( id_proizvoda = stavke[i].id_proizvoda, id_cenovnika = c2, cena = float(stavke[i].cena) + float(stavke[i].cena) * float(percent) / float(100)).save()
-            return Response(status=status.HTTP_201_CREATED)
+            #return Response(status=status.HTTP_201_CREATED)
+            response = JsonResponse({'id_cenovnika':str(c2.id_cenovnika)})
     except:
         print 'nesto je poslo po zlu :('
         return Response(status=status.HTTP_417_EXPECTATION_FAILED)
@@ -134,7 +136,8 @@ def fakturisanje_rucno(request):
                 s = StavkeFakture( id_proizvoda = Proizvod.objects.get( id_proizvoda = stavka['id_proizvoda']['id_proizvoda']), id_fakture = f, kolicina = stavka['kolicina'])
                 s.save()
             nova_faktura = {'id_nove_fakture': f.id_fakture}
-            return Response(nova_faktura, status = status.HTTP_200_OK)
+           # return Response(nova_faktura, status = status.HTTP_200_OK)
+            #response = JsonResponse({""})
     except:
        #handle_exception()
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
