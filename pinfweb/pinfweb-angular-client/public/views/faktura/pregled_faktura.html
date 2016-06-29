@@ -29,7 +29,7 @@
   </thead>
   <tbody
        <tr ng-repeat="f in fakture | filter:pretraga">
-                <td> {{f.id_fakture}} </td>
+                <td> <a href="#/faktura/{{f.id_fakture}}"> {{f.id_fakture}} </a>  </td>
                 <td>  {{f.id_poslovnog_partnera}} </td>
                 <td>  {{f.id_preduzeca}} </td>
                 <td>  {{f.id_godine}} </td>
