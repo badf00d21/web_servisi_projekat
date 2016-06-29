@@ -1,0 +1,40 @@
+
+    <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Poslovna godina i rabat</h3>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+                 <table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th>ID Godine</th>
+      <th>Godina</th>
+      <th>Zakljucena</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in poslovneGodine | filter:pretraga track by p.id_godine">
+                <td> {{p.id_godine}} </td>
+                <td> {{p.godina}} </td>
+                <td> {{p.zakljucena}} </td>
+                <td> <button class="btn btn-primary" ng-click="close(p.id_godine)" data-dismiss="modal"> Izaberi </button></td>
+            </tr>
+  </tbody>
+</table>
+<div class="form-group">
+          <label for="name">Rabat:</label>
+          <input type="text" class="form-control" ng-model="rabat">
+       </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>

@@ -430,3 +430,32 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
         });
     });
 }]);
+
+app.controller('PoslovnaGodinaRabatModalController', ['$scope', 'close', 'poslovnaGodinaService', 'id_preduzeca', function($scope, close, poslovnaGodinaService, id_preduzeca) {
+   
+  $scope.poslovneGodine = [];
+
+   var refreshData = function() {
+       poslovnaGodinaService.ucitajPoslovneGodine().then(function(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                if (response.data[i].id_preduzeca == id_preduzeca) {
+                    $scope.poslovneGodine.push(response.data[i]);
+                }
+            }
+       });
+   }
+
+   $scope.result = {
+       id_poslovne_godine: "",
+       rabat: ""
+   }
+
+   refreshData();
+   
+   $scope.close = function(result) {
+
+       $scope.result.id_poslovne_godine = result;
+
+       close($scope.result, 500);
+   } 
+}]);
