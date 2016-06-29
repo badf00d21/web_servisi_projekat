@@ -95,6 +95,7 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
                           vrsta_proizvoda: "",
                           id_jedinice_mere: "",
                           jedinica_mere: "",
+                          rabat: "0",
                           cena: "0"
                       }
 

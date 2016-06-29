@@ -37,8 +37,8 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
        }
        
         ModalService.showModal({
-            templateUrl: '../views/faktura/izbor_poslovne_godine_i_rabata.html',
-            controller: "PoslovnaGodinaRabatModalController",
+            templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
+            controller: "PoslovnaGodinaModalController",
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
@@ -46,8 +46,7 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
                     return;
                               
                 faktura.id_narudzbenice = id;
-                faktura.id_poslovne_godine = result.id_poslovne_godine;
-                faktura.rabat = result.rabat;
+                faktura.id_poslovne_godine = result;
                 
                 fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
                      $location.path('/pregled_faktura');
@@ -355,8 +354,8 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
        }
        
         ModalService.showModal({
-            templateUrl: '../views/faktura/izbor_poslovne_godine_i_rabat.html',
-            controller: "PoslovnaGodinaRabatModalController",
+            templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
+            controller: "PoslovnaGodinaModalController",
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
@@ -364,8 +363,7 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
                     return;
                               
                 faktura.id_narudzbenice = $scope.narudzbenica.id_narudzbenice;
-                faktura.id_poslovne_godine = result.id_poslovne_godine;
-                faktura.rabat = result.rabat;
+                faktura.id_poslovne_godine = result;
                 
                 fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
                      $location.path('/pregled_faktura');
