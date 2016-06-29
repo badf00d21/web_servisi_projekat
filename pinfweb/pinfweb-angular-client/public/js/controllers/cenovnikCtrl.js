@@ -1,4 +1,4 @@
-app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', function($scope, $location, cenovnikService) {
+app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService','ModalService', function($scope, $location, cenovnikService, ModalService) {
 
    $scope.cenovnici = [];
 
@@ -50,8 +50,7 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
              }
              
             cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
-                    console.log(response.data);
-                    //redirect cenovnik/id
+                    $location.path('/cenovnik/' + response.data);
              });
             });
         });
