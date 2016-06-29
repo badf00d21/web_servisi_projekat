@@ -6,8 +6,9 @@ from django.core import serializers
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
-from django.db import  transaction
+from django.db import  transaction, connections, connection
 from django.http import JsonResponse
+from random import randint
 from reportlab.pdfgen import canvas
 import datetime
 import json
@@ -139,8 +140,12 @@ def fakturisanje_rucno(request):
     ukupan_rabat = 0
     try:
         with transaction.atomic():
+            dat = None
+            if parameters['datum_fakture'] != None:
+                dat = parameters['datum_valute'][:10]
+
             f = Faktura( broj_fakture = parameters['broj_fakture'], id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
-                         datum_valute = parameters['datum_valute'][:10], datum_fakture = datum, id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
+                         datum_valute = dat, datum_fakture = datum, id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
                          id_preduzeca = Preduzece.objects.get( id_preduzeca = parameters['id_preduzeca']), status = 'U izradi')
             f.save()
             vazeci_cen = get_vazeci_cenovnik(parameters['id_preduzeca'])
@@ -155,11 +160,15 @@ def fakturisanje_rucno(request):
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
                 s_ukupanizn = s_osn + s_izpdv
 
+                gp = Proizvod.objects.get( id_proizvoda = stavka['id_proizvoda'] ).id_grupe
+                pdv = gp.id_pdv_a
+                stopa = StopaPdvA.objects.get( id_pdv_a = pdv)
+
                 ukupno_bez_pdva = ukupno_bez_pdva + float(s_osn)
                 ukupan_pdv = ukupan_pdv + float(s_izpdv)
                 ukupan_rabat = ukupan_rabat + rabat
-                s = StavkeFakture( stopa_pdv_a = pdv_stopa_stavke, iznos_pdv_a = s_izpdv,
-                                   osnovica = s_osn ,ukupan_iznos = s_ukupanizn,
+                s = StavkeFakture(  iznos_pdv_a = s_izpdv,
+                                   osnovica = s_osn ,ukupan_iznos = s_ukupanizn, stopa_pdv_a = stopa.stopa,
                                     id_proizvoda = Proizvod.objects.get(id_proizvoda = stavka['id_proizvoda']), rabat = rabat,  id_fakture = f, jedinicna_cena = s_jcena, kolicina = stavka['kolicina'] )
                 s.save()
             ukupno_za_uplatu = ukupno_bez_pdva + ukupan_pdv
@@ -201,25 +210,38 @@ def kreiraj_narudzbenicu(request):
 
     try:
         with transaction.atomic():
+            if parameters['rok_isporuke'] != None:
+                ri = parameters['rok_isporuke'][:10]
+            if parameters['rok_placanja'] != None:
+                rp = parameters['rok_placanja'][:10]
+
             n = Narudzbenica(id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
-                             id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = parameters['rok_isporuke'][:10], rok_placanja = parameters['rok_placanja'][:10])
+                             id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = ri, rok_placanja = rp)
             n.save()
 
             vazeci_cen = get_vazeci_cenovnik(parameters['id_preduzeca'])
             for proizvod in parameters['proizvodi']:
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(proizvod['id_proizvoda'])
 
+
+                s_rabat = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat)
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
-                #s_jcena_prodajna = s_jcena + float(proizvod['rabat'])
-                s_osn = s_jcena * float(proizvod['kolicina'])
+                s_jcena_prodajna = s_jcena + s_rabat
+                s_osn = s_jcena_prodajna * float(proizvod['kolicina'])
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
                 s_ukupanizn = s_osn + s_izpdv
 
-                s = StavkaNarudzbenice(ukupan_iznos = s_ukupanizn, iznos_pdv_a = s_izpdv, osnovica = s_osn, stopa_pdv_a = pdv_stopa_stavke,
+
+                gp = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda'] ).id_grupe
+                pdv = gp.id_pdv_a
+                stopa = StopaPdvA.objects.get( id_pdv_a = pdv)
+
+
+                s = StavkaNarudzbenice(ukupan_iznos = s_ukupanizn, iznos_pdv_a = s_izpdv, osnovica = s_osn, stopa_pdv_a = stopa.stopa, rabat = s_rabat,
                                        jedinicna_cena = s_jcena, id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']),
                                        kolicina = proizvod['kolicina'])
                 s.save()
-        #    nova_faktura = {'id_nove_fakture': f.id_fakture}
+
             return JsonResponse({"id_narudzbenice":n.id_narudzbenice})
     except:
        #handle_exception()
@@ -230,24 +252,20 @@ def kreiraj_narudzbenicu(request):
 def faktura_na_osnovu_narudzbenice(request):
     parameters = json.loads(request.body)
     n = Narudzbenica.objects.get(id_narudzbenice = parameters['id_narudzbenice'])
+    pg = PoslovnaGodina.objects.get( id_godine = parameters['id_poslovne_godine'])
+    datum = datetime.date.today()
+
+
+    br_fak = randint(100, 10000)
 
     try:
-        with transaction.atomic():
-            f = Faktura(id_narudzbenice = n, id_poslovnog_partnera = n.id_poslovnog_partnera,
-                             id_preduzeca = n.id_preduzeca, id_godine = 1, status = 'U izradi') #ovo obaveznoooo menjati!!!!!
-            f.save()
-            stavke_n = StavkaNarudzbenice.objects.filter( id_narudzbenice = f.id_narudzbenice )
-            for stavka in stavke_n:
-                s = StavkeFakture( id_narudzbenice = n , rabat = stavka.rabat, jedinicna_cena = stavka.jedinicna_cena,
-                                   stopa_pdv_a = stavka.stopa_pdv_a, osnovica = stavka.osnovica, iznos_pdv_a = stavka.iznos_pdv_a,
-                                   ukupan_iznos = stavka.ukupan_iznos,
-                                   id_proizvoda = Proizvod.objects.get( id_proizvoda = stavka.id_proizvoda), kolicina = stavka.kolicina)
-                s.save()
-        #    nova_faktura = {'id_nove_fakture': f.id_fakture}
-            return Response( status = status.HTTP_200_OK)
+        cursor = connection.cursor()
+        cursor.callproc("proba", [n.id_narudzbenice, pg.id_godine, datum, '2017-01-01', br_fak])
+        results = cursor.fetchall()
+        cursor.close()
+        return JsonResponse({"status":"Uspesno"})
     except:
-       #handle_exception()
-        return Response(status = status.HTTP_417_EXPECTATION_FAILED)
+        return JsonResponse({"status":"Neuspesno"})
 
 
 @csrf_exempt

@@ -1,4 +1,4 @@
-<h3 align="center"> Narudzbenica (Id: {{narudzbenica.id_narudzbenice}}, Preduzece: {{narudzbenica.preduzece}}, Poslovni partner: {{narudzbenica.poslovni_partner}}, Rok isporuke: {{narudzbenica.rok_isporuke}}, Rok placanja: {{narudzbenica.rok_placanja}}) </h3>
+<h3 align="center"> Narudzbenica (Id: {{narudzbenica.id_narudzbenice}}, Preduzece: {{narudzbenica.preduzece}}, Rok isporuke: {{narudzbenica.rok_isporuke}}, Rok placanja: {{narudzbenica.rok_placanja}}) </h3>
 <br/> <br/>
 <div class="form-group pull-right">
     <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
@@ -25,7 +25,7 @@
     </tr>
   </thead>
   <tbody
-       <tr ng-repeat="sn in stavkeNarudzbenice | filter:pretraga track by sc.id_stavke_narudzbenice">
+       <tr ng-repeat="sn in stavkeNarudzbenice | filter:pretraga track by sn.id_stavke_narudzbenice">
                 <td> {{sn.id_stavke_narudzbenice}} </td>
                 <td> {{sn.id_proizvoda}}  </td>
                 <td> {{sn.naziv_proizvoda}}  </td>

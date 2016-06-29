@@ -39,6 +39,9 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
         ModalService.showModal({
             templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
             controller: "PoslovnaGodinaModalController",
+            inputs: {
+                id_preduzeca: id
+            }
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
@@ -49,7 +52,8 @@ app.controller('PregledNarudzbenicaCtrl', ['$scope', '$location', 'narudzbenicaS
                 faktura.id_poslovne_godine = result;
                 
                 fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
-                     $location.path('/pregled_faktura');
+                     $location.path('/faktura/' + response.data.id_fakture);
+                     console.log(response.data);
                 });
             });
         });
@@ -250,7 +254,7 @@ app.controller('IzmenaNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
     }
 }]);
 
-app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams', 'narudzbenicaService', 'preduzeceService', 'stavkaNarudzbeniceService', 'proizvodService', 'grupaProizvodaService', 'ModalService', function($scope, $location, $routeParams, narudzbenicaService, preduzeceService, stavkeNarudzbeniceServis, proizvodService, grupaProizvodaService, ModalService) {
+app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams', 'narudzbenicaService', 'preduzeceService', 'stavkaNarudzbeniceService', 'proizvodService', 'grupaProizvodaService', 'ModalService','fakturaService', function($scope, $location, $routeParams, narudzbenicaService, preduzeceService, stavkeNarudzbeniceServis, proizvodService, grupaProizvodaService, ModalService, fakturaService) {
     $scope.narudzbenica = {
         id_narudzbenice: "",
         id_preduzeca: "",
@@ -281,11 +285,12 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
         
                     preduzeceService.getPreduzece($scope.narudzbenica.id_preduzeca).then(function (preduzece) {
                          $scope.preduzece = preduzece.data;
+                         $scope.narudzbenica.preduzece = preduzece.data.nazivpreduzeca;
             
                          stavkeNarudzbeniceServis.ucitajStavkeNarudzbenice().then(function(response) {
                 
                             for (var i = 0; i < response.data.length; i++) {
-                                 if (response.data[i].id_stavke_narudzbenice == $routeParams.id) {
+                                 if (response.data[i].id_narudzbenice == $routeParams.id) {
                                      var stavkaNarudzbenice = {
                                          id_stavke_narudzbenice: "",
                                          id_proizvoda: "",
@@ -307,9 +312,9 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
                                     
                                     stavkaNarudzbenice.kolicina = response.data[i].kolicina;
                                     stavkaNarudzbenice.rabat = response.data[i].rabat;
-                                    stavkaNarudzbenice.stopa_pdva = response.data[i].stopa_pdva;
+                                    stavkaNarudzbenice.stopa_pdva = response.data[i].stopa_pdv_a;
                                     stavkaNarudzbenice.osnovica = response.data[i].osnovica;
-                                    stavkaNarudzbenice.iznos_pdva = response.data[i].iznos_pdva;
+                                    stavkaNarudzbenice.iznos_pdva = response.data[i].iznos_pdv_a;
                                     stavkaNarudzbenice.ukupan_iznos = response.data[i].ukupan_iznos;
 
                                     for (var j = 0; j < $scope.proizvodi.length; j++) {
@@ -356,6 +361,9 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
         ModalService.showModal({
             templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
             controller: "PoslovnaGodinaModalController",
+            inputs: {
+                id_preduzeca: $scope.preduzece.id_preduzeca
+            }
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
@@ -366,7 +374,8 @@ app.controller('StavkeNarudzbeniceCtrl', ['$scope', '$location', '$routeParams',
                 faktura.id_poslovne_godine = result;
                 
                 fakturaService.kreirajFakturuNaOsnovuNarudzbenice(faktura).then(function(response) {
-                     $location.path('/pregled_faktura');
+                     $location.path('/faktura/' + response.data.id_fakture);
+                     console.log(response.data);
                 });
             });
         });
