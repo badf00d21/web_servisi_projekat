@@ -201,8 +201,18 @@ def kreiraj_narudzbenicu(request):
             n = Narudzbenica(id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
                              id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = parameters['rok_isporuke'], rok_placanja = parameters['rok_placanja'])
             n.save()
+
+            vazeci_cen = get_vazeci_cenovnik(parameters['id_preduzeca'])
             for proizvod in parameters['proizvodi']:
-                s = StavkaNarudzbenice( id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']), kolicina = proizvod['kolicina'])
+                pdv_stopa_stavke = get_stopu_pdv_za_proizvod(proizvod['id_proizvoda'])
+
+                s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
+                #s_jcena_prodajna = s_jcena + float(proizvod['rabat'])
+                s_osn = s_jcena * float(proizvod['kolicina'])
+                s_izpdv = float(pdv_stopa_stavke) * s_osn
+                s_ukupanizn = s_osn + s_izpdv
+
+                s = StavkaNarudzbenice(ukupan_iznos = s_ukupanizn, iznos_pdv_a = s_izpdv, osnovica = s_osn, stopa_pdv_a = pdv_stopa_stavke, jedinicna_cena = s_jcena, id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']), kolicina = proizvod['kolicina'])
                 s.save()
         #    nova_faktura = {'id_nove_fakture': f.id_fakture}
             return JsonResponse({"id_narudzbenice":n.id_narudzbenice})
