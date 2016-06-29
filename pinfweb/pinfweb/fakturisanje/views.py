@@ -192,3 +192,20 @@ def faktura_na_osnovu_narudzbenice(request):
        #handle_exception()
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
 
+
+@csrf_exempt
+def novi_cenovnik(request):
+    parameters = json.loads(request.body)
+
+    try:
+        with transaction.atomic():
+            c = Cenovnik( id_preduzeca = Preduzece.objects.get( id_preduzeca = parameters['id_preduzeca']), datum_vazena = parameters['datum_vazena'])
+            c.save()
+
+            for p in parameters['proizvodi']:
+                np = StavkeCenovnika( cena = p['cena'], id_cenovnika = c, id_proizvoda = Proizvod.objects.get(id_proizvoda = p['id_proizvoda']))
+                np.save()
+            return JsonResponse({"id_cenovnika":c.id_cenovnika})
+    except:
+       #handle_exception()
+        return Response(status = status.HTTP_417_EXPECTATION_FAILED)
