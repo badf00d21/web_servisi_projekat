@@ -13,6 +13,7 @@
       <th class="col-md-4 col-xs-4">ID Cenovnika</th>
       <th class="col-md-4 col-xs-4">ID Proizvoda</th>
       <th class="col-md-4 col-xs-4">Cena</th>
+      <th class="col-md-4 col-xs-4">Rabat</th>
       <th>Izmeni</th>
       <th>Izbrisi</th>
     </tr>
@@ -23,6 +24,7 @@
                 <td>  {{sc.id_cenovnika}}  </td>
                 <td>  {{sc.id_proizvoda}}  </td>
                 <td> {{sc.cena}} </td>
+                <td> {{sc.rabat}} </td>
                 <td> <button class="image-button" ng-click="izmeniStavkuCenovnika(sc.id_stavke_cenovnika)"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaI85dzViGxVMSy96-spZPbTMWpkPHnet07ePkNA-wD6EDns9TBg" class="icon"></button></td>
                 <td> <button class="image-button" ng-click="izbrisiStavkuCenovnika(sc.id_stavke_cenovnika)"> <img src="http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Delete-icon.png" class="icon"></button></td>
        </tr>

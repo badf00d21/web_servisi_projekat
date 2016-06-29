@@ -66,7 +66,8 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
    
     $scope.noviCenovnik = {
        id_preduzeca : "",
-       datum_vazena: ""  
+       datum_vazena: "" ,
+       rabat: "" 
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
