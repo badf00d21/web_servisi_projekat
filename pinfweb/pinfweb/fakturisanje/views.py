@@ -209,6 +209,8 @@ def kreiraj_narudzbenicu(request):
     parameters = json.loads(request.body)
 
     try:
+        ri = None
+        rp = None
         with transaction.atomic():
             if parameters['rok_isporuke'] != None:
                 ri = parameters['rok_isporuke'][:10]
@@ -266,6 +268,21 @@ def faktura_na_osnovu_narudzbenice(request):
         return JsonResponse({"status":"Uspesno"})
     except:
         return JsonResponse({"status":"Neuspesno"})
+
+@csrf_exempt
+def posalji_fakturu(request):
+    parameters = json.loads(request.body)
+
+    try:
+        f = Faktura.objects.get(parameters['id_fakture'])
+        f.status = 'Poslata'
+        f.save()
+        return JsonResponse({"status": "Uspesno poslata faktura!", "faktura_id":f.id_fakture})
+
+    except Faktura.DoesNotExist:
+        return JsonResponse({"status": " Greska! Ne postoji u bazi"})
+    except Faktura.MultipleValues:
+        return JsonResponse({"status": "Greska! Imate vise od jednog unosa u bazi za jedinstven objekat! "})
 
 
 @csrf_exempt
