@@ -1,0 +1,40 @@
+<h3 align="center"> Faktura (Id: {{faktura.id_fakture}}, Preduzece: {{faktura.preduzece}}, Poslovni partner: {{faktura.poslovni_partner}}, Datum fakture: {{faktura.datum_fakture}}, Datum valute: {{faktura.datum_valute}}) </h3>
+<br/> <br/>
+<div class="form-group pull-right">
+    <input type="text" class="search form-control" placeholder="Pretraga" ng-model="pretraga">
+</div>
+<span class="counter pull-right"></span>
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Stavke Fakture</th>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta proizvoda</th>
+      <th class="col-md-4 col-xs-4">Jedinicna cena</th>
+      <th class="col-md-4 col-xs-4">Kolicina</th>
+      <th class="col-md-4 col-xs-4">Rabat</th>
+      <th class="col-md-4 col-xs-4">Stopa Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Osnovica</th>
+      <th class="col-md-4 col-xs-4">Iznos Pdv-a</th>
+      <th class="col-md-4 col-xs-4">Ukupan iznos</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="sf in stavkeFakture | filter:pretraga track by sn.id_stavke_fakture">
+                <td> {{sf.id_stavke_fakture}} </td>
+                <td> {{sf.id_proizvoda}}  </td>
+                <td> {{sf.naziv_proizvoda}}  </td>
+                <td> {{sf.grupa_proizvoda}}  </td>
+                <td> {{sf.vrsta_proizvoda}}  </td>
+                <td> {{sf.jedinicna_cena}} </td>
+                <td> {{sf.kolicina}} </td>
+                <td> {{sf.rabat}} </td>
+                <td> {{sfsn.stopa_pdva}} </td>
+                <td> {{sf.osnovica}} </td>
+                <td> {{sf.iznos_pdva}} </td>
+                <td> {{sf.ukupan_iznos}} </td>
+      </tr>
+  </tbody>
+</table>

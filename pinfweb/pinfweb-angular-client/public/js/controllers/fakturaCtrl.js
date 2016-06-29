@@ -215,7 +215,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
 
        $scope.novaFaktura.proizvodi = izabraniProizvodi;
        fakturaService.dodajFakturu($scope.novaFaktura).then(function(response) {
-            $location.path('/pregled_faktura');
+            $location.path('/faktura/' + response.data.id_fakutre);
        });
    }
    
@@ -325,4 +325,102 @@ app.controller('PretragaFaktureCtrl', ['$scope', '$location', 'fakturaService', 
    
 
    
+}]);
+
+
+app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fakturaService', 'preduzeceService', 'stavkaFaktureService', 'proizvodService', 'grupaProizvodaService', 'ModalService', function($scope, $location, $routeParams, fakturaService, preduzeceService, stavkeFaktureServis, proizvodService, grupaProizvodaService, ModalService) {
+    $scope.faktura = {
+        id_fakture: "",
+        id_preduzeca: "",
+        id_poslovnog_partnera: "",
+        rok_isporuke: "",
+        rok_placanja: ""
+    }
+
+    $scope.preduzece = {
+        id_preduzeca: "",
+        nazivpreduzeca: ""
+    }
+    
+    $scope.stavkeFakture = [];
+    $scope.grupeProizvoda = [];
+    $scope.proizvodi= [];
+    
+    $scope.errorMessage = "";
+
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(grupe) {
+        $scope.grupeProizvoda = grupe.data;
+
+        proizvodService.ucitajProizvode().then(function(proizvodi) {
+              $scope.proizvodi = proizvodi.data;
+
+               fakturaService.getFaktura($routeParams.id).then(function(faktura) {
+       	            $scope.faktura = faktura.data;
+        
+                    preduzeceService.getPreduzece($scope.faktura.id_preduzeca).then(function (preduzece) {
+                         $scope.preduzece = preduzece.data;
+            
+                         stavkeFaktureServis.ucitajStavkeFakture().then(function(response) {
+                
+                            for (var i = 0; i < response.data.length; i++) {
+                                 if (response.data[i].id_stavke_fakture == $routeParams.id) {
+                                     var stavkaFakture = {
+                                         id_stavke_fakture: "",
+                                         id_proizvoda: "",
+                                         naziv_proizvoda: "",
+                                         grupa_proizvoda: "",
+                                         vrsta_proizvoda: "",
+                                         jedinicna_cena: "",
+                                         kolicina: "",
+                                         rabat: "",
+                                         stopa_pdva: "",
+                                         osnovica: "",
+                                         iznos_pdva: "",
+                                         ukupan_iznos: ""
+                                      }
+                        
+                                    stavkaFakture.id_stavke_fakture = response.data[i].id_stavke_fakture;
+                                    stavkaFakture.id_proizvoda = response.data[i].id_proizvoda;
+                                    stavkaFakture.jedinicna_cena = response.data[i].jedinicna_cena;
+                                    
+                                    stavkaFakture.kolicina = response.data[i].kolicina;
+                                    stavkaFakture.rabat = response.data[i].rabat;
+                                    stavkaFakture.stopa_pdva = response.data[i].stopa_pdva;
+                                    stavkaFakture.osnovica = response.data[i].osnovica;
+                                    stavkaFakture.iznos_pdva = response.data[i].iznos_pdva;
+                                    stavkaFakture.ukupan_iznos = response.data[i].ukupan_iznos;
+
+                                    for (var j = 0; j < $scope.proizvodi.length; j++) {
+                                        if ($scope.proizvodi[j].id_proizvoda == stavkaFakture.id_proizvoda) {
+                                            stavkaFakture.naziv_proizvoda = $scope.proizvodi[j].naziv_proizvoda;
+                                            stavkaFakture.vrsta_proizvoda = $scope.proizvodi[j].vrsta_proizvoda;
+                                        }
+                                    }
+
+                                    var proizvod;
+                                    for (var k = 0; k < $scope.proizvodi.length; k++) {
+                                                if ($scope.proizvodi[k].id_proizvoda == stavkaFakture.id_proizvoda) {
+                                                    proizvod = $scope.proizvodi[k];
+                                                    break;
+                                                }
+                                            }
+
+                                    for (var l = 0; l < $scope.grupeProizvoda.length; l++) {
+                                        if ($scope.grupeProizvoda[l].id_grupe == proizvod.id_grupe) {
+                                            
+                                            stavkaFakture.grupa_proizvoda = $scope.grupeProizvoda[l].naziv_grupe;
+                                            break;
+                                        }
+                                    }
+                        
+                                    $scope.stavkeFakture.push(stavkaFakture);
+                    }
+                }
+                
+            });
+        });
+        
+    });
+        });
+    });
 }]);

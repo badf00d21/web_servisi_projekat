@@ -21,7 +21,7 @@
   </thead>
   <tbody
        <tr ng-repeat="n in narudzbenice | filter:pretraga">
-                <td> {{n.id_narudzbenice}} </td>
+                <td> <a href="#/narudzbenica/{{n.id_narudzbenice}}"> {{n.id_narudzbenice}} </a>  </td>
                 <td>  {{n.id_poslovnog_partnera}} </td>
                 <td>  {{n.id_preduzeca}} </td>
                 <td>  {{n.rok_isporuke}} </td>
