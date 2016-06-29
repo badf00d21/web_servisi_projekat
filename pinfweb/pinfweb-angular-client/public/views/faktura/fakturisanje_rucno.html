@@ -3,82 +3,75 @@
   <div class="col-sm-4"></div>
   <div class="col-sm-4">
     </br>
-    <div class="form-group pull-left"> 
-    </br></br></br>
-    <form role="form" method="post" >
-        <div class="form-group" >
-          <label>ID Poslovnog Partnera:</label>
-          <select id="partn" ng-model="novaFaktura.id_poslovnog_partnera" ng-options="part.id_poslovnog_partnera as part.id_poslovnog_partnera for part in poslovniPartneri" 
-                 class="form-control" required> </select>
-       </div>
-       <div class="form-group" >
-          <label>ID Preduzeca:</label>
-          <select id="preduzece" ng-model="novaFaktura.id_preduzeca" ng-options="preduzece.id_preduzeca as preduzece.id_preduzeca for preduzece in preduzeca" 
-                 class="form-control" required> </select>
-       </div>
-       <div class="form-group" >
-          <label>ID Poslovne Godine:</label>
-          <select id="godina" ng-model="novaFaktura.id_godine" ng-options="godina.id_godine as godina.id_godine for godina in poslovneGodine" 
-                 class="form-control" required> </select>
-       </div>
-       <div class="form-group">
-          <label for="name">Broj Fakture:</label>
-          <input type="text" class="form-control" ng-model="novaFaktura.broj_fakture">
-       </div>
-       <div class="form-group">
-          <label for="name">Datum Fakture:</label>
-          <input type="text" class="form-control" ng-model="novaFaktura.datum_fakture">
-       </div>
-       <div class="form-group">
-          <label for="name">Datum Valute:</label>
-          <input type="text" class="form-control" ng-model="novaFaktura.datum_valute">
-       </div>  
-
-
-       <div class="form-group pull-left" >
-
-<span class="counter pull-right"></span>
-<table class="table table-hover table-bordered results">
-  <thead>
-    <tr>
-      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
-      <th class="col-md-4 col-xs-4">Kolicina</th>
-    </tr>
-  </thead>
-  <tbody>
-       <tr ng-repeat="sf in stavkeFakture | filter:pretraga">
-                <td> {{sf.id_proizvoda.id_proizvoda}} </td>
-                <td> {{sf.kolicina}} </td>
-       </tr>
-  </tbody>
-</table>
-  <h2 align="center"> Kreiranje stavke fakture </h2>
-    </br>
     <div class="form-group pull-left"> </div>
     </br></br></br>
     <form role="form" method="post" >
        <div class="form-group" >
-          <label>ID Proizvoda:</label>
-          <select id="proizvod" ng-model="novaStavkaFakture.id_proizvoda" ng-options="proizvod.id_proizvoda for proizvod in proizvodi" 
-                 class="form-control" required> </select>
+          <label>ID Preduzeca:</label>
+          <div class="input-group ">
+             <input class="form-control" type="text" ng-model="novaFaktura.id_preduzeca" disabled required> 
+             <span class="input-group-btn" >
+                 <button class="btn btn-primary" data-ng-click="izaberiPreduzece()">Izaberi</button>
+             </span>
+          </div>
        </div>
        <div class="form-group" >
-          <label>Kolicina:</label>
-          <input type="text" id="proizvod" ng-model="novaStavkaFakture.kolicina" class="form-control" required> </select>
+          <label>ID Poslovnog Partnera:</label>
+          <div class="input-group ">
+             <input class="form-control" type="text" ng-model="novaFaktura.id_poslovnog_partnera" disabled required> 
+             <span class="input-group-btn" >
+                 <button class="btn btn-primary" data-ng-click="izaberiPoslovnogPartnera()">Izaberi</button>
+             </span>
+          </div>
        </div>
-      <div data-ng-hide="errorMessageStavka == ''" class="alert alert-danger">
-        {{errorMessageStavka}}
-      </div>
-    </form>
-</div>
-
-  <a> <button class="btn btn-primary" ng-click="dodajStavku()">Dodaj stavku fakture </button> </a>
-  <br/> <br />
-      <div data-ng-hide="errorMessage == ''" class="alert alert-danger">
-          {{errorMessage}}
+       <div class="form-group" >
+          <label>ID Poslovne Godine:</label>
+          <div class="input-group ">
+             <input class="form-control" type="text" ng-model="novaFaktura.id_godine" disabled required> 
+             <span class="input-group-btn" >
+                 <button class="btn btn-primary" data-ng-click="izaberiPoslovnogPartnera(novaNarudzbenica.id_preduzeca)">Izaberi</button>
+             </span>
+          </div>
+       </div>
+       <div class="form-group">
+          <label for="name">Broj fakture:</label>
+          <input type="text" class="form-control" ng-model="novaFaktura.broj_fakture">
+       </div>
+       <div class="form-group">
+          <label for="name">Datum fakture:</label>
+          <input type="date" class="form-control" ng-model="novaNarudzbenica.datum_fakture">
+       </div>
+       <div class="form-group">
+          <label for="name">Datum valute:</label>
+          <input type="date" class="form-control" ng-model="novaNarudzbenica.datum_valute">
+       </div>
+      
+<table class="table table-hover table-bordered results">
+  <thead>
+    <tr>
+      <th class="col-md-4 col-xs-4">ID Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Naziv proizvoda</th>
+      <th class="col-md-4 col-xs-4">Grupa Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Vrsta Proizvoda</th>
+      <th class="col-md-4 col-xs-4">Jedinica mere</th>
+      <th class="col-md-4 col-xs-4">Kolicina</th>
+    </tr>
+  </thead>
+  <tbody
+       <tr ng-repeat="p in proizvodi | filter:pretraga track by p.id_proizvoda">
+                <td>  {{p.id_proizvoda}} </td>
+                <td> {{p.naziv_proizvoda}} </td>
+                <td> {{p.grupa_proizvoda}} </td>
+                <td> {{p.vrsta_proizvoda}} </td>
+                <td>  {{p.jedinica_mere}} </td>
+                <td>  <input type="text" class="form-control" ng-model="p.kolicina"> </td>
+       </tr>
+  </tbody>
+</table>
+<div data-ng-hide="errorMessage == ''" class="alert alert-danger">
+        {{errorMessage}}
       </div>
       <button type="submit" class="btn btn-primary" ng-click="kreirajFakturu()">Submit</button>
     </form>
   </div>
-</div>
 </div>

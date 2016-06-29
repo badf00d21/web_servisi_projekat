@@ -92,3 +92,24 @@ app.controller('IzmenaPoslovneGodineCtrl', ['$scope', '$location', '$routeParams
        });
     }
 }]);
+
+app.controller('PoslovnaGodinaModalController', ['$scope', 'close', 'poslovnaGodinaService', 'id_preduzeca', function($scope, close, poslovnaGodinaService, id_preduzeca) {
+   
+  $scope.poslovneGodine = [];
+
+   var refreshData = function() {
+       poslovnaGodinaService.ucitajPoslovneGodine().then(function(response) {
+            for (var i = 0; i < response.data.length; i++) {
+                if (response.data[i].id_preduzeca == id_preduzeca) {
+                    $scope.poslovneGodine.push(response.data[i]);
+                }
+            }
+       });
+   }
+
+   refreshData();
+   
+   $scope.close = function(result) {
+       close(result, 500);
+   } 
+}]);

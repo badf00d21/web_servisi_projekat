@@ -111,13 +111,10 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
         ucitajProizvode();
     }, true);
     
-    $scope.izaberiPoslovnogPartnera = function(idPreduzeca) {
+    $scope.izaberiPoslovnogPartnera = function() {
         ModalService.showModal({
-            templateUrl: '../views/narudzbenica/izbor_poslovnog_partnera.html',
+            templateUrl: '../views/poslovni_partner/izbor_poslovnog_partnera.html',
             controller: "PoslovniPartnerModalController",
-            inputs: {
-                id_preduzeca: idPreduzeca
-            }
         }).then(function(modal) {
             modal.element.modal();
             modal.close.then(function(result) {
@@ -131,7 +128,7 @@ app.controller('KreiranjeNarudzbeniceCtrl', ['$scope', '$location', 'narudzbenic
     
     $scope.izaberiPreduzece = function() {
         ModalService.showModal({
-            templateUrl: '../views/narudzbenica/izbor_preduzeca.html',
+            templateUrl: '../views/preduzece/izbor_preduzeca.html',
             controller: "PreduzeceModalController"
         }).then(function(modal) {
             modal.element.modal();

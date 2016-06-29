@@ -13,7 +13,7 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
 
     return  $http({
        method: 'POST',
-       url: restApiBaseUrl + "faktura"+ '/',
+       url: restApiBaseUrl + "fakturisanje/rucno"+ '/',
        data: faktura,
         headers: {
             'Content-Type': 'application/json'

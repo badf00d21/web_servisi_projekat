@@ -32,27 +32,22 @@ app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', f
    
 }]);
 
-app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService', 'preduzeceService', 'poslovniPartnerService', 'poslovnaGodinaService', function($scope, $location, fakturaService, preduzeceService, poslovniPartnerService, poslovnaGodinaService) {
+app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService', 'preduzeceService', 'poslovniPartnerService', 'poslovnaGodinaService', 'grupaProizvodaService', 'jedinicaMereService','proizvodService', 'ModalService', function($scope, $location, fakturaService, preduzeceService, poslovniPartnerService, poslovnaGodinaService, grupaProizvodaService, jedinicaMereService, proizvodService, ModalService) {
     
     $scope.preduzeca = [];
     $scope.poslovneGodine = [];
     $scope.poslovniPartneri = [];
+    $scope.grupeProizvoda = [];
+    $scope.jediniceMere = [];
     $scope.errorMessage = "";
    
     $scope.novaFaktura = {
-        id_fakture : "",
         id_poslovnog_partnera : "",
         id_preduzeca : "",
         id_godine : "",
         broj_fakture : "",
         datum_fakture : "",
         datum_valute : "",
-        ukupan_rabat : "",
-        ukupan_iznos_bez_pdv_a : "",
-        ukupan_pdv : "",
-        ukupno_za_placanje : "",
-        status_fakture : ""
-
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
@@ -66,6 +61,109 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
     poslovniPartnerService.ucitajPoslovnePartnere().then(function(response) {
             $scope.poslovniPartneri = response.data;
     });
+    
+    grupaProizvodaService.ucitajGrupeProizvoda().then(function(response) {
+            $scope.grupeProizvoda = response.data;
+    });
+    
+    jedinicaMereService.ucitajJediniceMere().then(function(response) {
+            $scope.jediniceMere = response.data;
+    });
+    
+    var ucitajProizvode = function() {
+        proizvodService.ucitajProizvode().then(function(response) {
+            $scope.proizvodi = [];
+             for (var i = 0; i < response.data.length; i++) {
+                 if (response.data[i].id_preduzeca == $scope.novaFaktura.id_preduzeca) {
+                      
+                      var proizvod = {
+                          id_proizvoda: "",
+                          naziv_proizvoda: "",
+                          id_grupe_proizvoda: "",
+                          grupa_proizvoda: "",
+                          vrsta_proizvoda: "",
+                          id_jedinice_mere: "",
+                          jedinica_mere: "",
+                          kolicina: "0"
+                      }
+
+                      proizvod.id_proizvoda = response.data[i].id_proizvoda;
+                      proizvod.naziv_proizvoda = response.data[i].naziv_proizvoda;
+                      proizvod.id_grupe_proizvoda = response.data[i].id_grupe;
+                      proizvod.id_jedinice = response.data[i].id_jedinice;
+                      proizvod.vrsta_proizvoda = response.data[i].vrsta_proizvoda;
+
+                      for (var j = 0; j < $scope.grupeProizvoda.length; j++) {
+                          if ($scope.grupeProizvoda[j].id_grupe == proizvod.id_grupe_proizvoda) {
+                              proizvod.grupa_proizvoda = $scope.grupeProizvoda[j].naziv_grupe;
+                              break;
+                          }
+                      }
+
+                      for (var j = 0; j < $scope.jediniceMere.length; j++) {
+                          if ($scope.jediniceMere[j].id_jedinice == proizvod.id_jedinice) {
+                              proizvod.jedinica_mere = $scope.jediniceMere[j].skracenica;
+                              break;
+                          }
+                      }
+                      
+                      $scope.proizvodi.push(proizvod);
+                 }
+             }       
+         });
+    }
+    
+    $scope.$watch('novaFaktura.id_preduzeca', function(newVal, oldVal) {
+        ucitajProizvode();
+    }, true);
+    
+    $scope.izaberiPoslovnogPartnera = function() {
+        ModalService.showModal({
+            templateUrl: '../views/poslovni_partner/izbor_poslovnog_partnera.html',
+            controller: "PoslovniPartnerModalController",
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.novaFaktura.id_poslovnog_partnera = result;
+            });
+        });
+    }
+    
+    $scope.izaberiPreduzece = function() {
+        ModalService.showModal({
+            templateUrl: '../views/preduzece/izbor_preduzeca.html',
+            controller: "PreduzeceModalController"
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.novaFaktura.id_preduzeca = result;
+            });
+        });
+    }
+    
+    $scope.izaberiPoslovnuGodinu = function(idPreduzeca) {
+        ModalService.showModal({
+            templateUrl: '../views/poslovna_godina/izbor_poslovne_godine.html',
+            controller: "PoslovnaGodinaModalController",
+            inputs: {
+                id_preduzeca: idPreduzeca
+            }
+        }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+                if (result == "Cancel")
+                    return;
+                              
+                $scope.novaFaktura.id_godine = result;
+            });
+        });
+    }
    
    $scope.kreirajFakturu = function() {
        if ($scope.novaFaktura.id_preduzeca == "" || $scope.novaFaktura.id_poslovnog_partnera == "" || $scope.novaFaktura.id_godine == "" ||  $scope.novaFaktura.broj_fakture == "" ||  $scope.novaFaktura.datum_fakture == ""
