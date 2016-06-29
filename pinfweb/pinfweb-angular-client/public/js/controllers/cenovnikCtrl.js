@@ -1,5 +1,4 @@
-app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService', function($scope, $location, cenovnikService) {
-
+app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService','ModalService', function($scope, $location, cenovnikService, ModalService) {
    $scope.cenovnici = [];
 
    var refreshData = function() {
@@ -50,8 +49,7 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
              }
              
             cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
-                    console.log(response.data);
-                    //redirect cenovnik/id
+                    $location.path('/cenovnik/' + response.data);
              });
             });
         });
@@ -147,6 +145,8 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
    
    $scope.kreirajCenovnik = function() {
        
+       $scope.errorMessage = "";
+       
        if ($scope.noviCenovnik.id_preduzeca == "") {
            $scope.errorMessage = "Morate izabrati preduzece za koje se kreira cenovnik!";
            return;
@@ -180,7 +180,7 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
        
        $scope.noviCenovnik.proizvodi = izabraniProizvodi;
        cenovnikService.dodajCenovnik($scope.noviCenovnik).then(function(response) {
-            $location.path('/pregled_cenovnika');
+            $location.path('/cenovnik/' + response.data);
        });
    }
    
