@@ -214,6 +214,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
        }
 
        $scope.novaFaktura.proizvodi = izabraniProizvodi;
+       console.log($scope.novaFaktura);
        fakturaService.dodajFakturu($scope.novaFaktura).then(function(response) {
             $location.path('/pregled_faktura');
        });
