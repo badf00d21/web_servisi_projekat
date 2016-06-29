@@ -26,7 +26,7 @@ app.service('cenovnikService', ['$http', 'restApiBaseUrl', function($http, restA
 
     this.sacuvajCenovnik = function(cenovnik) {
        // return $http.put(restApiBaseUrl + "cenovnik/" + cenovnik.id_cenovnika + '/', cenovnik);
-
+       console.log(cenovnik);
     return  $http({
        method: 'PUT',
        url: restApiBaseUrl + "cenovnik/"+ cenovnik.id_cenovnika + '/',
