@@ -140,6 +140,7 @@ class Proizvod(models.Model):
 
 class StavkaNarudzbenice(models.Model):
     id_stavke_narudzbenice = models.AutoField(db_column='ID_STAVKE_NARUDZBENICE', primary_key=True)  # Field name made lowercase.
+    id_proizvoda = models.ForeignKey(Proizvod, models.DO_NOTHING, db_column='ID_PROIZVODA')  # Field name made lowercase.
     id_narudzbenice = models.ForeignKey(Narudzbenica, models.DO_NOTHING, db_column='ID_NARUDZBENICE')  # Field name made lowercase.
     kolicina = models.DecimalField(db_column='KOLICINA', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     rabat = models.DecimalField(db_column='RABAT', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.

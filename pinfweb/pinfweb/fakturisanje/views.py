@@ -146,5 +146,45 @@ def faktura_xml_export(request, id_fakture):
 
     return Response(serialized_obj)
 
+@csrf_exempt
+def kreiraj_narudzbenicu(request):
+    parameters = json.loads(request.body)
 
+    try:
+        with transaction.atomic():
+            n = Narudzbenica(id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
+                             id_preduzeca = Preduzece.objects.get(id_preduzeca = parameters['id_preduzeca']), rok_isporuke = parameters['rok_isporuke'], rok_placanja = parameters['rok_placanja'])
+            n.save()
+            for proizvod in parameters['proizvodi']:
+                s = StavkaNarudzbenice( id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']), kolicina = proizvod['kolicina'])
+                s.save()
+        #    nova_faktura = {'id_nove_fakture': f.id_fakture}
+            return Response( status = status.HTTP_200_OK)
+    except:
+       #handle_exception()
+        return Response(status = status.HTTP_417_EXPECTATION_FAILED)
+
+
+@csrf_exempt
+def faktura_na_osnovu_narudzbenice(request):
+    parameters = json.loads(request.body)
+    n = Narudzbenica.objects.get(id_narudzbenice = parameters['id_narudzbenice'])
+
+    try:
+        with transaction.atomic():
+            f = Faktura(id_poslovnog_partnera = n.id_poslovnog_partnera,
+                             id_preduzeca = n.id_preduzeca, id_godine = 1, status = 'U izradi') #ovo obaveznoooo menjati!!!!!
+            f.save()
+            stavke_n = StavkaNarudzbenice.filter( id_narudzbenice = f.id_narudzbenice )
+            for stavka in stavke_n:
+                s = StavkeFakture( id_narudzbenice = n , rabat = stavka.rabat, jedinicna_cena = stavka.jedinicna_cena,
+                                   stopa_pdv_a = stavka.stopa_pdv_a, osnovica = stavka.osnovica, iznos_pdv_a = stavka.iznos_pdv_a,
+                                   ukupan_iznos = stavka.ukupan_iznos,
+                                   id_proizvoda = Proizvod.objects.get( id_proizvoda = stavka.id_proizvoda), kolicina = stavka.kolicina)
+                s.save()
+        #    nova_faktura = {'id_nove_fakture': f.id_fakture}
+            return Response( status = status.HTTP_200_OK)
+    except:
+       #handle_exception()
+        return Response(status = status.HTTP_417_EXPECTATION_FAILED)
 

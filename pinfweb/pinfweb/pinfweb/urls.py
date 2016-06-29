@@ -22,5 +22,10 @@ router.register(r'stopapdva', views.StopaPdvAViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^kopirajcenovnik', 'fakturisanje.views.kopiraj_cenovnik')
+    url(r'^kopirajcenovnik', 'fakturisanje.views.kopiraj_cenovnik'),
+    url(r'^fakturisanje/rucno', 'fakturisanje.views.fakturisanje_rucno'),
+    url(r'^faktura/xmlexport/(?P<id_fakture>\d+)', 'fakturisanje.views.faktura_xml_export'),
+    url(r'^nova_narudzbenica', 'fakturisanje.views.kreiraj_narudzbenicu'),
+    url(r'^fakturisanje/narudzbenica', 'fakturisanje.views.faktura_na_osnovu_narudzbenice')
+
 ]

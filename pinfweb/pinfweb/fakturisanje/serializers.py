@@ -86,6 +86,7 @@ class ProizvodSerializer(serializers.ModelSerializer):
 
 class StavkaNarudzbeniceSerializer(serializers.ModelSerializer):
     id_narudzbenice = serializers.PrimaryKeyRelatedField(  queryset = Narudzbenica.objects.all() )
+    id_proizvoda = serializers.PrimaryKeyRelatedField(  queryset = Proizvod.objects.all() )
     class Meta:
         model = StavkaNarudzbenice
         fields = '__all__'
