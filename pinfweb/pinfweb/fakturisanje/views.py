@@ -146,7 +146,7 @@ def fakturisanje_rucno(request):
             for stavka in parameters['proizvodi']:
 
 
-                pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda']).stopa
+                pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda'])
 
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
                 #s_jcena_prodajna = s_jcena + float(rabat)
@@ -166,7 +166,7 @@ def fakturisanje_rucno(request):
             f.ukupno_za_placanje = ukupno_za_uplatu
             f.save()
 
-            return JsonResponse({'id_nove_fakture': f.id_fakture})
+            return JsonResponse({'id_fakture': f.id_fakture})
            # return Response(nova_faktura, status = status.HTTP_200_OK)
             #response = JsonResponse({""})
     except:
@@ -177,7 +177,7 @@ def get_stopu_pdv_za_proizvod(id_p):
     gp = Proizvod.objects.get( id_proizvoda = id_p ).id_grupe
     pdv = gp.id_pdv_a
     stopa = StopaPdvA.objects.get( id_pdv_a = pdv)
-    return stopa
+    return float(stopa.stopa) / 100
 
 def get_vazeci_cenovnik(id_p):
     pred = Preduzece.objects.get(id_preduzeca = id_p)
