@@ -147,6 +147,8 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
    
    $scope.kreirajCenovnik = function() {
        
+       $scope.errorMessage = "";
+       
        if ($scope.noviCenovnik.id_preduzeca == "") {
            $scope.errorMessage = "Morate izabrati preduzece za koje se kreira cenovnik!";
            return;
@@ -180,7 +182,7 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
        
        $scope.noviCenovnik.proizvodi = izabraniProizvodi;
        cenovnikService.dodajCenovnik($scope.noviCenovnik).then(function(response) {
-            $location.path('/pregled_cenovnika');
+            $location.path('/cenovnik/' + response.data);
        });
    }
    
