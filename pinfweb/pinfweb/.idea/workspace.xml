@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4c3ba125-7cf4-4c30-8977-5d347db33293" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fakturisanje/views.py" afterPath="$PROJECT_DIR$/fakturisanje/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pinfweb.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,8 +31,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fakturisanje/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59385663" vertical-offset="2219" max-vertical-offset="4403">
-              <caret line="151" column="17" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.3327645" vertical-offset="2049" max-vertical-offset="4403">
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -66,7 +67,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fakturisanje/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2306" max-vertical-offset="3434">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2510" max-vertical-offset="3434">
               <caret line="161" column="16" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="16" />
               <folding>
                 <element signature="e#468#507#0" expanded="true" />
@@ -518,11 +519,6 @@
           <line>215</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/fakturisanje/views.py</url>
-          <line>132</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -531,7 +527,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="43" />
+      <option name="time" value="44" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -646,6 +642,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Anaconda2/Lib/site-packages/django/views/decorators/csrf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0851419" vertical-offset="268" max-vertical-offset="1071">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/fakturisanje/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2306" max-vertical-offset="3434">
@@ -656,18 +660,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda2/Lib/site-packages/django/views/decorators/csrf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0851419" vertical-offset="268" max-vertical-offset="1071">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fakturisanje/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59385663" vertical-offset="2219" max-vertical-offset="4403">
-          <caret line="151" column="17" selection-start-line="151" selection-start-column="17" selection-end-line="151" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.3327645" vertical-offset="2049" max-vertical-offset="4403">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
