@@ -85,6 +85,7 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
                           vrsta_proizvoda: "",
                           id_jedinice_mere: "",
                           jedinica_mere: "",
+                          rabat: "0",
                           kolicina: "0"
                       }
 
@@ -188,13 +189,9 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
            return;
        }
 
-       if (isNaN(parseFloat($scope.novaFaktura.rabat))) {
-           $scope.errorMessage = "Rabat mora biti pozitivan decimalan broj";
-           return;
-       }
-
        var izabraniProizvodi = [];
        var kolicineValid = true;
+       var rabatValid = true;
        
        for (var i = 0; i < $scope.proizvodi.length; i++) {
            if ($scope.proizvodi[i].kolicina < 0) {
@@ -202,9 +199,22 @@ app.controller('KreiranjeFaktureCtrl', ['$scope', '$location', 'fakturaService',
                break;
            }
        }
+
        
        if (!kolicineValid) {
            $scope.errorMessage = "Kolicina moze biti nula ukoliko proizvod ne ulazi u narudzbenicu ili veca od nule ukoliko ulazi!";
+           return;
+       }
+
+       for (var i = 0; i < $scope.proizvodi.length; i++) {
+           if ($scope.proizvodi[i].rabat < 0) {
+               rabatValid = false;
+               break;
+           }
+       }
+       
+       if (!rabatValid) {
+           $scope.errorMessage = "Rabat mora biti veci ili jednak nuli!";
            return;
        }
        
