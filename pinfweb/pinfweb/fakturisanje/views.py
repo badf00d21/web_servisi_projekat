@@ -163,7 +163,7 @@ def kreiraj_narudzbenicu(request):
                 s = StavkaNarudzbenice( id_narudzbenice = n, id_proizvoda = Proizvod.objects.get( id_proizvoda = proizvod['id_proizvoda']), kolicina = proizvod['kolicina'])
                 s.save()
         #    nova_faktura = {'id_nove_fakture': f.id_fakture}
-            return Response( status = status.HTTP_200_OK)
+            return JsonResponse({"id_narudzbenice":n.id_narudzbenice})
     except:
        #handle_exception()
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
