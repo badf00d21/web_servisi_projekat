@@ -59,5 +59,9 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     this.posaljiFakturu = function(id) {
         return $http.get(restApiBaseUrl + "faktura/posalji/"+ id + "/");
     }
+
+    this.stornirajFakturu = function(id) {
+        return $http.post(restApiBaseUrl + "faktura/storniraj/", id);
+    }
     
 }]);
