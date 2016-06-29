@@ -49,7 +49,7 @@ app.controller('PregledCenovnikaCtrl', ['$scope', '$location', 'cenovnikService'
              }
              
             cenovnikService.kopirajCenovnik(infoObj).then(function(response) {
-                    $location.path('/cenovnik/' + response.data);
+                    $location.path('/cenovnik/' + response.data.id_cenovnika);
              });
             });
         });
@@ -180,7 +180,7 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
        
        $scope.noviCenovnik.proizvodi = izabraniProizvodi;
        cenovnikService.dodajCenovnik($scope.noviCenovnik).then(function(response) {
-            $location.path('/cenovnik/' + response.data);
+            $location.path('/cenovnik/' + response.data.id_cenovnika);
        });
    }
    
