@@ -67,7 +67,6 @@ app.controller('KreiranjeCenovnikaCtrl', ['$scope', '$location', 'cenovnikServic
     $scope.noviCenovnik = {
        id_preduzeca : "",
        datum_vazena: "" ,
-       rabat: "" 
     };
    
     preduzeceService.ucitajPreduzeca().then(function(response) {
@@ -258,12 +257,14 @@ app.controller('StavkeCenovnikaCtrl', ['$scope', '$location', '$routeParams', 'c
                                          naziv_proizvoda: "",
                                          grupa_proizvoda: "",
                                          vrsta_proizvoda: "",
-                                         cena: ""
+                                         cena: "",
+                                         rabat: ""
                                       }
                         
                                     stavkaCenovnika.id_stavke_cenovnika = response.data[i].id_stavke_cenovnika;
                                     stavkaCenovnika.id_proizvoda = response.data[i].id_proizvoda;
                                     stavkaCenovnika.cena = response.data[i].cena;
+                                    stavkaCenovnika.rabat = response.data[i].rabat;
 
                                     for (var j = 0; j < $scope.proizvodi.length; j++) {
                                         if ($scope.proizvodi[j].id_proizvoda == stavkaCenovnika.id_proizvoda) {
