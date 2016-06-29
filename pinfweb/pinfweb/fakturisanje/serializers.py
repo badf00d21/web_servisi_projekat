@@ -92,6 +92,15 @@ class StavkaNarudzbeniceSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth = 1
 
+    def create(self, validated_data):
+           obj = StavkaNarudzbenice.objects.create(**validated_data)
+           gp = Proizvod.objects.get( id_proizvoda = obj.id_proizvoda.id_proizvoda ).id_grupe
+           pdv = gp.id_pdv_a
+           stopa = StopaPdvA.objects.get( id_pdv_a = pdv)
+           obj.stopa_pdv_a = stopa.stopa
+           obj.save()
+           return obj
+
 
 class StavkeCenovnikaSerializer(serializers.ModelSerializer):
     id_cenovnika = serializers.PrimaryKeyRelatedField(  queryset = Cenovnik.objects.all() )
@@ -109,6 +118,15 @@ class StavkeFaktureSerializer(serializers.ModelSerializer):
         model = StavkeFakture
         fields = '__all__'
         depth = 1
+
+    def create(self, validated_data):
+        obj = StavkeFakture.objects.create(**validated_data)
+        gp = Proizvod.objects.get( id_proizvoda = obj.id_proizvoda.id_proizvoda ).id_grupe
+        pdv = gp.id_pdv_a
+        stopa = StopaPdvA.objects.get( id_pdv_a = pdv)
+        obj.stopa_pdv_a = stopa.stopa
+        obj.save()
+        return obj
 
 
 class StopaPdvASerializer(serializers.ModelSerializer):

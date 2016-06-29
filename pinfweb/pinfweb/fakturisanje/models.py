@@ -178,6 +178,8 @@ class StavkeFakture(models.Model):
     iznos_pdv_a = models.DecimalField(db_column='IZNOS_PDV_A', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     ukupan_iznos = models.DecimalField(db_column='UKUPAN_IZNOS', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
 
+
+
     class Meta:
         managed = False
         db_table = 'stavke_fakture'

@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import  transaction
 from django.http import JsonResponse
 from reportlab.pdfgen import canvas
+import datetime
 import json
 
 class CenovnikViewSet(viewsets.ModelViewSet):
@@ -76,6 +77,10 @@ class StavkeFaktureViewSet(viewsets.ModelViewSet):
     serializer_class = StavkeFaktureSerializer
 
 
+        #super(StavkeFakture, self).save(*args, **kwargs) # Call the "real" save() method.
+
+
+
 class StopaPdvAViewSet(viewsets.ModelViewSet):
     queryset = StopaPdvA.objects.all()
     serializer_class = StopaPdvASerializer
@@ -127,16 +132,28 @@ def kopiraj_cenovnik(request):
 def fakturisanje_rucno(request):
     parameters = json.loads(request.body)
 
+    datum = datetime.date.today()
+    ukupno_bez_pdva = 0
+    ukupan_pdv = 0
+    ukupno_za_uplatu = 0
     try:
         with transaction.atomic():
             f = Faktura( broj_fakture = parameters['broj_fakture'], id_poslovnog_partnera = PoslovniPartner.objects.get(id_poslovnog_partnera = parameters['id_poslovnog_partnera']),
-                         datum_valute = parameters['datum_valute'], datum_fakture = parameters['datum_fakture'], id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
+                         datum_valute = parameters['datum_valute'], datum_fakture = datum, id_godine = PoslovnaGodina.objects.get( id_godine = parameters['id_godine']),
                          id_preduzeca = Preduzece.objects.get( id_preduzeca = parameters['id_preduzeca']), status = 'U izradi')
             f.save()
             for stavka in parameters['stavke_fakture']:
+                ukupno_bez_pdva = ukupno_bez_pdva + int(stavka['cena'])
+                ukupan_pdv = ukupan_pdv + int(stavka['iznos_pdv_a'])
                 s = StavkeFakture( id_proizvoda = Proizvod.objects.get( id_proizvoda = stavka['id_proizvoda']['id_proizvoda']), id_fakture = f, kolicina = stavka['kolicina'])
                 s.save()
-            nova_faktura = {'id_nove_fakture': f.id_fakture}
+            ukupno_za_uplatu = ukupno_bez_pdva + ukupan_pdv
+            f.ukupan_iznos_bez_pdv_a = ukupno_bez_pdva
+            f.ukupan_pdv = ukupan_pdv
+            f.ukupno_za_placanje = ukupno_za_uplatu
+            f.save()
+
+            return JsonResponse({'id_nove_fakture': f.id_fakture})
            # return Response(nova_faktura, status = status.HTTP_200_OK)
             #response = JsonResponse({""})
     except:
@@ -176,10 +193,10 @@ def faktura_na_osnovu_narudzbenice(request):
 
     try:
         with transaction.atomic():
-            f = Faktura(id_poslovnog_partnera = n.id_poslovnog_partnera,
+            f = Faktura(id_narudzbenice = n, id_poslovnog_partnera = n.id_poslovnog_partnera,
                              id_preduzeca = n.id_preduzeca, id_godine = 1, status = 'U izradi') #ovo obaveznoooo menjati!!!!!
             f.save()
-            stavke_n = StavkaNarudzbenice.filter( id_narudzbenice = f.id_narudzbenice )
+            stavke_n = StavkaNarudzbenice.objects.filter( id_narudzbenice = f.id_narudzbenice )
             for stavka in stavke_n:
                 s = StavkeFakture( id_narudzbenice = n , rabat = stavka.rabat, jedinicna_cena = stavka.jedinicna_cena,
                                    stopa_pdv_a = stavka.stopa_pdv_a, osnovica = stavka.osnovica, iznos_pdv_a = stavka.iznos_pdv_a,
