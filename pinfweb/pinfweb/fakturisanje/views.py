@@ -117,6 +117,7 @@ def kopiraj_cenovnik(request):
                 StavkeCenovnika( id_proizvoda = stavke[i].id_proizvoda, id_cenovnika = c2, cena = float(stavke[i].cena) + float(stavke[i].cena) * float(percent) / float(100)).save()
             #return Response(status=status.HTTP_201_CREATED)
             response = JsonResponse({'id_cenovnika':str(c2.id_cenovnika)})
+            return  response
     except:
         print 'nesto je poslo po zlu :('
         return Response(status=status.HTTP_417_EXPECTATION_FAILED)
