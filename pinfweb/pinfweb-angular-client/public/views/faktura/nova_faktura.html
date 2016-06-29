@@ -38,10 +38,6 @@
           <input type="text" class="form-control" ng-model="novaFaktura.broj_fakture">
        </div>
        <div class="form-group">
-          <label for="name">Rabat:</label>
-          <input type="text" class="form-control" ng-model="novaFaktura.rabat">
-       </div>
-       <div class="form-group">
           <label for="name">Datum fakture:</label>
           <input type="date" class="form-control" ng-model="novaFaktura.datum_fakture">
        </div>
@@ -58,6 +54,7 @@
       <th class="col-md-4 col-xs-4">Grupa Proizvoda</th>
       <th class="col-md-4 col-xs-4">Vrsta Proizvoda</th>
       <th class="col-md-4 col-xs-4">Jedinica mere</th>
+      <th class="col-md-4 col-xs-4">Rabat</th>
       <th class="col-md-4 col-xs-4">Kolicina</th>
     </tr>
   </thead>
@@ -68,6 +65,7 @@
                 <td> {{p.grupa_proizvoda}} </td>
                 <td> {{p.vrsta_proizvoda}} </td>
                 <td>  {{p.jedinica_mere}} </td>
+                <td>  <input type="text" class="form-control" ng-model="p.rabat"> </td>
                 <td>  <input type="text" class="form-control" ng-model="p.kolicina"> </td>
        </tr>
   </tbody>
