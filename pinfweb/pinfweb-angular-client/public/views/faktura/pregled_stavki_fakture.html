@@ -7,6 +7,9 @@
 <div class="form-group pull-left" >
    <button class="btn btn-primary" ng-disabled="faktura.status != 'U izradi'" data-ng-click="posaljiFakturu()">Posalji fakturu </button>
 </div>
+<div class="form-group pull-left" >
+   <button class="btn btn-primary" ng-disabled="faktura.status != 'Poslata'" data-ng-click="stornirajFakturu()">Storniraj fakturu </button>
+</div>
 <table class="table table-hover table-bordered results">
   <thead>
     <tr>

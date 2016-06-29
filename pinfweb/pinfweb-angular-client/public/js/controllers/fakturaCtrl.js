@@ -437,5 +437,11 @@ app.controller('StavkeFaktureCtrl', ['$scope', '$location', '$routeParams', 'fak
                 $location.path("/pregled_faktura");
             });
     }
+
+    $scope.stornirajFakturu = function() {
+            fakturaService.stornirajFakturu($scope.faktura.id_fakture).then(function(success) {
+                $location.path("/pregled_faktura");
+            });
+    }
 }]);
 
