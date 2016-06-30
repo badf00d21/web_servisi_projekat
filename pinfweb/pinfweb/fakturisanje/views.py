@@ -156,7 +156,7 @@ def fakturisanje_rucno(request):
 
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda'])
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
-                rabat = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat) * float(parameters['kolicina'])
+                rabat = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat) * float(stavka['kolicina'])
                 s_jcena_prodajna = s_jcena + rabat
                 s_osn = s_jcena_prodajna * float(stavka['kolicina'])
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
