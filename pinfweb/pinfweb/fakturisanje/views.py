@@ -313,5 +313,9 @@ def novi_cenovnik(request):
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
 
 #@csrf_exempt
-#def pretraga_faktura_po_datumu(request, id_fakture):
+#def pretraga_faktura_po_datumu(request):
+    #parameters = json.loads(request.body)
+    #pocetni_datum = parameters['pocetni_datum']
+    #krajnji_datum = parameters['krajnji_datum']
+
 
