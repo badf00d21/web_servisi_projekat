@@ -1,2 +1,3 @@
 pinfweb/pinfweb-angular-client/node_modules/
 *.xml
+*.pyc
