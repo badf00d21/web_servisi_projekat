@@ -201,8 +201,10 @@ def faktura_xml_export(request, id_fakture):
     f = Faktura.objects.get(id_fakture = id_fakture)
 
     serialized_obj = serializers.serialize('xml', [ f, ])
+    xmldata = serialized_obj.replace('\"', ' ')
 
-    return JsonResponse({"xmldata":serialized_obj})
+
+    return JsonResponse({"xmldata":str(xmldata)})
 
 @csrf_exempt
 def kreiraj_narudzbenicu(request):
@@ -270,9 +272,7 @@ def faktura_na_osnovu_narudzbenice(request):
         return JsonResponse({"status":"Neuspesno"})
 
 @csrf_exempt
-def posalji_fakturu(request,id_fakture):
-    #parameters = json.loads(request.body)
-
+def posalji_fakturu(request, id_fakture):
     try:
         f = Faktura.objects.get(id_fakture = id_fakture)
         f.status = 'Poslata'
@@ -282,6 +282,17 @@ def posalji_fakturu(request,id_fakture):
     except Faktura.DoesNotExist:
         return JsonResponse({"status": " Greska! Ne postoji u bazi"})
 
+
+@csrf_exempt
+def storniraj_fakturu(request, id_fakture):
+    try:
+        f = Faktura.objects.get(id_fakture = id_fakture)
+        f.status = 'Stornirana'
+        f.save()
+        return JsonResponse({"status": "Uspesno stornirana faktura!", "faktura_id":f.id_fakture})
+
+    except Faktura.DoesNotExist:
+        return JsonResponse({"status": " Greska! Ne postoji u bazi"})
 
 
 @csrf_exempt
