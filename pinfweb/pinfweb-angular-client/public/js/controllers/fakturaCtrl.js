@@ -29,6 +29,14 @@ app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', f
        });
    }
 
+   $scope.exportFaktureXml = function(id) {
+       fakturaService.exportXml(id).then(function(response) {
+           var window = window.open('', '');
+           window.document.write(response.data.xmldata);
+           window.focus();
+       });
+   }
+
    
 }]);
 
