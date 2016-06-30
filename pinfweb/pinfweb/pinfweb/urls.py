@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^fakturisanje/narudzbenica', 'fakturisanje.views.faktura_na_osnovu_narudzbenice'),
     url(r'^faktura/posalji/(?P<id_fakture>\d+)', 'fakturisanje.views.posalji_fakturu'),
     url(r'^faktura/storniraj/(?P<id_fakture>\d+)', 'fakturisanje.views.storniraj_fakturu'),
-    url(r'^faktura/pretraga/(?P<pocetni_datum>\d{4})-(\d{2})-(\d{2})/(?P<krajnji_datum>\d{4})-(\d{2})-(\d{2})$', 'fakturisanje.views.pretraga_faktura')
+    url(r'^faktura/pretraga/(?P<pocetni_datum>(\d{4})-(\d{2})-(\d{2}))/(?P<krajnji_datum>(\d{4})-(\d{2})-(\d{2}))$', 'fakturisanje.views.pretraga_faktura')
 
 
 ]

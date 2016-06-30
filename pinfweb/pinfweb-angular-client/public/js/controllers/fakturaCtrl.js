@@ -312,7 +312,7 @@ app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', f
    
 }]);
 
-app.controller('PretragaFaktureCtrl', ['$scope', '$location', 'fakturaService', function($scope, $location, fakturaService) {
+app.controller('PretragaFaktureCtrl', ['$scope', '$location', 'fakturaService','$filter', function($scope, $location, fakturaService,$filter) {
 
    $scope.fakture = [];
    $scope.pocetniDatum = "";
@@ -327,8 +327,11 @@ app.controller('PretragaFaktureCtrl', ['$scope', '$location', 'fakturaService', 
            pocetniDatum : $scope.pocetniDatum,
            krajnjiDatum: $scope.krajnjiDatum
        }
-
+       datumi.pocetniDatum = $filter('date')(datumi.pocetniDatum, "yyyy-MM-dd"); 
+       datumi.krajnjiDatum = $filter('date')(datumi.krajnjiDatum, "yyyy-MM-dd");
+        console.log(datumi);
        fakturaService.pretraziFakture(datumi).then(function(response) {
+
            $scope.fakture = response.data;
        });
        console.log( $scope.fakture);

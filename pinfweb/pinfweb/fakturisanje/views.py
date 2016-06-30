@@ -12,6 +12,8 @@ from random import randint
 from reportlab.pdfgen import canvas
 import datetime
 import json
+from rest_framework.renderers import JSONRenderer
+from rest_framework.views import APIView
 
 class CenovnikViewSet(viewsets.ModelViewSet):
     queryset = Cenovnik.objects.all()
@@ -120,7 +122,7 @@ def kopiraj_cenovnik(request):
 
             stavke = StavkeCenovnika.objects.filter( id_cenovnika = c.id_cenovnika )
             for i in range (len(stavke)):
-                StavkeCenovnika( id_proizvoda = stavke[i].id_proizvoda, id_cenovnika = c2, cena = float(stavke[i].cena) + float(stavke[i].cena) * float(percent) / float(100)).save()
+                StavkeCenovnika( id_proizvoda = stavke[i].id_proizvoda, rabat = stavke[i].rabat, id_cenovnika = c2, cena = float(stavke[i].cena) + float(stavke[i].cena) * float(percent) / float(100)).save()
             #return Response(status=status.HTTP_201_CREATED)
             response = JsonResponse({'id_cenovnika':str(c2.id_cenovnika)})
             return  response
@@ -154,7 +156,7 @@ def fakturisanje_rucno(request):
 
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(stavka['id_proizvoda'])
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
-                rabat = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat)
+                rabat = float(StavkeCenovnika.objects.get( id_proizvoda = stavka['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat) * float(parameters['kolicina'])
                 s_jcena_prodajna = s_jcena + rabat
                 s_osn = s_jcena_prodajna * float(stavka['kolicina'])
                 s_izpdv = float(pdv_stopa_stavke) * s_osn
@@ -166,7 +168,7 @@ def fakturisanje_rucno(request):
 
                 ukupno_bez_pdva = ukupno_bez_pdva + float(s_osn)
                 ukupan_pdv = ukupan_pdv + float(s_izpdv)
-                ukupan_rabat = ukupan_rabat + rabat
+                ukupan_rabat = (ukupan_rabat + rabat) * float(stavka['kolicina'])
                 s = StavkeFakture(  iznos_pdv_a = s_izpdv,
                                    osnovica = s_osn ,ukupan_iznos = s_ukupanizn, stopa_pdv_a = stopa.stopa,
                                     id_proizvoda = Proizvod.objects.get(id_proizvoda = stavka['id_proizvoda']), rabat = rabat,  id_fakture = f, jedinicna_cena = s_jcena, kolicina = stavka['kolicina'] )
@@ -228,7 +230,7 @@ def kreiraj_narudzbenicu(request):
                 pdv_stopa_stavke = get_stopu_pdv_za_proizvod(proizvod['id_proizvoda'])
 
 
-                s_rabat = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat)
+                s_rabat = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).rabat) * float(proizvod['kolicina'])
                 s_jcena = float(StavkeCenovnika.objects.get( id_proizvoda = proizvod['id_proizvoda'], id_cenovnika = vazeci_cen.id_cenovnika).cena)
                 s_jcena_prodajna = s_jcena + s_rabat
                 s_osn = s_jcena_prodajna * float(proizvod['kolicina'])
@@ -313,14 +315,14 @@ def novi_cenovnik(request):
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
 
 
-
+@api_view(['GET'])
 def pretraga_faktura(request,pocetni_datum, krajnji_datum):
 
     try:
-        fakture = Faktura.objects.filter( datum_fakture_at__range = (pocetni_datum, krajnji_datum), status = 'Poslata' )
+        fakture = Faktura.objects.filter( datum_fakture__range = (pocetni_datum, krajnji_datum), status = 'Poslata' )
         s = FakturaSerializer(fakture, many = True)
-        ss = content = JSONRenderer().render(s.data)
-        return JsonResponse({"status":"Uspesno!","fakture":ss})
+
+        return Response(s.data)
     except Faktura.DoesNotExist:
         return JsonResponse({"status":"Nema rezultata!","fakture":""})
 

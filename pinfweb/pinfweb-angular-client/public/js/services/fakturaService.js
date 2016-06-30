@@ -37,7 +37,7 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     }
 //TODO2
     this.eksportXml = function(id) {
-        return $http.get(restApiBaseUrl + "faktura/xmlexport/" + id);
+        return $http.get(restApiBaseUrl + "fakturaxml/" + id );
     }
 
     this.eksportPdf = function(id) {
@@ -53,7 +53,7 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     }
 
     this.pretraziFakture = function(datumi) {
-        return $http.post(restApiBaseUrl + "pretraga_faktura", datumi);
+        return $http.get(restApiBaseUrl + "faktura/pretraga/" + datumi.pocetniDatum + '/'+datumi.krajnjiDatum );
     }
 
     this.posaljiFakturu = function(id) {
