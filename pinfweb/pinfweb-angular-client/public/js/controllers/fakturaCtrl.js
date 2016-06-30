@@ -1,4 +1,4 @@
-app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', function($scope, $location, fakturaService) {
+app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', '$window', function($scope, $location, fakturaService, $window) {
 
    $scope.fakture = [];
    console.log('biloo sta');
@@ -29,11 +29,9 @@ app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', f
        });
    }
 
-   $scope.exportFaktureXml = function(id) {
-       fakturaService.exportXml(id).then(function(response) {
-           var window = window.open('', '');
-           window.document.write(response.data.xmldata);
-           window.focus();
+   $scope.eksportFaktureXml = function(id) {
+       fakturaService.eksportXml(id).then(function(response) {
+           $window.open('http://localhost:8084/faktura/xmlexport/' + id);
        });
    }
 
