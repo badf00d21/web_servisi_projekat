@@ -312,10 +312,18 @@ def novi_cenovnik(request):
        #handle_exception()
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
 
-#@csrf_exempt
-#def pretraga_faktura_po_datumu(request):
-    #parameters = json.loads(request.body)
-    #pocetni_datum = parameters['pocetni_datum']
-    #krajnji_datum = parameters['krajnji_datum']
+
+
+def pretraga_faktura(request,pocetni_datum, krajnji_datum):
+
+    try:
+        fakture = Faktura.objects.filter( datum_fakture_at__range = (pocetni_datum, krajnji_datum), status = 'Poslata' )
+        s = FakturaSerializer(fakture, many = True)
+        ss = content = JSONRenderer().render(s.data)
+        return JsonResponse({"status":"Uspesno!","fakture":ss})
+    except Faktura.DoesNotExist:
+        return JsonResponse({"status":"Nema rezultata!","fakture":""})
+
+
 
 
