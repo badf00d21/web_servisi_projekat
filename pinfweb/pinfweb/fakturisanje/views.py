@@ -311,3 +311,7 @@ def novi_cenovnik(request):
     except:
        #handle_exception()
         return Response(status = status.HTTP_417_EXPECTATION_FAILED)
+
+#@csrf_exempt
+#def pretraga_faktura_po_datumu(request, id_fakture):
+
