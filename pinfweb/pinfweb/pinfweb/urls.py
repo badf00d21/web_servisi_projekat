@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^fakturisanje/rucno', 'fakturisanje.views.fakturisanje_rucno'),
     url(r'^novi_cenovnik', 'fakturisanje.views.novi_cenovnik'),
     url(r'^faktura/xmlexport/(?P<id_fakture>\d+)', 'fakturisanje.views.faktura_xml_export'),
+    url(r'^faktura/pdfexport/(?P<id_fakture>\d+)', 'fakturisanje.views.faktura_pdf_export'),
     url(r'^nova_narudzbenica', 'fakturisanje.views.kreiraj_narudzbenicu'),
     url(r'^fakturisanje/narudzbenica', 'fakturisanje.views.faktura_na_osnovu_narudzbenice'),
     url(r'^faktura/posalji/(?P<id_fakture>\d+)', 'fakturisanje.views.posalji_fakturu'),

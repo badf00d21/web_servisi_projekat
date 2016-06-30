@@ -37,11 +37,11 @@ app.service('fakturaService', ['$http', 'restApiBaseUrl', function($http, restAp
     }
 //TODO2
     this.eksportXml = function(id) {
-        return $http.get(restApiBaseUrl + "fakturaxml/" + id );
+        return $http.get(restApiBaseUrl + "faktura/xmlexport/" + id );
     }
 
     this.eksportPdf = function(id) {
-        return $http.get(restApiBaseUrl + "fakturapdf/" + id);
+        return $http.get(restApiBaseUrl + "faktura/pdfexport/" + id);
     }
 
     this.dodajFakturuRucno = function(faktura) {

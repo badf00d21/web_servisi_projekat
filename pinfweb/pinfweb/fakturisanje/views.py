@@ -8,8 +8,10 @@ from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from django.db import  transaction, connections, connection
 from django.http import JsonResponse
+from django.http import HttpResponse
 from random import randint
 from reportlab.pdfgen import canvas
+from io import BytesIO
 import datetime
 import json
 from rest_framework.renderers import JSONRenderer
@@ -207,6 +209,33 @@ def faktura_xml_export(request, id_fakture):
 
 
     return JsonResponse({"xmldata":str(xmldata)})
+
+def faktura_pdf_export(request, id_fakture):
+    # Create the HttpResponse object with the appropriate PDF headers.
+    f = Faktura.objects.get(id_fakture = id_fakture)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
+
+    buffer = BytesIO()
+
+    # Create the PDF object, using the BytesIO object as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(500,500, str(f.id_fakture) )#+str(f.id_narudzbenice) + '\n' +str(f.id_poslovnog_partnera) + '\n'+
+                # str(f.id_preduzeca) + '\n'+str(f.id_godine) + '\n'+str(f.broj_fakture) + '\n'+str(f.datum_fakture) + '\n'+str(f.datum_valute) + '\n'+
+                # str(f.ukupan_rabat) + '\n'+str(f.ukupan_iznos_bez_pdv_a) + '\n',str(f.ukupan_pdv) + '\n'+str(f.ukupno_za_placanje) + '\n'+str(f.status) + '\n')
+
+    # Close the PDF object cleanly.
+    p.showPage()
+    p.save()
+
+    # Get the value of the BytesIO buffer and write it to the response.
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
 
 @csrf_exempt
 def kreiraj_narudzbenicu(request):

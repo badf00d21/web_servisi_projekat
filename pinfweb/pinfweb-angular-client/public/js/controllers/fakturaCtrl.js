@@ -35,6 +35,12 @@ app.controller('PregledFakturaCtrl', ['$scope', '$location', 'fakturaService', '
        });
    }
 
+   $scope.eksportFakturePDf = function(id) {
+       fakturaService.eksportPdf(id).then(function(response) {
+           //$window.open('http://localhost:8084/faktura/xmlexport/' + id);
+       });
+   }
+
    
 }]);
 
@@ -298,12 +304,14 @@ app.controller('EksportFaktureCtrl', ['$scope', '$location', 'fakturaService', f
    refreshData();
 
    $scope.eksportFaktureXml = function (id) {
+    console.log('usao');
        fakturaService.eksportXml(id).then(function(response) {
            console.log(response.status);
        });
    }
 
    $scope.eksportFakturePdf = function (id) {
+    console.log('usao');
         fakturaService.eksportPdf(id).then(function(response) {
            console.log(response.status);
        });    
